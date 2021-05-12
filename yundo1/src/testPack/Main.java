@@ -95,7 +95,7 @@ public class Main extends JavaPlugin implements Listener{
 				startTime++;
 				
 				if(startTime > 100) {
-					if(time % 20 == 0 && reset == true && fight == false) {
+					if(time % 15 == 0 && reset == true && fight == false) {
 						if(owner != null) {
 							if(owner.equals("red")) {
 								new Bar().bar1.setVisible(true);
