@@ -73,8 +73,7 @@ public class Main extends JavaPlugin implements Listener{
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
-		getCommand("redteam").setExecutor(new Cmd1());
-		getCommand("blueteam").setExecutor(new Cmd2());
+		getCommand("speed").setExecutor(new Cmd1());
 		
 		new BukkitRunnable() {
 			boolean finish = false;
@@ -114,7 +113,7 @@ public class Main extends JavaPlugin implements Listener{
 										public void run() {
 											time++;
 											
-											if(time >= 40) {
+											if(time >= 60) {
 												new Speed().addMap(all, new Speed().getSpeed(all) - 10);
 												this.cancel();
 											}
@@ -147,7 +146,7 @@ public class Main extends JavaPlugin implements Listener{
 									public void run() {
 										time++;
 
-										if (time == 1) {
+										if (time == 141) {
 											try {
 												for(Player all : Bukkit.getOnlinePlayers()) {
 													PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, ChatSerializer.a("{\"text\":\"§73\"}"));
@@ -160,7 +159,7 @@ public class Main extends JavaPlugin implements Listener{
 											}
 										}
 										
-										if (time == 21) {
+										if (time == 161) {
 											try {
 												for(Player all : Bukkit.getOnlinePlayers()) {
 													PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, ChatSerializer.a("{\"text\":\"§72\"}"));
@@ -173,7 +172,7 @@ public class Main extends JavaPlugin implements Listener{
 											}
 										}
 										
-										if (time == 41) {
+										if (time == 181) {
 											try {
 												for(Player all : Bukkit.getOnlinePlayers()) {
 													PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, ChatSerializer.a("{\"text\":\"§71\"}"));
@@ -186,7 +185,7 @@ public class Main extends JavaPlugin implements Listener{
 											}
 										}
 										
-										if (time == 60) {
+										if (time == 200) {
 											hajimeru = false;
 											try {
 												for(Player all : Bukkit.getOnlinePlayers()) {
@@ -226,10 +225,11 @@ public class Main extends JavaPlugin implements Listener{
 											firework(rank.get(0).getLocation());
 										}
 
-										if (time == 120) {
+										if (time == 260) {
 											try {
 												start = false;
 												hajimeru = false;
+												finish = false;
 												record = 0;
 												ary.clear();
 												map.clear();
@@ -344,7 +344,7 @@ public class Main extends JavaPlugin implements Listener{
 													
 													Pig horse = (Pig) player.getWorld().spawnEntity(startLoc.add(0,0.1,0), EntityType.PIG);
 													horse.setMaxHealth(1);
-													horse.setAdult();
+													horse.setBaby();
 													horse.setSilent(true);
 													horse.setGravity(false);
 													horse.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false));

@@ -41,7 +41,7 @@ public class Speed {
 		if(map.containsKey(player)) {
 			return map.get(player);
 		} else {
-			return 18;
+			return 22;
 		}
 	}
 	

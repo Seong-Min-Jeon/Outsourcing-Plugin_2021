@@ -3,6 +3,7 @@ package testPack;
 import java.util.List;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,19 +29,39 @@ public class Cmd1 implements CommandExecutor {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			
-			Location loc2 = player.getLocation();
-			if (!(loc2.getX() <= -51 && loc2.getY() <= 255 && loc2.getZ() <= 25 
-					&& loc2.getX() >= -57 && loc2.getY() >= 0 && loc2.getZ() >= 19)) {
-				player.sendMessage("팀명은 대기실의 레드팀 영역에서만 바꿀 수 있습니다.");
-				return false;
+			if(!player.isOp()) {
+				player.sendMessage("오피만 사용할 수 있는 명령어입니다.");
 			}
 			
-			if(cmd.getName().equalsIgnoreCase("redteam")) {
+			if(cmd.getName().equalsIgnoreCase("speed")) {
 				if(args.length == 0) {
 					return true;
 				}
 				try { 
 					String name = args[0];
+					int value = Integer.parseInt(args[1]);
+					Player target = Bukkit.getPlayer(name);
+					
+					if(value == 1) {
+						new Speed().addMap(target, 30);
+						player.sendMessage("1단계로 적용되었습니다.");
+					} else if(value == 2) {
+						new Speed().addMap(target, 40);
+						player.sendMessage("2단계로 적용되었습니다.");
+					} else if(value == 3) {
+						new Speed().addMap(target, 50);
+						player.sendMessage("3단계로 적용되었습니다.");
+					} else if(value == 4) {
+						new Speed().addMap(target, 60);
+						player.sendMessage("4단계로 적용되었습니다.");
+					} else if(value == 5) {
+						new Speed().addMap(target, 70);
+						player.sendMessage("5단계로 적용되었습니다.");
+					} else {
+						new Speed().addMap(target, 22);
+						player.sendMessage("한계치를 넘어 1단계로 적용되었습니다.");
+					}
+					
 				} catch(Exception e) {
 					return true;
 				}
