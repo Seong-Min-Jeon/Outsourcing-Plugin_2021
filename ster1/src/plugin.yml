@@ -1,0 +1,8 @@
+name: YumehamaPlugin
+main: testPack.Main
+version: 1.0
+commands:
+  지하철:
+   description: 지하철 명령어... 지하철 역, 지하철 추가, 지하철 삭제, 지하철 재시작, 지하철 긴급탈출
+   usage: /지하철
+api-version: 1.12
