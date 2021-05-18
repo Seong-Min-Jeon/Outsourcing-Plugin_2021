@@ -340,6 +340,7 @@ public class Main extends JavaPlugin implements Listener{
 													startLoc.setPitch(0);
 													startLoc.setYaw(180);
 													all.teleport(startLoc);
+													ary.remove(ary.get(num));
 													cnt++;
 													
 													Pig horse = (Pig) player.getWorld().spawnEntity(startLoc.add(0,0.1,0), EntityType.PIG);
@@ -349,7 +350,7 @@ public class Main extends JavaPlugin implements Listener{
 													horse.setGravity(false);
 													horse.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false));
 													
-													horse.addPassenger(player);
+													horse.addPassenger(all);
 												}
 											}
 										}

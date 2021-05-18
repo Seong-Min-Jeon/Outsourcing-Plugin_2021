@@ -22,6 +22,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class Cmd1 implements CommandExecutor {
@@ -48,6 +49,7 @@ public class Cmd1 implements CommandExecutor {
 					// 되도록 지하철 운행을 안할 때 추가/삭제
 					// 모루 위에서 찍었다는 것을 가정하고 만들었음. 플러그인 파일 들어가서 임의로 수정 ㅇㅋ, 위치 잘못찍으면 에러날거임
 					// 마찬가지로 모루 위가 역으로 설정되어있기 때문에, 역을 추가한 후에 건축적으로 역이 사라지면 오류발생 -> 역을 삭제하고 레일을 부수거나, 레일을 부수고 '/지하철 재시작' 전에 역을 삭제해주시길
+					// 종점에 도달하기 전에 재시작하면 안됨
 					
 					if(option.equals("역")) {
 						ArrayList<Station> ary = new StationManage().getList();

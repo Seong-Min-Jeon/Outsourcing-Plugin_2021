@@ -1,0 +1,8 @@
+name: MyPlugin
+main: testPack.Main
+version: 1.0
+commands:
+ spawner:
+   description: spawner
+   usage: /spawner
+api-version: 1.15

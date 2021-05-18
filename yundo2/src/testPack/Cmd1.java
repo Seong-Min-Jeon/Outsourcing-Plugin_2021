@@ -43,22 +43,22 @@ public class Cmd1 implements CommandExecutor {
 					Player target = Bukkit.getPlayer(name);
 					
 					if(value == 1) {
-						new Speed().addMap(target, 30);
+						new Speed().addMap(target, 50);
 						player.sendMessage("1단계로 적용되었습니다.");
 					} else if(value == 2) {
-						new Speed().addMap(target, 40);
+						new Speed().addMap(target, 60);
 						player.sendMessage("2단계로 적용되었습니다.");
 					} else if(value == 3) {
-						new Speed().addMap(target, 50);
+						new Speed().addMap(target, 70);
 						player.sendMessage("3단계로 적용되었습니다.");
 					} else if(value == 4) {
-						new Speed().addMap(target, 60);
+						new Speed().addMap(target, 80);
 						player.sendMessage("4단계로 적용되었습니다.");
 					} else if(value == 5) {
-						new Speed().addMap(target, 70);
+						new Speed().addMap(target, 90);
 						player.sendMessage("5단계로 적용되었습니다.");
 					} else {
-						new Speed().addMap(target, 22);
+						new Speed().addMap(target, 50);
 						player.sendMessage("한계치를 넘어 1단계로 적용되었습니다.");
 					}
 					
