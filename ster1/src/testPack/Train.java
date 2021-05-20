@@ -14,20 +14,22 @@ import org.bukkit.util.Vector;
 
 public class Train {
 	
-	// 긴급탈출 시 플랫폼으로 이동
+	// 긴급탈출 시 플랫폼으로 이동 o
 	// 처음역에서 재시작 시 모습이 보여야됨 o
 	// 마지막역에서 대기 o
 	// 기차 내부에서 메세지, 소리
-	// 내리고 타는거
+	// 내리고 타는거 o
 
 	static boolean stop = false;
 	int time = 0;
 	static int st = 0;
+	static boolean arrived = false;
 
 	public void start() {
 		
 		time = 0;
 		st = 0;
+		arrived = true;
 		
 		new BukkitRunnable() {
 
@@ -39,7 +41,9 @@ public class Train {
 				
 				if(st < new StationManage().getList().size()) {
 					// 정차
-					if(time % 360 == 0) {
+					if(time % 3600 == 0) {
+						arrived = true;
+						
 						// next의 위치에서 current위치부터 도착하는 움직임이 보임
 						trainArrive(current, next);
 						
@@ -51,7 +55,9 @@ public class Train {
 					}
 					
 					// 운행중
-					if(time % 360 == 240) {
+					if(time % 3600 == 2400) {
+						arrived = false;
+						
 						next = new StationManage().getList().get(st);
 						
 						// current위치부터 next로 출발하는 움직임이 보임
@@ -8903,6 +8909,28 @@ public class Train {
 		setBlock(loc.clone().add(-4, 6, -2), Material.STEP, (byte) 0);
 		setBlock(loc.clone().add(-4, 6, -3), Material.STEP, (byte) 0);
 		setBlock(loc.clone().add(-4, 6, -4), Material.STEP, (byte) 0);
+	}
+	
+	public boolean isArrive() {
+		return arrived;
+	}
+
+	public Station getStation() {
+		try {
+			return new StationManage().getList().get(st);
+		} catch(Exception e) {
+			return null;
+		}
+		
+	}
+	
+	public Station getCurrentStation() {
+		try {
+			return new StationManage().getList().get(st-1);
+		} catch(Exception e) {
+			return null;
+		}
+		
 	}
 	
 }

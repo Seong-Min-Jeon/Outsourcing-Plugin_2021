@@ -21,9 +21,12 @@ import org.bukkit.block.Block;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -55,7 +58,7 @@ import org.bukkit.scoreboard.Team;
 public class Main extends JavaPlugin implements Listener{
 	
 	ArrayList<Location> ary = new ArrayList<>();
-	ArrayList<Player> banList = new ArrayList<>();
+	ArrayList<String> banList = new ArrayList<>();
 	boolean start = false;
 	int timer = 0;
  
@@ -74,6 +77,53 @@ public class Main extends JavaPlugin implements Listener{
 					
 					if(timer % 12000 == 0) {
 						//폭격
+						for(Player all : Bukkit.getOnlinePlayers()) {
+							all.sendMessage(ChatColor.RED + "유니버스 폭격기가 무인도를 폭격합니다!");
+						}
+						World world = Bukkit.getWorld("world");
+						
+						new BukkitRunnable() {
+							
+							int cnt = 0;
+							
+							@Override
+							public void run() {
+								if(cnt == 20) {
+									for(int i = 0 ; i < 100 ; i++) {
+										int x = rnd.nextInt(256) - 128;
+										int z = rnd.nextInt(256) - 128;
+										Location loc = new Location(world, x, 255, z);
+										
+										TNTPrimed tnt = (TNTPrimed) loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
+										tnt.setFuseTicks(Integer.MAX_VALUE);
+									}
+								}
+								
+								if(cnt == 220) {
+									ArmorStand as = (ArmorStand) world.spawnEntity(new Location(world, 0, 128, 0), EntityType.ARMOR_STAND);
+									for(Entity ent : as.getNearbyEntities(128, 128, 128)) {
+										if(ent instanceof TNTPrimed) {
+											ent.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, ent.getLocation(), 0);
+											ent.getWorld().playSound(ent.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 5.0f, 1.0f);
+											for(Entity p : ent.getNearbyEntities(8, 5, 8)) {
+												if(p instanceof Player) {
+													Player all = (Player) p;
+													all.damage(15);
+												}
+											}
+											ent.remove();
+										}
+									}
+									for(Player all : Bukkit.getOnlinePlayers()) {
+										all.getWorld().playSound(all.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.6f, 1.0f);
+									}
+									as.remove();
+									this.cancel();
+								}
+								cnt++;
+							}
+						}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+						
 					}
 					
 					if(timer == 9600) {
@@ -104,7 +154,7 @@ public class Main extends JavaPlugin implements Listener{
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer(); 
 		
-		if(banList.contains(player)) {
+		if(banList.contains(player.getDisplayName())) {
 			event.setJoinMessage(null);
 			player.kickPlayer(ChatColor.RED + "이번 게임에는 다시 참여할 수 없습니다.");
 		}
@@ -121,9 +171,10 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void die(PlayerDeathEvent event) {
+		event.setDeathMessage(null);
 		
 		for(Player all : Bukkit.getOnlinePlayers()) {
-			all.sendMessage(ChatColor.DARK_RED + "" + event.getEntity().getDisplayName() + ChatColor.WHITE + "님이 사망하였습니다.");
+			all.sendMessage(ChatColor.DARK_RED + "" + event.getEntity().getDisplayName() + "님이 사망하였습니다.");
 		}
 		
 		Location loc = event.getEntity().getLocation();
@@ -133,7 +184,7 @@ public class Main extends JavaPlugin implements Listener{
 				Player player = (Player) event.getEntity();
 				player.kickPlayer(ChatColor.RED + "You Died");
 				
-				banList.add(player);
+				banList.add(player.getDisplayName());
 			} catch(Exception e) {
 				
 			}
@@ -179,7 +230,7 @@ public class Main extends JavaPlugin implements Listener{
 								public void run() {
 									time++;
 									
-									if(time == 0) {
+									if(time == 1) {
 										try {
 											for(Player all : Bukkit.getOnlinePlayers()) {
 												PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
@@ -193,7 +244,7 @@ public class Main extends JavaPlugin implements Listener{
 										}
 									}
 									
-									if(time == 20) {
+									if(time == 21) {
 										try {
 											for(Player all : Bukkit.getOnlinePlayers()) {
 												PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
@@ -207,7 +258,7 @@ public class Main extends JavaPlugin implements Listener{
 										}
 									}
 									
-									if(time == 40) {
+									if(time == 41) {
 										try {
 											for(Player all : Bukkit.getOnlinePlayers()) {
 												PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
@@ -221,7 +272,7 @@ public class Main extends JavaPlugin implements Listener{
 										}
 									}
 									
-									if(time >= 60) {
+									if(time >= 61) {
 										try {
 											for(Player all : Bukkit.getOnlinePlayers()) {
 												PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
@@ -243,15 +294,17 @@ public class Main extends JavaPlugin implements Listener{
 												for(int k = -128 ; k <= 128 ; k++) {
 													loc = new Location(world,i,j,k);
 													if(loc.getBlock().getType() == Material.GRASS) {
-														ary.add(loc);
+														if(loc.getBlock().getLocation().add(0,1,0).getBlock().getType() == Material.AIR) {
+															ary.add(loc);
+														}
 													}
 												}
 											}
 										}
 										
 										for(Player all : Bukkit.getOnlinePlayers()) {
-											if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
-												if(all.getLocation().add(0,-1,0).getBlock().getData() == 13) {
+											if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE || all.getLocation().add(0,-2,0).getBlock().getType() == Material.CONCRETE) {
+												if(all.getLocation().add(0,-1,0).getBlock().getData() == 13 || all.getLocation().add(0,-2,0).getBlock().getData() == 13) {
 													int num = rnd.nextInt(ary.size());
 													Location startLoc = ary.get(num).add(0.5,1,0.5);
 													all.teleport(startLoc);
@@ -277,6 +330,8 @@ public class Main extends JavaPlugin implements Listener{
 						} else if(loc.getX() <= 80 && loc.getY() <= 86 && loc.getZ() <= 72 
 								&& loc.getX() >= 70 && loc.getY() >= 84 && loc.getZ() >= 62) {
 
+							event.getClickedBlock().setType(Material.AIR);
+							
 							new BukkitRunnable() {
 								int time = 0;
 								
@@ -284,7 +339,7 @@ public class Main extends JavaPlugin implements Listener{
 								public void run() {
 									time++;
 									
-									if(time == 0) {
+									if(time == 1) {
 										try {
 											for(Player all : Bukkit.getOnlinePlayers()) {
 												PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
@@ -298,7 +353,7 @@ public class Main extends JavaPlugin implements Listener{
 										}
 									}
 									
-									if(time >= 20) {
+									if(time == 21) {
 										try {
 											for(Player all : Bukkit.getOnlinePlayers()) {
 												PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
@@ -317,7 +372,7 @@ public class Main extends JavaPlugin implements Listener{
 										firework(new Location(player.getWorld(), 70, 85, 62));
 									}
 									
-									if(time >= 80) {
+									if(time >= 81) {
 										for(Player all : Bukkit.getOnlinePlayers()) {
 											all.teleport(new Location(player.getWorld(), 83.5,6,-55.5,270,0));
 										}
@@ -345,6 +400,32 @@ public class Main extends JavaPlugin implements Listener{
 		
 		new BukkitRunnable() {
 			int time = 0;
+
+			@Override
+			public void run() {
+				
+				if(time == 10) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_LAUNCH, 4.0f, 1.0f);
+				}
+				
+				if(time == 20) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_LARGE_BLAST, 2.0f, 1.0f);
+				}
+				
+				if(time == 25) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_TWINKLE, 2.0f, 1.0f);
+				}
+				
+				if(time >= 40) {
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
+		new BukkitRunnable() {
+			int time = 0;
 			int size = 0;
 
 			@Override
@@ -353,7 +434,7 @@ public class Main extends JavaPlugin implements Listener{
 				
 				if(time % 2 == 0 && time < 20) {
 					e1 = normal.clone().add(0, time/2, 0);
-					world.spawnParticle(Particle.BLOCK_DUST, e1, 0,1,0,0,1);
+					world.spawnParticle(Particle.BLOCK_DUST, e1, 10,0,0,0,1);
 				}
 				
 				if(time % 3 == 0 && time >= 20) {

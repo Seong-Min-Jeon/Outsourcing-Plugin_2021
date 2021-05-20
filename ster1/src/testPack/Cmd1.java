@@ -46,10 +46,10 @@ public class Cmd1 implements CommandExecutor {
 						
 					}
 					// 역 이름 띄어쓰기X
-					// 되도록 지하철 운행을 안할 때 추가/삭제
+					// 지하철 운행을 안할 때 추가/삭제
 					// 모루 위에서 찍었다는 것을 가정하고 만들었음. 플러그인 파일 들어가서 임의로 수정 ㅇㅋ, 위치 잘못찍으면 에러날거임
 					// 마찬가지로 모루 위가 역으로 설정되어있기 때문에, 역을 추가한 후에 건축적으로 역이 사라지면 오류발생 -> 역을 삭제하고 레일을 부수거나, 레일을 부수고 '/지하철 재시작' 전에 역을 삭제해주시길
-					// 종점에 도달하기 전에 재시작하면 안됨
+					// 종점에 도달하기 전에 재시작하면 안됨(끝나고도 2분)
 					
 					if(option.equals("역")) {
 						ArrayList<Station> ary = new StationManage().getList();
@@ -73,6 +73,7 @@ public class Cmd1 implements CommandExecutor {
 						}
 						if(player.getLocation().add(0,-1,0).getBlock().getType() == Material.ANVIL) {
 							new StationManage().addStation(value, player.getLocation());
+							player.sendMessage(ChatColor.GREEN + "역이 추가되었습니다.");
 						} else {
 							player.sendMessage("올바른 위치가 아닙니다.");
 							return true;
@@ -102,8 +103,8 @@ public class Cmd1 implements CommandExecutor {
 						return true;
 					} else if(option.equals("긴급탈출")) {
 						if(new Cooltime().effect(player)) {
-							player.teleport(new StationManage().getNearStation(player));
-							// 위치 수정
+							Location st = new StationManage().getNearStation(player);
+							player.teleport(new StationManage().getNearPlatform(st));
 						}
 						return true;
 					} else if(option.equals("테스트")) {

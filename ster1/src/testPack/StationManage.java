@@ -18,6 +18,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public class StationManage {
@@ -178,7 +180,43 @@ public class StationManage {
 		
 		Location near = map.get(min);
 		
-		return near.add(0,1,0);
+		return near;
+	}
+	
+	public Location getNearPlatform(Location loc) {
+		World world = loc.getWorld();
+		Block flag = world.getBlockAt(loc.add(0,-1,0));
+		String rot = null;
+		
+		// 가로 세로 체크
+		Block search = null;
+		if(flag.getType() == Material.ANVIL) {
+			search = world.getBlockAt(loc.clone().add(1,0,0));
+			if(search.getType() == Material.ANVIL) {
+				rot = "h";
+			}
+			search = world.getBlockAt(loc.clone().add(0,0,1));
+			if(search.getType() == Material.ANVIL) {
+				rot = "v";
+			}
+		}
+		
+		Location dest = loc.clone().add(0, 2, 0);
+
+		if(rot.equals("h")) {
+			if(flag.getLocation().add(0,0,3).getBlock().getType() == Material.ANVIL) {
+				dest = loc.clone().add(0, 5, -8);
+			} else {
+				dest = loc.clone().add(0, 5, 8);
+			}
+		} else if(rot.equals("v")) {
+			if(flag.getLocation().add(3,0,0).getBlock().getType() == Material.ANVIL) {
+				dest = loc.clone().add(-8, 5, 0);
+			} else {
+				dest = loc.clone().add(8, 5, 0);
+			}
+		} 
+		return dest;
 	}
 	
 	public void loadData() {
