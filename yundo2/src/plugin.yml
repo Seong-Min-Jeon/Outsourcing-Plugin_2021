@@ -3,6 +3,9 @@ main: testPack.Main
 version: 1.0
 commands:
   speed:
-   description: red team title change
+   description: change speed
    usage: /speed
+  speedall:
+   description: change speed
+   usage: /speedall
 api-version: 1.12

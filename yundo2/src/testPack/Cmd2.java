@@ -21,7 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class Cmd1 implements CommandExecutor {
+public class Cmd2 implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -33,42 +33,46 @@ public class Cmd1 implements CommandExecutor {
 				player.sendMessage("오피만 사용할 수 있는 명령어입니다.");
 			}
 			
-			if(cmd.getName().equalsIgnoreCase("speed")) {
+			if(cmd.getName().equalsIgnoreCase("speedall")) {
 				if(args.length == 0) {
 					return true;
 				}
 				try { 
-					String name = args[0];
-					int value = Integer.parseInt(args[1]);
-					Player target = Bukkit.getPlayer(name);
-					
-					if(Bukkit.getOnlinePlayers().contains(target)) {
+					int value = Integer.parseInt(args[0]);
+
+					for(Player target : Bukkit.getOnlinePlayers()) {
 						if(value == 1) {
 							new Speed().addMap(target, 70);
-							player.sendMessage("1단계로 적용되었습니다.");
 						} else if(value == 2) {
 							new Speed().addMap(target, 85);
-							player.sendMessage("2단계로 적용되었습니다.");
 						} else if(value == 3) {
 							new Speed().addMap(target, 100);
-							player.sendMessage("3단계로 적용되었습니다.");
 						} else if(value == 4) {
 							new Speed().addMap(target, 115);
-							player.sendMessage("4단계로 적용되었습니다.");
 						} else if(value == 5) {
 							new Speed().addMap(target, 130);
-							player.sendMessage("5단계로 적용되었습니다.");
 						} else if(value == 0) {
 							new Speed().addMap(target, 30);
-							player.sendMessage("-1단계로 적용되었습니다.");
 						} else {
 							new Speed().addMap(target, 70);
-							player.sendMessage("한계치를 넘어 1단계로 적용되었습니다.");
 						}
-					} else {
-						player.sendMessage(ChatColor.RED + "서버에 해당 캐릭터는 없습니다!");
 					}
-					
+					if(value == 1) {
+						player.sendMessage("모두의 속도가 1단계로 적용되었습니다.");
+					} else if(value == 2) {
+						player.sendMessage("모두의 속도가 2단계로 적용되었습니다.");
+					} else if(value == 3) {
+						player.sendMessage("모두의 속도가 3단계로 적용되었습니다.");
+					} else if(value == 4) {
+						player.sendMessage("모두의 속도가 4단계로 적용되었습니다.");
+					} else if(value == 5) {
+						player.sendMessage("모두의 속도가 5단계로 적용되었습니다.");
+					} else if(value == 0) {
+						player.sendMessage("모두의 속도가 -1단계로 적용되었습니다.");
+					} else {
+						player.sendMessage("모두의 속도가 한계치를 넘어 1단계로 적용되었습니다.");
+					}
+					return true;
 				} catch(Exception e) {
 					return true;
 				}

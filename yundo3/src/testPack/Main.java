@@ -6,6 +6,7 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
 import net.minecraft.server.v1_12_R1.PacketPlayOutTitle.EnumTitleAction;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -18,6 +19,9 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -32,6 +36,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -45,6 +51,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.material.Button;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -128,6 +135,35 @@ public class Main extends JavaPlugin implements Listener{
 					
 					if(timer == 9600) {
 						//보급
+						for(Player all : Bukkit.getOnlinePlayers()) {
+							all.sendMessage(ChatColor.GREEN + "보급이 활성화되었습니다!");
+						}
+						
+						World world = Bukkit.getWorld("world");
+						Location loc = null;
+						for(int i = -128 ; i <= 128 ; i++) {
+							for(int j = 40 ; j <= 200 ; j++) {
+								for(int k = -128 ; k <= 128 ; k++) {
+									loc = new Location(world,i,j,k);
+									if(loc.getBlock().getType() == Material.CONCRETE) {
+										if(loc.getBlock().getData() == 14) {
+											Location chestLoc = loc.clone().add(0,1,0);
+											chestLoc.getBlock().setType(Material.CHEST);
+											Block block = chestLoc.getBlock();
+											Chest chest = (Chest) block.getState();
+											Inventory inv = chest.getInventory();
+											inv.setItem(0, new ItemStack(Material.WOOD_SWORD));
+											inv.setItem(1, new ItemStack(Material.LEATHER_HELMET));
+											inv.setItem(2, new ItemStack(Material.LEATHER_CHESTPLATE));
+											inv.setItem(3, new ItemStack(Material.LEATHER_LEGGINGS));
+											inv.setItem(4, new ItemStack(Material.LEATHER_BOOTS));
+											inv.setItem(5, new ItemStack(Material.COOKED_CHICKEN));
+										}
+									}
+								}
+							}
+						}
+						
 					}
 					
 					if(timer == 24000) {
@@ -135,6 +171,12 @@ public class Main extends JavaPlugin implements Listener{
 						World world = Bukkit.getWorld("world");
 						Location loc = new Location(world, 75, 85, 67);
 						loc.getBlock().setType(Material.STONE_BUTTON);
+						Block block = loc.getBlock();
+						BlockState bs = block.getState();
+						Button but = (Button) bs.getData();
+						but.setFacingDirection(BlockFace.UP);
+						bs.setData(but);
+						bs.update(true);
 						
 						for(Player all : Bukkit.getOnlinePlayers()) {
 							all.sendMessage(ChatColor.BOLD + "맵 중앙 헬기장에 탈출을 위한 돌 버튼이 생성됩니다.");
@@ -380,6 +422,23 @@ public class Main extends JavaPlugin implements Listener{
 										banList.clear();
 										start = false;
 										timer = 0;
+										
+										World world = Bukkit.getWorld("world");
+										Location loc = null;
+										for(int i = -128 ; i <= 128 ; i++) {
+											for(int j = 40 ; j <= 200 ; j++) {
+												for(int k = -128 ; k <= 128 ; k++) {
+													loc = new Location(world,i,j,k);
+													if(loc.getBlock().getType() == Material.CHEST) {
+														Block block = loc.getBlock();
+														Chest chest = (Chest) block.getState();
+														chest.getInventory().clear();
+														loc.getBlock().setType(Material.AIR);
+													}
+												}
+											}
+										}
+										
 										this.cancel();
 									}
 									
@@ -392,6 +451,14 @@ public class Main extends JavaPlugin implements Listener{
 		} catch(Exception e) {
 			
 		}
+	}
+	
+	@EventHandler
+	public void closeEvent(InventoryCloseEvent event) {
+//		if(event.getInventory().getType() == InventoryType.CHEST) {
+//			Player player = (Player) event.getPlayer();
+//			player.getTargetBlock(null, 100);
+//		}
 	}
 	
 	public void firework(Location loc) {

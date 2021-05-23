@@ -74,6 +74,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
 		getCommand("speed").setExecutor(new Cmd1());
+		getCommand("speedall").setExecutor(new Cmd2());
 		
 		new BukkitRunnable() {
 			boolean finish = false;
@@ -128,6 +129,15 @@ public class Main extends JavaPlugin implements Listener{
 						if(ground.getType() == Material.CONCRETE) {
 							if(ground.getData() == 15) {
 								if(!rank.contains(all)) {
+									if(rank.size() == 0) {
+										Location loc = all.getLocation();
+										
+										goldFirework(loc.clone().add(0,0,3));
+										goldFirework(loc.clone().add(0,0,-3));
+										redFirework(loc.clone().add(0,0,5));
+										redFirework(loc.clone().add(0,0,-5));
+									}
+									
 									rank.add(all);
 									all.getWorld().playSound(all.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3.0f, 2.0f);
 									for(Player all2 : Bukkit.getOnlinePlayers()) {
@@ -197,31 +207,6 @@ public class Main extends JavaPlugin implements Listener{
 											} catch(Exception e) {
 												
 											}
-											new BukkitRunnable() {
-												int time = 0;
-
-												@Override
-												public void run() {
-													
-													if(time == 10) {
-														all.getWorld().playSound(all.getLocation(), Sound.ENTITY_FIREWORK_LAUNCH, 4.0f, 1.0f);
-													}
-													
-													if(time == 20) {
-														all.getWorld().playSound(all.getLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST, 2.0f, 1.0f);
-													}
-													
-													if(time == 25) {
-														all.getWorld().playSound(all.getLocation(), Sound.ENTITY_FIREWORK_TWINKLE, 2.0f, 1.0f);
-													}
-													
-													if(time >= 40) {
-														this.cancel();
-													}
-													
-													time++;
-												}
-											}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 											firework(rank.get(0).getLocation());
 										}
 
@@ -366,15 +351,20 @@ public class Main extends JavaPlugin implements Listener{
 										this.cancel();
 									}
 									
+								}
+								
+								if(time == 180) {
 									try {
 										for(Player all : Bukkit.getOnlinePlayers()) {
 											if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
 												if(all.getLocation().add(0,-1,0).getBlock().getData() == 0) {
 													PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
-															ChatSerializer.a("{\"text\":\"§73\"}"));
+															ChatSerializer.a("{\"text\":\"§c·\"}"));
 													Object handle = all.getClass().getMethod("getHandle").invoke(all);
 											        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
 											        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+											        
+											        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.4f);
 												}
 											}
 										}
@@ -383,16 +373,18 @@ public class Main extends JavaPlugin implements Listener{
 									}
 								}
 								
-								if(time == 120) {
+								if(time == 220) {
 									try {
 										for(Player all : Bukkit.getOnlinePlayers()) {
 											if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
 												if(all.getLocation().add(0,-1,0).getBlock().getData() == 0) {
 													PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
-															ChatSerializer.a("{\"text\":\"§72\"}"));
+															ChatSerializer.a("{\"text\":\"§c··\"}"));
 													Object handle = all.getClass().getMethod("getHandle").invoke(all);
 											        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
 											        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+											        
+											        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.4f);
 												}
 											}
 										}
@@ -401,16 +393,18 @@ public class Main extends JavaPlugin implements Listener{
 									}
 								}
 								
-								if(time == 140) {
+								if(time == 260) {
 									try {
 										for(Player all : Bukkit.getOnlinePlayers()) {
 											if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
 												if(all.getLocation().add(0,-1,0).getBlock().getData() == 0) {
 													PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
-															ChatSerializer.a("{\"text\":\"§71\"}"));
+															ChatSerializer.a("{\"text\":\"§c···\"}"));
 													Object handle = all.getClass().getMethod("getHandle").invoke(all);
 											        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
 											        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+											        
+											        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.4f);
 												}
 											}
 										}
@@ -419,16 +413,18 @@ public class Main extends JavaPlugin implements Listener{
 									}
 								}
 								
-								if(time >= 160) {
+								if(time >= 300) {
 									try {
 										for(Player all : Bukkit.getOnlinePlayers()) {
 											if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
 												if(all.getLocation().add(0,-1,0).getBlock().getData() == 0) {
 													PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
-															ChatSerializer.a("{\"text\":\"§7START!\"}"));
+															ChatSerializer.a("{\"text\":\"§a···\"}"), 1, 10, 1);
 													Object handle = all.getClass().getMethod("getHandle").invoke(all);
 											        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
 											        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+											        
+											        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
 												}
 											}
 										}
@@ -464,6 +460,100 @@ public class Main extends JavaPlugin implements Listener{
 		
 		new BukkitRunnable() {
 			int time = 0;
+
+			@Override
+			public void run() {
+				
+				if(time == 10) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_LAUNCH, 4.0f, 1.0f);
+				}
+				
+				if(time == 20) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_LARGE_BLAST, 2.0f, 1.0f);
+				}
+				
+				if(time == 25) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_TWINKLE, 2.0f, 1.0f);
+				}
+				
+				if(time >= 40) {
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
+		new BukkitRunnable() {
+			int time = 0;
+			int size = 0;
+
+			@Override
+			public void run() {
+				Location e1;
+				
+				if(time % 2 == 0 && time < 20) {
+					e1 = normal.clone().add(0, time/2, 0);
+					world.spawnParticle(Particle.BLOCK_DUST, e1, 10,0,0,0,1);
+				}
+				
+				if(time % 3 == 0 && time >= 20) {
+					size++;
+					double r = size;
+					for (double pi = 0; pi <= Math.PI; pi += Math.PI / 5) {
+						double y = r * Math.cos(pi) + 1.5;
+						for (double theta = 0; theta <= 2 * Math.PI; theta += Math.PI / 10) {
+							double x = r * Math.cos(theta) * Math.sin(pi);
+							double z = r * Math.sin(theta) * Math.sin(pi);
+
+							e1 = loc.clone().add(x, y+5, z);
+							world.spawnParticle(Particle.REDSTONE, e1, 10,0,0,0,1);
+						}
+					}
+				}
+				
+				if(time >= 40) {
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+
+	}
+	
+	public void redFirework(Location loc) {
+		Location normal = loc;
+		World world = loc.getWorld(); 
+		
+		new BukkitRunnable() {
+			int time = 0;
+
+			@Override
+			public void run() {
+				
+				if(time == 10) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_LAUNCH, 4.0f, 1.0f);
+				}
+				
+				if(time == 20) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_LARGE_BLAST, 2.0f, 1.0f);
+				}
+				
+				if(time == 25) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_TWINKLE, 2.0f, 1.0f);
+				}
+				
+				if(time >= 40) {
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
+		new BukkitRunnable() {
+			int time = 0;
 			int size = 0;
 
 			@Override
@@ -484,8 +574,76 @@ public class Main extends JavaPlugin implements Listener{
 							double x = r * Math.cos(theta) * Math.sin(pi);
 							double z = r * Math.sin(theta) * Math.sin(pi);
 
-							e1 = loc.clone().add(x, y+10, z);
-							world.spawnParticle(Particle.REDSTONE, e1, 10,0,0,0,1);
+							e1 = loc.clone().add(x, y+5, z);
+							world.spawnParticle(Particle.REDSTONE, e1, 0,1,0,0,1);
+						}
+					}
+				}
+				
+				if(time >= 40) {
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+
+	}
+	
+	public void goldFirework(Location loc) {
+		Location normal = loc;
+		World world = loc.getWorld(); 
+		
+		new BukkitRunnable() {
+			int time = 0;
+
+			@Override
+			public void run() {
+				
+				if(time == 10) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_LAUNCH, 4.0f, 1.0f);
+				}
+				
+				if(time == 20) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_LARGE_BLAST, 2.0f, 1.0f);
+				}
+				
+				if(time == 25) {
+					loc.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_TWINKLE, 2.0f, 1.0f);
+				}
+				
+				if(time >= 40) {
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
+		new BukkitRunnable() {
+			int time = 0;
+			int size = 0;
+
+			@Override
+			public void run() {
+				Location e1;
+				
+				if(time % 2 == 0 && time < 20) {
+					e1 = normal.clone().add(0, time/2, 0);
+					world.spawnParticle(Particle.BLOCK_DUST, e1, 0,0.6,0.6,0,1);
+				}
+				
+				if(time % 3 == 0 && time >= 20) {
+					size++;
+					double r = size;
+					for (double pi = 0; pi <= Math.PI; pi += Math.PI / 5) {
+						double y = r * Math.cos(pi) + 1.5;
+						for (double theta = 0; theta <= 2 * Math.PI; theta += Math.PI / 10) {
+							double x = r * Math.cos(theta) * Math.sin(pi);
+							double z = r * Math.sin(theta) * Math.sin(pi);
+
+							e1 = loc.clone().add(x, y+5, z);
+							world.spawnParticle(Particle.REDSTONE, e1, 0,0.6,0.6,0,1);
 						}
 					}
 				}

@@ -17,7 +17,7 @@ public class Train {
 	// 긴급탈출 시 플랫폼으로 이동 o
 	// 처음역에서 재시작 시 모습이 보여야됨 o
 	// 마지막역에서 대기 o
-	// 기차 내부에서 메세지, 소리
+	// 기차 내부에서 메세지, 소리 o
 	// 내리고 타는거 o
 
 	static boolean stop = false;
