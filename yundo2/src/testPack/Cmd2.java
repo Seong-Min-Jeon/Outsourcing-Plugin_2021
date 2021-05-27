@@ -43,18 +43,25 @@ public class Cmd2 implements CommandExecutor {
 					for(Player target : Bukkit.getOnlinePlayers()) {
 						if(value == 1) {
 							new Speed().addMap(target, 70);
+							target.setFlySpeed(0.4f);
 						} else if(value == 2) {
 							new Speed().addMap(target, 85);
+							target.setFlySpeed(0.55f);
 						} else if(value == 3) {
 							new Speed().addMap(target, 100);
+							target.setFlySpeed(0.7f);
 						} else if(value == 4) {
 							new Speed().addMap(target, 115);
+							target.setFlySpeed(0.85f);
 						} else if(value == 5) {
 							new Speed().addMap(target, 130);
+							target.setFlySpeed(1.0f);
 						} else if(value == 0) {
 							new Speed().addMap(target, 30);
+							target.setFlySpeed(0.1f);
 						} else {
 							new Speed().addMap(target, 70);
+							target.setFlySpeed(0.4f);
 						}
 					}
 					if(value == 1) {

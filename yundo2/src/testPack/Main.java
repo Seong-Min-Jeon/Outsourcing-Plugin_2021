@@ -129,19 +129,24 @@ public class Main extends JavaPlugin implements Listener{
 						if(ground.getType() == Material.CONCRETE) {
 							if(ground.getData() == 15) {
 								if(!rank.contains(all)) {
-									if(rank.size() == 0) {
-										Location loc = all.getLocation();
-										
-										goldFirework(loc.clone().add(0,0,3));
-										goldFirework(loc.clone().add(0,0,-3));
-										redFirework(loc.clone().add(0,0,5));
-										redFirework(loc.clone().add(0,0,-5));
-									}
 									
 									rank.add(all);
 									all.getWorld().playSound(all.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3.0f, 2.0f);
 									for(Player all2 : Bukkit.getOnlinePlayers()) {
 										all2.sendMessage(ChatColor.BOLD + "" + ChatColor.GOLD + all.getDisplayName() + " ("  + record/20 + "." + (record%20)/2 + "초)");
+									}
+									
+									try {
+										if(rank.size() == 1) {
+											Location loc = all.getLocation();
+											
+											goldFirework(loc.clone().add(0,0,3));
+											goldFirework(loc.clone().add(0,0,-3));
+											redFirework(loc.clone().add(0,0,5));
+											redFirework(loc.clone().add(0,0,-5));
+										}
+									} catch(Exception e) {
+										
 									}
 								}
 							}
@@ -440,6 +445,185 @@ public class Main extends JavaPlugin implements Listener{
 							}
 						}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 						
+					} else if(event.getClickedBlock().getType() == Material.WOOD_BUTTON) {
+						
+						if(start) {
+							return;
+						}
+						
+						start = true;
+						ary.clear();
+						map.clear();
+						
+						for(Player all : Bukkit.getOnlinePlayers()) {
+							all.sendMessage(ChatColor.BOLD + "" + ChatColor.GREEN + "5초 후에 출발선으로 이동됩니다.");
+						}
+						
+						Player player = event.getPlayer();
+						World world = player.getWorld();
+						Location loc;
+						
+						for(int i = -100 ; i <= 100 ; i++) {
+							for(int j = 30 ; j <= 80 ; j++) {
+								for(int k = -100 ; k <= 100 ; k++) {
+									loc = new Location(world,i,j,k);
+									if(loc.getBlock().getType() == Material.CONCRETE) {
+										if(loc.getBlock().getData() == 0) {
+											ary.add(loc);
+										}
+									}
+								}
+							}
+						}
+						
+						if(ary.size() == 0) {
+							player.sendMessage(ChatColor.RED + "출발선이 없습니다. 출발선은 하얀 콘크리트로 만들어주세요.");
+							start = false;
+							return;
+						}
+						
+						button = event.getClickedBlock().getLocation();
+						
+						for(Player target : Bukkit.getOnlinePlayers()) {
+							new Speed().addMap(target, 100);
+							target.setFlySpeed(0.7f);
+						}
+						
+						new BukkitRunnable() {
+							int time = 0;
+							
+							@Override
+							public void run() {
+								time++;
+								
+								if(time == 100) {
+									
+									int cnt = 0;
+									
+									try {
+										for(Player all : Bukkit.getOnlinePlayers()) {
+											if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
+												if(all.getLocation().add(0,-1,0).getBlock().getData() == 13) {
+													int num = rnd.nextInt(ary.size());
+													Location startLoc = ary.get(num).add(0.5,1,0.5);
+													startLoc.setPitch(0);
+													startLoc.setYaw(180);
+													all.teleport(startLoc);
+													ary.remove(ary.get(num));
+													cnt++;
+													
+													Pig horse = (Pig) player.getWorld().spawnEntity(startLoc.add(0,0.1,0), EntityType.PIG);
+													horse.setMaxHealth(1);
+													horse.setBaby();
+													horse.setSilent(true);
+													horse.setGravity(false);
+													horse.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false));
+													
+													horse.addPassenger(all);
+												}
+											}
+										}
+									} catch(Exception e) {
+										
+									}
+									
+									if(cnt == 0) {
+										for(Player all : Bukkit.getOnlinePlayers()) {
+											all.sendMessage(ChatColor.RED + "참가자가 없어 게임이 초기화됩니다.");
+										}
+										start = false;
+										this.cancel();
+									}
+									
+								}
+								
+								if(time == 180) {
+									try {
+										for(Player all : Bukkit.getOnlinePlayers()) {
+											if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
+												if(all.getLocation().add(0,-1,0).getBlock().getData() == 0) {
+													PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+															ChatSerializer.a("{\"text\":\"§c·\"}"));
+													Object handle = all.getClass().getMethod("getHandle").invoke(all);
+											        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+											        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+											        
+											        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.4f);
+												}
+											}
+										}
+									} catch(Exception e) {
+										
+									}
+								}
+								
+								if(time == 220) {
+									try {
+										for(Player all : Bukkit.getOnlinePlayers()) {
+											if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
+												if(all.getLocation().add(0,-1,0).getBlock().getData() == 0) {
+													PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+															ChatSerializer.a("{\"text\":\"§c··\"}"));
+													Object handle = all.getClass().getMethod("getHandle").invoke(all);
+											        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+											        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+											        
+											        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.4f);
+												}
+											}
+										}
+									} catch(Exception e) {
+										
+									}
+								}
+								
+								if(time == 260) {
+									try {
+										for(Player all : Bukkit.getOnlinePlayers()) {
+											if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
+												if(all.getLocation().add(0,-1,0).getBlock().getData() == 0) {
+													PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+															ChatSerializer.a("{\"text\":\"§c···\"}"));
+													Object handle = all.getClass().getMethod("getHandle").invoke(all);
+											        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+											        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+											        
+											        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.4f);
+												}
+											}
+										}
+									} catch(Exception e) {
+										
+									}
+								}
+								
+								if(time >= 300) {
+									try {
+										for(Player all : Bukkit.getOnlinePlayers()) {
+											if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
+												if(all.getLocation().add(0,-1,0).getBlock().getData() == 0) {
+													PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+															ChatSerializer.a("{\"text\":\"§a···\"}"), 1, 10, 1);
+													Object handle = all.getClass().getMethod("getHandle").invoke(all);
+											        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+											        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+											        
+											        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
+												}
+											}
+										}
+									} catch(Exception e) {
+										
+									}
+									
+									hajimeru = true;
+									
+									this.cancel();
+								}
+								
+							}
+						}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+						
 					}
 				}
 			}
@@ -452,6 +636,101 @@ public class Main extends JavaPlugin implements Listener{
 	public void dismountEvent(EntityDismountEvent event) {
 		if(start) 
 			event.getDismounted().addPassenger(event.getEntity());
+	}
+	
+	@EventHandler
+	public void consoleEvent(ServerCommandEvent event) {
+		try { 
+			if(event.getCommand().split(" ")[0].equals("speed")) {
+				String name = event.getCommand().split(" ")[1];
+				int value = Integer.parseInt(event.getCommand().split(" ")[2]);
+				Player target = Bukkit.getPlayer(name);
+				
+				if(Bukkit.getOnlinePlayers().contains(target)) {
+					if(value == 1) {
+						new Speed().addMap(target, 70);
+						target.setFlySpeed(0.4f);
+						System.out.println("1단계로 적용되었습니다.");
+					} else if(value == 2) {
+						new Speed().addMap(target, 85);
+						target.setFlySpeed(0.55f);
+						System.out.println("2단계로 적용되었습니다.");
+					} else if(value == 3) {
+						new Speed().addMap(target, 100);
+						target.setFlySpeed(0.7f);
+						System.out.println("3단계로 적용되었습니다.");
+					} else if(value == 4) {
+						new Speed().addMap(target, 115);
+						target.setFlySpeed(0.85f);
+						System.out.println("4단계로 적용되었습니다.");
+					} else if(value == 5) {
+						new Speed().addMap(target, 130);
+						target.setFlySpeed(1.0f);
+						System.out.println("5단계로 적용되었습니다.");
+					} else if(value == 0) {
+						new Speed().addMap(target, 30);
+						target.setFlySpeed(0.1f);
+						System.out.println("-1단계로 적용되었습니다.");
+					} else {
+						new Speed().addMap(target, 70);
+						target.setFlySpeed(0.4f);
+						System.out.println("한계치를 넘어 1단계로 적용되었습니다.");
+					}
+				} else {
+					System.out.println("서버에 해당 캐릭터는 없습니다!");
+				}
+			}
+		} catch(Exception e) {
+			
+		}
+		
+		try { 
+			if(event.getCommand().split(" ")[0].equals("speedall")) {
+				int value = Integer.parseInt(event.getCommand().split(" ")[1]);
+
+				for(Player target : Bukkit.getOnlinePlayers()) {
+					if(value == 1) {
+						new Speed().addMap(target, 70);
+						target.setFlySpeed(0.4f);
+					} else if(value == 2) {
+						new Speed().addMap(target, 85);
+						target.setFlySpeed(0.55f);
+					} else if(value == 3) {
+						new Speed().addMap(target, 100);
+						target.setFlySpeed(0.7f);
+					} else if(value == 4) {
+						new Speed().addMap(target, 115);
+						target.setFlySpeed(0.85f);
+					} else if(value == 5) {
+						new Speed().addMap(target, 130);
+						target.setFlySpeed(1.0f);
+					} else if(value == 0) {
+						new Speed().addMap(target, 30);
+						target.setFlySpeed(0.1f);
+					} else {
+						new Speed().addMap(target, 70);
+						target.setFlySpeed(0.4f);
+					}
+				}
+				if(value == 1) {
+					System.out.println("모두의 속도가 1단계로 적용되었습니다.");
+				} else if(value == 2) {
+					System.out.println("모두의 속도가 2단계로 적용되었습니다.");
+				} else if(value == 3) {
+					System.out.println("모두의 속도가 3단계로 적용되었습니다.");
+				} else if(value == 4) {
+					System.out.println("모두의 속도가 4단계로 적용되었습니다.");
+				} else if(value == 5) {
+					System.out.println("모두의 속도가 5단계로 적용되었습니다.");
+				} else if(value == 0) {
+					System.out.println("모두의 속도가 -1단계로 적용되었습니다.");
+				} else {
+					System.out.println("모두의 속도가 한계치를 넘어 1단계로 적용되었습니다.");
+				}
+			}
+		} catch(Exception e) {
+			
+		}
 	}
 	
 	public void firework(Location loc) {
