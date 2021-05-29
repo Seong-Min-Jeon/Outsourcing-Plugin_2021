@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -34,6 +35,10 @@ import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -82,7 +87,12 @@ public class Main extends JavaPlugin implements Listener{
 				if(start) {
 					timer++;
 					
-					if(timer % 12000 == 0) {
+					if(new Bar().bar1.getProgress() != 1) {
+						new Bar().bar1.setProgress(timer/18000.0);
+						new Bar().bar1.setTitle(ChatColor.RED + "" + timer/1200 + "분 " + timer%1200/20 + "초");
+					}
+					
+					if(timer % 6000 == 0) {
 						//폭격
 						for(Player all : Bukkit.getOnlinePlayers()) {
 							all.sendMessage(ChatColor.RED + "유니버스 폭격기가 무인도를 폭격합니다!");
@@ -95,7 +105,7 @@ public class Main extends JavaPlugin implements Listener{
 							
 							@Override
 							public void run() {
-								if(cnt == 20) {
+								if(cnt == 0) {
 									for(int i = 0 ; i < 100 ; i++) {
 										int x = rnd.nextInt(256) - 128;
 										int z = rnd.nextInt(256) - 128;
@@ -106,7 +116,100 @@ public class Main extends JavaPlugin implements Listener{
 									}
 								}
 								
-								if(cnt == 220) {
+								if(cnt == 200) {
+									ArmorStand as = (ArmorStand) world.spawnEntity(new Location(world, 0, 128, 0), EntityType.ARMOR_STAND);
+									for(Entity ent : as.getNearbyEntities(128, 128, 128)) {
+										if(ent instanceof TNTPrimed) {
+											ent.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, ent.getLocation(), 0);
+											ent.getWorld().playSound(ent.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 5.0f, 1.0f);
+											for(Entity p : ent.getNearbyEntities(8, 5, 8)) {
+												if(p instanceof Player) {
+													Player all = (Player) p;
+													all.damage(15);
+												}
+											}
+											ent.remove();
+										}
+									}
+									for(Player all : Bukkit.getOnlinePlayers()) {
+										all.getWorld().playSound(all.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.6f, 1.0f);
+									}
+									as.remove();
+									this.cancel();
+								}
+								cnt++;
+							}
+						}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+					}
+					
+					if(timer % 6210 == 0) {
+						World world = Bukkit.getWorld("world");
+						
+						new BukkitRunnable() {
+							
+							int cnt = 0;
+							
+							@Override
+							public void run() {
+								if(cnt == 0) {
+									for(int i = 0 ; i < 100 ; i++) {
+										int x = rnd.nextInt(256) - 128;
+										int z = rnd.nextInt(256) - 128;
+										Location loc = new Location(world, x, 255, z);
+										
+										TNTPrimed tnt = (TNTPrimed) loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
+										tnt.setFuseTicks(Integer.MAX_VALUE);
+									}
+								}
+								
+								if(cnt == 200) {
+									ArmorStand as = (ArmorStand) world.spawnEntity(new Location(world, 0, 128, 0), EntityType.ARMOR_STAND);
+									for(Entity ent : as.getNearbyEntities(128, 128, 128)) {
+										if(ent instanceof TNTPrimed) {
+											ent.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, ent.getLocation(), 0);
+											ent.getWorld().playSound(ent.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 5.0f, 1.0f);
+											for(Entity p : ent.getNearbyEntities(8, 5, 8)) {
+												if(p instanceof Player) {
+													Player all = (Player) p;
+													all.damage(15);
+												}
+											}
+											ent.remove();
+										}
+									}
+									for(Player all : Bukkit.getOnlinePlayers()) {
+										all.getWorld().playSound(all.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.6f, 1.0f);
+									}
+									as.remove();
+									this.cancel();
+								}
+								cnt++;
+							}
+						}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+						
+					}
+					
+					if(timer % 6420 == 0) {
+						World world = Bukkit.getWorld("world");
+						
+						new BukkitRunnable() {
+							
+							int cnt = 0;
+							
+							@Override
+							public void run() {
+								if(cnt == 0) {
+									for(int i = 0 ; i < 100 ; i++) {
+										int x = rnd.nextInt(256) - 128;
+										int z = rnd.nextInt(256) - 128;
+										Location loc = new Location(world, x, 255, z);
+										
+										TNTPrimed tnt = (TNTPrimed) loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
+										tnt.setFuseTicks(Integer.MAX_VALUE);
+									}
+								}
+								
+								if(cnt == 200) {
 									ArmorStand as = (ArmorStand) world.spawnEntity(new Location(world, 0, 128, 0), EntityType.ARMOR_STAND);
 									for(Entity ent : as.getNearbyEntities(128, 128, 128)) {
 										if(ent instanceof TNTPrimed) {
@@ -166,7 +269,7 @@ public class Main extends JavaPlugin implements Listener{
 						
 					}
 					
-					if(timer == 24000) {
+					if(timer == 18000) {
 						// 종료버튼
 						World world = Bukkit.getWorld("world");
 						Location loc = new Location(world, 75, 85, 67);
@@ -195,11 +298,15 @@ public class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer(); 
+		player.setGameMode(GameMode.SURVIVAL);
 		
 		if(banList.contains(player.getDisplayName())) {
 			event.setJoinMessage(null);
 			player.kickPlayer(ChatColor.RED + "이번 게임에는 다시 참여할 수 없습니다.");
 		}
+		
+		new Bar().bar1.addPlayer(player);
+		new Bar().bar1.setVisible(false);
 		
 		player.getInventory().clear();
 		player.teleport(new Location(player.getWorld(),83.5,6,-55.5,270,0));
@@ -215,8 +322,53 @@ public class Main extends JavaPlugin implements Listener{
 	public void die(PlayerDeathEvent event) {
 		event.setDeathMessage(null);
 		
-		for(Player all : Bukkit.getOnlinePlayers()) {
-			all.sendMessage(ChatColor.DARK_RED + "" + event.getEntity().getDisplayName() + "님이 사망하였습니다.");
+		try {
+			Player player = event.getEntity();
+			EntityDamageEvent death = player.getLastDamageCause();
+			DamageCause deathCause = player.getLastDamageCause().getCause();
+			
+			if(deathCause == DamageCause.ENTITY_ATTACK) {
+				Entity entity = (((EntityDamageByEntityEvent)death).getDamager());
+				if(entity instanceof Player) {
+					Player p = (Player) entity;
+					for(Player all : Bukkit.getOnlinePlayers()) {
+						all.sendMessage(ChatColor.DARK_RED + "" + event.getEntity().getDisplayName() + "님이 "+ p.getDisplayName() + "님에게 살해당하였습니다.");
+						System.out.println(event.getEntity().getDisplayName() + "님이 "+ p.getDisplayName() + "님에게 살해당하였습니다.");
+					}
+				} else {
+					for(Player all : Bukkit.getOnlinePlayers()) {
+						all.sendMessage(ChatColor.DARK_RED + "" + event.getEntity().getDisplayName() + "님이 의문사하였습니다.");
+						System.out.println(event.getEntity().getDisplayName() + "님이 의문사하였습니다.");
+					}
+				}
+			} else if(deathCause == DamageCause.BLOCK_EXPLOSION) {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					all.sendMessage(ChatColor.DARK_RED + "" + event.getEntity().getDisplayName() + "님이 폭격으로 사망하였습니다.");
+					System.out.println(event.getEntity().getDisplayName() + "님이 폭격으로 사망하였습니다.");
+				}
+			} else if(deathCause == DamageCause.ENTITY_EXPLOSION) {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					all.sendMessage(ChatColor.DARK_RED + "" + event.getEntity().getDisplayName() + "님이 폭격으로 사망하였습니다.");
+					System.out.println(event.getEntity().getDisplayName() + "님이 폭격으로 사망하였습니다.");
+				}
+			} else if(deathCause == DamageCause.CUSTOM) {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					all.sendMessage(ChatColor.DARK_RED + "" + event.getEntity().getDisplayName() + "님이 폭격으로 사망하였습니다.");
+					System.out.println(event.getEntity().getDisplayName() + "님이 폭격으로 사망하였습니다.");
+				}
+			} else if(deathCause == DamageCause.FALL) {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					all.sendMessage(ChatColor.DARK_RED + "" + event.getEntity().getDisplayName() + "님이 낙사하였습니다.");
+					System.out.println(event.getEntity().getDisplayName() + "님이 낙사하였습니다.");
+				}
+			} else {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					all.sendMessage(ChatColor.DARK_RED + "" + event.getEntity().getDisplayName() + "님이 의문사하였습니다.");
+					System.out.println(event.getEntity().getDisplayName() + "님이 의문사하였습니다.");
+				}
+			}
+		} catch(Exception e) {
+			
 		}
 		
 		Location loc = event.getEntity().getLocation();
@@ -264,6 +416,9 @@ public class Main extends JavaPlugin implements Listener{
 							}
 							
 							start = true;
+							
+							new Bar().bar1.setVisible(true);
+							new Bar().bar1.setProgress(0);
 							
 							new BukkitRunnable() {
 								int time = 0;
@@ -315,6 +470,7 @@ public class Main extends JavaPlugin implements Listener{
 									}
 									
 									if(time >= 61) {
+										
 										try {
 											for(Player all : Bukkit.getOnlinePlayers()) {
 												PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
@@ -332,7 +488,7 @@ public class Main extends JavaPlugin implements Listener{
 										Location loc;
 										
 										for(int i = -128 ; i <= 128 ; i++) {
-											for(int j = 64 ; j <= 80 ; j++) {
+											for(int j = 64 ; j <= 70 ; j++) {
 												for(int k = -128 ; k <= 128 ; k++) {
 													loc = new Location(world,i,j,k);
 													if(loc.getBlock().getType() == Material.GRASS) {
@@ -371,6 +527,9 @@ public class Main extends JavaPlugin implements Listener{
 							}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 						} else if(loc.getX() <= 80 && loc.getY() <= 86 && loc.getZ() <= 72 
 								&& loc.getX() >= 70 && loc.getY() >= 84 && loc.getZ() >= 62) {
+							
+							new Bar().bar1.setVisible(false);
+							new Bar().bar1.setProgress(0);
 
 							event.getClickedBlock().setType(Material.AIR);
 							
@@ -450,6 +609,16 @@ public class Main extends JavaPlugin implements Listener{
 			}
 		} catch(Exception e) {
 			
+		}
+	}
+	
+	@EventHandler
+	public void blockPlace(BlockPlaceEvent event) {
+		Player player = event.getPlayer();
+		if(!player.isOp()) {
+			if(event.getBlock().getType() == Material.STONE_BUTTON || event.getBlock().getType() == Material.WOOD_BUTTON) {
+				event.setCancelled(true);
+			}
 		}
 	}
 	

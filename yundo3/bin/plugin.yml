@@ -2,10 +2,4 @@ name: YumehamaPlugin
 main: testPack.Main
 version: 1.0
 commands:
-  redteam:
-   description: red team title change
-   usage: /redteam
-  blueteam:
-   description: blue team title change
-   usage: /blueteam
 api-version: 1.12

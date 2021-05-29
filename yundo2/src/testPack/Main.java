@@ -225,6 +225,9 @@ public class Main extends JavaPlugin implements Listener{
 												map.clear();
 												rank.clear();
 												new Speed().clear();
+												for(Player target : Bukkit.getOnlinePlayers()) {
+													target.setFlySpeed(0.1f);
+												}
 												
 												for(Player all : Bukkit.getOnlinePlayers()) {
 													try {
