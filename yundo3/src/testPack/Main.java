@@ -114,6 +114,15 @@ public class Main extends JavaPlugin implements Listener{
 										TNTPrimed tnt = (TNTPrimed) loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
 										tnt.setFuseTicks(Integer.MAX_VALUE);
 									}
+									
+									for(Player all : Bukkit.getOnlinePlayers()) {
+										int x = all.getLocation().getBlockX();
+										int z = all.getLocation().getBlockZ();
+										Location loc = new Location(world, x, 255, z);
+										
+										TNTPrimed tnt = (TNTPrimed) loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
+										tnt.setFuseTicks(Integer.MAX_VALUE);
+									}
 								}
 								
 								if(cnt == 200) {
@@ -155,6 +164,15 @@ public class Main extends JavaPlugin implements Listener{
 									for(int i = 0 ; i < 100 ; i++) {
 										int x = rnd.nextInt(256) - 128;
 										int z = rnd.nextInt(256) - 128;
+										Location loc = new Location(world, x, 255, z);
+										
+										TNTPrimed tnt = (TNTPrimed) loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
+										tnt.setFuseTicks(Integer.MAX_VALUE);
+									}
+									
+									for(Player all : Bukkit.getOnlinePlayers()) {
+										int x = all.getLocation().getBlockX();
+										int z = all.getLocation().getBlockZ();
 										Location loc = new Location(world, x, 255, z);
 										
 										TNTPrimed tnt = (TNTPrimed) loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
@@ -202,6 +220,15 @@ public class Main extends JavaPlugin implements Listener{
 									for(int i = 0 ; i < 100 ; i++) {
 										int x = rnd.nextInt(256) - 128;
 										int z = rnd.nextInt(256) - 128;
+										Location loc = new Location(world, x, 255, z);
+										
+										TNTPrimed tnt = (TNTPrimed) loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
+										tnt.setFuseTicks(Integer.MAX_VALUE);
+									}
+									
+									for(Player all : Bukkit.getOnlinePlayers()) {
+										int x = all.getLocation().getBlockX();
+										int z = all.getLocation().getBlockZ();
 										Location loc = new Location(world, x, 255, z);
 										
 										TNTPrimed tnt = (TNTPrimed) loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
@@ -303,10 +330,10 @@ public class Main extends JavaPlugin implements Listener{
 		if(banList.contains(player.getDisplayName())) {
 			event.setJoinMessage(null);
 			player.kickPlayer(ChatColor.RED + "이번 게임에는 다시 참여할 수 없습니다.");
+		} else {
+			new Bar().bar1.addPlayer(player);
+			new Bar().bar1.setVisible(false);
 		}
-		
-		new Bar().bar1.addPlayer(player);
-		new Bar().bar1.setVisible(false);
 		
 		player.getInventory().clear();
 		player.teleport(new Location(player.getWorld(),83.5,6,-55.5,270,0));
