@@ -88,11 +88,11 @@ public class Main extends JavaPlugin implements Listener{
 					timer++;
 					
 					if(new Bar().bar1.getProgress() != 1) {
-						new Bar().bar1.setProgress(timer/18000.0);
+						new Bar().bar1.setProgress(timer/6000.0);
 						new Bar().bar1.setTitle(ChatColor.RED + "" + timer/1200 + "분 " + timer%1200/20 + "초");
 					}
 					
-					if(timer % 6000 == 0) {
+					if(timer % 2000 == 0) {
 						//폭격
 						for(Player all : Bukkit.getOnlinePlayers()) {
 							all.sendMessage(ChatColor.RED + "유니버스 폭격기가 무인도를 폭격합니다!");
@@ -151,7 +151,7 @@ public class Main extends JavaPlugin implements Listener{
 						}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 					}
 					
-					if(timer % 6210 == 0) {
+					if(timer % 2210 == 0) {
 						World world = Bukkit.getWorld("world");
 						
 						new BukkitRunnable() {
@@ -207,7 +207,7 @@ public class Main extends JavaPlugin implements Listener{
 						
 					}
 					
-					if(timer % 6420 == 0) {
+					if(timer % 2420 == 0) {
 						World world = Bukkit.getWorld("world");
 						
 						new BukkitRunnable() {
@@ -263,7 +263,7 @@ public class Main extends JavaPlugin implements Listener{
 						
 					}
 					
-					if(timer == 9600) {
+					if(timer == 3600) {
 						//보급
 						for(Player all : Bukkit.getOnlinePlayers()) {
 							all.sendMessage(ChatColor.GREEN + "보급이 활성화되었습니다!");
@@ -296,7 +296,7 @@ public class Main extends JavaPlugin implements Listener{
 						
 					}
 					
-					if(timer == 18000) {
+					if(timer == 6000) {
 						// 종료버튼
 						World world = Bukkit.getWorld("world");
 						Location loc = new Location(world, 75, 85, 67);
