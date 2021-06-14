@@ -476,7 +476,7 @@ public class Cmd1 implements CommandExecutor {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
 		var2Im.setLocalizedName("100");
-		var2Im.setDisplayName(ChatColor.DARK_RED + "제왕의 증표");
+		var2Im.setDisplayName(ChatColor.DARK_RED + "제황의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);

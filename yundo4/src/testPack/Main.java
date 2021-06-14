@@ -39,6 +39,7 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -63,6 +64,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -95,6 +97,20 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
 		getCommand("giveToken").setExecutor(new Cmd1());
+		
+		new BukkitRunnable() {
+			int time = 0;
+
+			@Override
+			public void run() {
+				
+				if(time % 20 == 0) {
+					new CoolTime().countTime();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 	}
 	
 	@Override
@@ -108,6 +124,62 @@ public class Main extends JavaPlugin implements Listener{
 			LivingEntity ent = (LivingEntity) event.getEntity();
 			ent.damage(2000);
 		}
+	}
+	
+	@EventHandler
+	public void damageEvent(EntityDamageByEntityEvent event) {
+		Entity damager = event.getDamager();
+		
+		if(damager instanceof Player) {
+			Player player = (Player) damager;
+			if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("13")) {
+				event.setDamage(event.getDamage() * 1.5);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("14")) {
+				event.setDamage(event.getDamage() * 1.5);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("15")) {
+				event.setDamage(event.getDamage() * 1.5);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("16")) {
+				event.setDamage(event.getDamage() * 1.5);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
+				event.setDamage(event.getDamage() * 1.5);
+			}
+		}
+		
+		if(damager instanceof Arrow) {
+			Arrow arrow = (Arrow) damager;
+			if(arrow.getShooter() instanceof Player) {
+				Player player = (Player) arrow.getShooter();
+				if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("13")) {
+					event.setDamage(event.getDamage() * 1.5);
+				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("14")) {
+					event.setDamage(event.getDamage() * 1.5);
+				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("15")) {
+					event.setDamage(event.getDamage() * 1.5);
+				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("16")) {
+					event.setDamage(event.getDamage() * 1.5);
+				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
+					event.setDamage(event.getDamage() * 1.5);
+				}
+			}
+		}
+		
+		if(damager instanceof Player) {
+			Player player = (Player) damager;
+			if(new PowerUp().containPlayer(player)) {
+				event.setDamage(event.getDamage() * 2);
+			} 
+		}
+		
+		if(damager instanceof Arrow) {
+			Arrow arrow = (Arrow) damager;
+			if(arrow.getShooter() instanceof Player) {
+				Player player = (Player) arrow.getShooter();
+				if(new PowerUp().containPlayer(player)) {
+					event.setDamage(event.getDamage() * 2);
+				} 
+			}
+		}
+		
 	}
 	
 	@EventHandler
@@ -183,23 +255,173 @@ public class Main extends JavaPlugin implements Listener{
 					}
 					
 					if (player.getInventory().contains(Material.NETHER_STAR)) {
-						MouseClickForSkill mc = new MouseClickForSkill();
-						int time = mc.getTime(player);
-						if (time == 0) {
-							mc.click(player, "R");
-						} else {
-							mc.click(player, "R", time);
-						}
+						if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("12")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("14")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("15")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("16")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("21")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("22")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("23")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("100")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} 
+						
 					}
 				} else if(event.getAction() == Action.LEFT_CLICK_AIR) {
 					if (player.getInventory().contains(Material.NETHER_STAR)) {
-						MouseClickForSkill mc = new MouseClickForSkill();
-						int time = mc.getTime(player);
-						if (time == 0) {
-							mc.click(player, "L");
-						} else {
-							mc.click(player, "L", time);
-						}
+						if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("12")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("14")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("15")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("16")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("21")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("22")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("23")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("100")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} 
+						
 					}
 				}
 			}
@@ -302,21 +524,21 @@ public class Main extends JavaPlugin implements Listener{
 		if(block.getType() == Material.CROPS || block.getType() == Material.CARROT || block.getType() == Material.POTATO) {
 			if(block.getState().getData().getData() == 7) {
 				if(block.getType() == Material.CROPS) {
-					if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("1")) {
+					if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("2")) {
 						block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.WHEAT, 1));
-					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("2")) {
+					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("3")) {
 						block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.WHEAT, 2));
 					}
 				} else if(block.getType() == Material.CARROT) {
-					if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("1")) {
+					if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("2")) {
 						block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.CARROT, 1));
-					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("2")) {
+					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("3")) {
 						block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.CARROT, 3));
 					}
 				} else if(block.getType() == Material.POTATO) {
-					if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("1")) {
+					if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("2")) {
 						block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.POTATO, 1));
-					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("2")) {
+					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("3")) {
 						block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.POTATO, 3));
 					}
 				}
@@ -339,13 +561,24 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void fishingEvent(PlayerFishEvent event) {
-		Player player = event.getPlayer();
-		int num1 = rnd.nextInt(5) + 1;
-		int num2 = rnd.nextInt(6) + 5;
-		if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("8")) {
-			player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num1));
-		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("9")) {
-			player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num2));
+		if(event.getState() == State.CAUGHT_FISH) {
+			Player player = event.getPlayer();
+			int num1 = rnd.nextInt(5) + 1;
+			int num2 = rnd.nextInt(6) + 5;
+			if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("8")) {
+				player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num1));
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("9")) {
+				player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num2));
+			}
+		} else if(event.getState() == State.CAUGHT_ENTITY) {
+			Player player = event.getPlayer();
+			int num1 = rnd.nextInt(5) + 1;
+			int num2 = rnd.nextInt(6) + 5;
+			if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("8")) {
+				player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num1));
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("9")) {
+				player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num2));
+			}
 		}
 	}
 	
