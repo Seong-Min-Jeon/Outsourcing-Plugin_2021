@@ -66,7 +66,15 @@ public class Skill {
 			skill5(player, key);
 		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
 			skill6(player, key);
-		} 
+		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("21")) {
+			skill7(player, key);
+		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("22")) {
+			skill8(player, key);
+		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("23")) {
+			skill9(player, key);
+		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("100")) {
+			skill10(player, key);
+		}
 	}
 	
 	// 대도적
@@ -151,7 +159,7 @@ public class Skill {
 			int cool = 30;
 			if(new CoolTime().coolCheck(player, cool, key)) {
 				new ParticleEffect(player).newEffect3();
-				player.sendMessage(ChatColor.GREEN + "[스킬]3연격이 발동됩니다.");
+				player.sendMessage(ChatColor.GREEN + "[스킬]트리플 크러쉬가 발동됩니다.");
 			} else {
 				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
 				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
@@ -174,7 +182,7 @@ public class Skill {
 			int cool = 30;
 			if(new CoolTime().coolCheck(player, cool, key)) {
 				new ParticleEffect(player).newEffect3();
-				player.sendMessage(ChatColor.GREEN + "[스킬]3연격이 발동됩니다.");
+				player.sendMessage(ChatColor.GREEN + "[스킬]트리플 크러쉬가 발동됩니다.");
 			} else {
 				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
 				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
@@ -203,7 +211,7 @@ public class Skill {
 			int cool = 30;
 			if(new CoolTime().coolCheck(player, cool, key)) {
 				new ParticleEffect(player).newEffect3();
-				player.sendMessage(ChatColor.GREEN + "[스킬]3연격이 발동됩니다.");
+				player.sendMessage(ChatColor.GREEN + "[스킬]트리플 크러쉬가 발동됩니다.");
 			} else {
 				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
 				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
@@ -258,7 +266,7 @@ public class Skill {
 			int cool = 30;
 			if(new CoolTime().coolCheck(player, cool, key)) {
 				new ParticleEffect(player).newEffect3();
-				player.sendMessage(ChatColor.GREEN + "[스킬]3연격이 발동됩니다.");
+				player.sendMessage(ChatColor.GREEN + "[스킬]트리플 크러쉬가 발동됩니다.");
 			} else {
 				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
 				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
@@ -315,5 +323,356 @@ public class Skill {
 		}
 	}
 
+	// 기사
+	public void skill7(Player player, String key) {
+		if(key.equals("RRR")) {
+			int cool = 50;
+			if(new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect5();
+				player.sendMessage(ChatColor.GREEN + "[스킬]베쉬가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if(key.equals("RRL")) {
+			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
+			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+		} else if(key.equals("RLL")) {
+			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
+			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+		} else if(key.equals("RLR")) {
+			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
+			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+		}
+	}
+	
+	// 기사장
+	public void skill8(Player player, String key) {
+		if(key.equals("RRR")) {
+			int cool = 50;
+			if(new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect5();
+				player.sendMessage(ChatColor.GREEN + "[스킬]베쉬가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if(key.equals("RRL")) {
+			int cool = 300;
+			if(new CoolTime().coolCheck(player, cool, key)) {
+				
+				new BukkitRunnable() {
+					int time = 0;
+					
+					@Override
+					public void run() {
+						
+						if(time == 0) {
+							player.setNoDamageTicks(200);
+						}
+
+						if(time >= 200) {
+							player.sendMessage(ChatColor.GREEN + "[스킬]굳건한 의지가 종료됩니다.");
+							this.cancel();
+						}
+						
+						time++;
+					}
+				}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+				
+				player.sendMessage(ChatColor.GREEN + "[스킬]굳건한 의지가 발동됩니다.");
+				player.sendMessage(ChatColor.GREEN + "10초간 무적이 됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if(key.equals("RLL")) {
+			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
+			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+		} else if(key.equals("RLR")) {
+			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
+			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+		}
+	}
+	
+	// 기사단장
+	public void skill9(Player player, String key) {
+		if(key.equals("RRR")) {
+			int cool = 50;
+			if(new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect5();
+				player.sendMessage(ChatColor.GREEN + "[스킬]베쉬가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if(key.equals("RRL")) {
+			int cool = 300;
+			if(new CoolTime().coolCheck(player, cool, key)) {
+				
+				new BukkitRunnable() {
+					int time = 0;
+					
+					@Override
+					public void run() {
+						
+						if(time == 0) {
+							player.setNoDamageTicks(200);
+						}
+
+						if(time >= 200) {
+							player.sendMessage(ChatColor.GREEN + "[스킬]굳건한 의지가 종료됩니다.");
+							this.cancel();
+						}
+						
+						time++;
+					}
+				}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+				
+				player.sendMessage(ChatColor.GREEN + "[스킬]굳건한 의지가 발동됩니다.");
+				player.sendMessage(ChatColor.GREEN + "10초간 무적이 됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if(key.equals("RLL")) {
+			int cool = 120;
+			if(new CoolTime().coolCheck(player, cool, key)) {
+				
+				new BukkitRunnable() {
+					int time = 0;
+					
+					@Override
+					public void run() {
+						
+						if(time == 5 || time == 25) {
+							List<Entity> entitylist = player.getNearbyEntities(10, 5, 10);
+							for(Entity nearEntity : entitylist) {
+								if(nearEntity instanceof LivingEntity) {
+									((LivingEntity) nearEntity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 100, true, false));
+									((LivingEntity) nearEntity).addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20, 200, true, false));
+									ArmorStand as = (ArmorStand) player.getWorld().spawnEntity(nearEntity.getLocation().add(0,8,0), EntityType.ARMOR_STAND);
+									as.setVisible(false);
+									as.setArms(true);
+									as.setItemInHand(new ItemStack(Material.getMaterial("ICEANDFIRE_SILVER_SWORD")));
+									as.setRightArmPose(new EulerAngle(Math.toRadians(90), 0, 0));
+									as.setRemoveWhenFarAway(true);
+								}
+							}
+						}
+						
+						if(time == 20 || time == 40) {
+							List<Entity> entitylist = player.getNearbyEntities(10, 5, 10);
+							for(Entity nearEntity : entitylist) {
+								if(nearEntity instanceof ArmorStand) {
+									ArmorStand as = (ArmorStand) nearEntity;
+									if((as.getItemInHand().getType() == Material.getMaterial("ICEANDFIRE_SILVER_SWORD")) && (as.getRightArmPose().getX() == Math.toRadians(90))) {
+										as.remove();
+										continue;
+									}
+								}
+								if(nearEntity instanceof LivingEntity) {
+									((LivingEntity) nearEntity).damage(10);
+								}
+							}
+						}
+						
+						if(time == 45) {
+							List<Entity> entitylist = player.getNearbyEntities(30, 30, 30);
+							for(Entity nearEntity : entitylist) {
+								if(nearEntity instanceof ArmorStand) {
+									ArmorStand as = (ArmorStand) nearEntity;
+									if((as.getItemInHand().getType() == Material.getMaterial("ICEANDFIRE_SILVER_SWORD")) && (as.getRightArmPose().getX() == Math.toRadians(90))) {
+										as.remove();
+										continue;
+									}
+								}
+							}
+						}
+						
+						if(time == 50) {
+							this.cancel();
+						}
+						
+						time++;
+					}
+				}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+				
+				player.sendMessage(ChatColor.GREEN + "[스킬]심판의 칼날이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if(key.equals("RLR")) {
+			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
+			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+		}
+	}
+	
+	// 제황
+	public void skill10(Player player, String key) {
+		if(key.equals("RRR")) {
+			int cool = 1;
+			if(new CoolTime().coolCheck(player, cool, key)) {
+
+				Vector vec = player.getEyeLocation().getDirection().multiply(3.0f);
+				player.setVelocity(vec);
+				player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 0.3f, 0.5f);
+				
+				player.sendMessage(ChatColor.GREEN + "[스킬]섬광이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if(key.equals("RRL")) {
+			int cool = 30;
+			if(new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect6();
+				player.sendMessage(ChatColor.GREEN + "[스킬]신의 심판이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if(key.equals("RLL")) {
+			int cool = 30;
+			if(new CoolTime().coolCheck(player, cool, key)) {
+				
+				new BukkitRunnable() {
+					int time = 0;
+					
+					@Override
+					public void run() {
+						
+						if(time == 5 || time == 25) {
+							List<Entity> entitylist = player.getNearbyEntities(10, 5, 10);
+							for(Entity nearEntity : entitylist) {
+								if(nearEntity instanceof LivingEntity) {
+									((LivingEntity) nearEntity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 100, true, false));
+									((LivingEntity) nearEntity).addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20, 200, true, false));
+									ArmorStand as = (ArmorStand) player.getWorld().spawnEntity(nearEntity.getLocation().add(0,8,0), EntityType.ARMOR_STAND);
+									as.setVisible(false);
+									as.setArms(true);
+									as.setItemInHand(new ItemStack(Material.getMaterial("ICEANDFIRE_DRAGONBONE_SWORD_FIRE")));
+									as.setRightArmPose(new EulerAngle(Math.toRadians(90), 0, 0));
+									as.setRemoveWhenFarAway(true);
+								}
+							}
+						}
+						
+						if(time == 20 || time == 40) {
+							List<Entity> entitylist = player.getNearbyEntities(10, 5, 10);
+							for(Entity nearEntity : entitylist) {
+								if(nearEntity instanceof ArmorStand) {
+									ArmorStand as = (ArmorStand) nearEntity;
+									if((as.getItemInHand().getType() == Material.getMaterial("ICEANDFIRE_DRAGONBONE_SWORD_FIRE")) && (as.getRightArmPose().getX() == Math.toRadians(90))) {
+										as.remove();
+										continue;
+									}
+								}
+								if(nearEntity instanceof LivingEntity) {
+									((LivingEntity) nearEntity).setFireTicks(200);
+									((LivingEntity) nearEntity).damage(10);
+								}
+							}
+						}
+						
+						if(time == 45) {
+							List<Entity> entitylist = player.getNearbyEntities(30, 30, 30);
+							for(Entity nearEntity : entitylist) {
+								if(nearEntity instanceof ArmorStand) {
+									ArmorStand as = (ArmorStand) nearEntity;
+									if((as.getItemInHand().getType() == Material.getMaterial("ICEANDFIRE_DRAGONBONE_SWORD_FIRE")) && (as.getRightArmPose().getX() == Math.toRadians(90))) {
+										as.remove();
+										continue;
+									}
+								}
+							}
+						}
+						
+						if(time == 50) {
+							this.cancel();
+						}
+						
+						time++;
+					}
+				}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+				
+				player.sendMessage(ChatColor.GREEN + "[스킬]불의 심판이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if(key.equals("RLR")) {
+			int cool = 30;
+			if(new CoolTime().coolCheck(player, cool, key)) {
+				
+				new BukkitRunnable() {
+					int time = 0;
+					
+					@Override
+					public void run() {
+						
+						if(time == 5 || time == 25) {
+							List<Entity> entitylist = player.getNearbyEntities(10, 5, 10);
+							for(Entity nearEntity : entitylist) {
+								if(nearEntity instanceof LivingEntity) {
+									((LivingEntity) nearEntity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 100, true, false));
+									((LivingEntity) nearEntity).addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20, 200, true, false));
+									ArmorStand as = (ArmorStand) player.getWorld().spawnEntity(nearEntity.getLocation().add(0,8,0), EntityType.ARMOR_STAND);
+									as.setVisible(false);
+									as.setArms(true);
+									as.setItemInHand(new ItemStack(Material.getMaterial("ICEANDFIRE_DRAGONBONE_SWORD_ICE")));
+									as.setRightArmPose(new EulerAngle(Math.toRadians(90), 0, 0));
+									as.setRemoveWhenFarAway(true);
+								}
+							}
+						}
+						
+						if(time == 20 || time == 40) {
+							List<Entity> entitylist = player.getNearbyEntities(10, 5, 10);
+							for(Entity nearEntity : entitylist) {
+								if(nearEntity instanceof ArmorStand) {
+									ArmorStand as = (ArmorStand) nearEntity;
+									if((as.getItemInHand().getType() == Material.getMaterial("ICEANDFIRE_DRAGONBONE_SWORD_ICE")) && (as.getRightArmPose().getX() == Math.toRadians(90))) {
+										as.remove();
+										continue;
+									}
+								}
+								if(nearEntity instanceof LivingEntity) {
+									((LivingEntity) nearEntity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 2, true, false));
+									((LivingEntity) nearEntity).damage(10);
+								}
+							}
+						}
+						
+						if(time == 45) {
+							List<Entity> entitylist = player.getNearbyEntities(30, 30, 30);
+							for(Entity nearEntity : entitylist) {
+								if(nearEntity instanceof ArmorStand) {
+									ArmorStand as = (ArmorStand) nearEntity;
+									if((as.getItemInHand().getType() == Material.getMaterial("ICEANDFIRE_DRAGONBONE_SWORD_ICE")) && (as.getRightArmPose().getX() == Math.toRadians(90))) {
+										as.remove();
+										continue;
+									}
+								}
+							}
+						}
+						
+						if(time == 50) {
+							this.cancel();
+						}
+						
+						time++;
+					}
+				}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+				
+				player.sendMessage(ChatColor.GREEN + "[스킬]얼음의 심판이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		}
+	}
+	
 	
 }

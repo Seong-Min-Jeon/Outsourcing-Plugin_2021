@@ -90,6 +90,7 @@ import org.bukkit.scoreboard.Team;
 public class Main extends JavaPlugin implements Listener{
 	
 	HashMap<HashMap<Location, Integer>, Location> map = new HashMap<>();
+	HashMap<Player, Integer> move = new HashMap<>();
 	Random rnd = new Random();
 	
 	@Override
@@ -128,27 +129,11 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void damageEvent(EntityDamageByEntityEvent event) {
-		Entity damager = event.getDamager();
-		
-		if(damager instanceof Player) {
-			Player player = (Player) damager;
-			if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("13")) {
-				event.setDamage(event.getDamage() * 1.5);
-			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("14")) {
-				event.setDamage(event.getDamage() * 1.5);
-			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("15")) {
-				event.setDamage(event.getDamage() * 1.5);
-			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("16")) {
-				event.setDamage(event.getDamage() * 1.5);
-			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
-				event.setDamage(event.getDamage() * 1.5);
-			}
-		}
-		
-		if(damager instanceof Arrow) {
-			Arrow arrow = (Arrow) damager;
-			if(arrow.getShooter() instanceof Player) {
-				Player player = (Player) arrow.getShooter();
+		try {
+			Entity damager = event.getDamager();
+			
+			if(damager instanceof Player) {
+				Player player = (Player) damager;
 				if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("13")) {
 					event.setDamage(event.getDamage() * 1.5);
 				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("14")) {
@@ -161,25 +146,44 @@ public class Main extends JavaPlugin implements Listener{
 					event.setDamage(event.getDamage() * 1.5);
 				}
 			}
-		}
-		
-		if(damager instanceof Player) {
-			Player player = (Player) damager;
-			if(new PowerUp().containPlayer(player)) {
-				event.setDamage(event.getDamage() * 2);
-			} 
-		}
-		
-		if(damager instanceof Arrow) {
-			Arrow arrow = (Arrow) damager;
-			if(arrow.getShooter() instanceof Player) {
-				Player player = (Player) arrow.getShooter();
+			
+			if(damager instanceof Arrow) {
+				Arrow arrow = (Arrow) damager;
+				if(arrow.getShooter() instanceof Player) {
+					Player player = (Player) arrow.getShooter();
+					if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("13")) {
+						event.setDamage(event.getDamage() * 1.5);
+					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("14")) {
+						event.setDamage(event.getDamage() * 1.5);
+					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("15")) {
+						event.setDamage(event.getDamage() * 1.5);
+					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("16")) {
+						event.setDamage(event.getDamage() * 1.5);
+					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
+						event.setDamage(event.getDamage() * 1.5);
+					}
+				}
+			}
+			
+			if(damager instanceof Player) {
+				Player player = (Player) damager;
 				if(new PowerUp().containPlayer(player)) {
 					event.setDamage(event.getDamage() * 2);
 				} 
 			}
+			
+			if(damager instanceof Arrow) {
+				Arrow arrow = (Arrow) damager;
+				if(arrow.getShooter() instanceof Player) {
+					Player player = (Player) arrow.getShooter();
+					if(new PowerUp().containPlayer(player)) {
+						event.setDamage(event.getDamage() * 2);
+					} 
+				}
+			}
+		} catch(Exception e) {
+			
 		}
-		
 	}
 	
 	@EventHandler
@@ -201,7 +205,7 @@ public class Main extends JavaPlugin implements Listener{
 					
 				}
 				
-				if (event.getAction() == Action.RIGHT_CLICK_AIR) {
+				if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
 					try {
 						if(event.getClickedBlock().getType() == Material.ACACIA_DOOR || event.getClickedBlock().getType() == Material.BIRCH_DOOR ||
@@ -253,6 +257,7 @@ public class Main extends JavaPlugin implements Listener{
 					} catch(Exception e1) {
 						
 					}
+				} else if (event.getAction() == Action.RIGHT_CLICK_AIR) {
 					
 					if (player.getInventory().contains(Material.NETHER_STAR)) {
 						if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
@@ -561,24 +566,56 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void fishingEvent(PlayerFishEvent event) {
-		if(event.getState() == State.CAUGHT_FISH) {
-			Player player = event.getPlayer();
-			int num1 = rnd.nextInt(5) + 1;
-			int num2 = rnd.nextInt(6) + 5;
-			if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("8")) {
-				player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num1));
-			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("9")) {
-				player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num2));
+		try {
+			if(event.getState() == State.CAUGHT_FISH) {
+				Player player = event.getPlayer();
+				int num1 = rnd.nextInt(5) + 1;
+				int num2 = rnd.nextInt(6) + 5;
+				if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("8")) {
+					player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num1));
+				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("9")) {
+					player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num2));
+				}
+			} else if(event.getState() == State.CAUGHT_ENTITY) {
+				Player player = event.getPlayer();
+				int num1 = rnd.nextInt(5) + 1;
+				int num2 = rnd.nextInt(6) + 5;
+				if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("8")) {
+					player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num1));
+				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("9")) {
+					player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num2));
+				}
 			}
-		} else if(event.getState() == State.CAUGHT_ENTITY) {
-			Player player = event.getPlayer();
-			int num1 = rnd.nextInt(5) + 1;
-			int num2 = rnd.nextInt(6) + 5;
-			if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("8")) {
-				player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num1));
-			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("9")) {
-				player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num2));
+		} catch(Exception e) {
+			
+		}
+	}
+	
+	@EventHandler
+	public void moveEvent(PlayerMoveEvent event) {
+		try {
+			if(event.getFrom().getBlockX() != event.getTo().getBlockX() || event.getFrom().getBlockZ() != event.getTo().getBlockZ()) {
+				Player player = event.getPlayer();
+				int num = 0;
+				if(move.containsKey(player)) {
+					num = move.get(player);
+					move.remove(player);
+				}
+				num++;
+				move.put(player, num);
+				
+				if(num % 100 == 0) {
+					int num1 = rnd.nextInt(10) + 1;
+					int num2 = rnd.nextInt(16) + 5;
+					if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("19")) {
+						player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num1));
+					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("20")) {
+						player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINSILVER"), num2));
+					}
+				}
 			}
+		} catch(Exception e) {
+			
 		}
 	}
 	
