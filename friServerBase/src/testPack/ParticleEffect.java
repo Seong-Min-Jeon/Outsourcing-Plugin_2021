@@ -22,6 +22,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowman;
 import org.bukkit.entity.SpectralArrow;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -31,6 +32,8 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
+
+import net.md_5.bungee.api.ChatColor;
 
 public class ParticleEffect {
 
@@ -98,7 +101,7 @@ public class ParticleEffect {
 						} else {
 							e2 = normal.clone().add(Math.cos(var)*size, 0, Math.sin(var)*size);
 						}
-						world.spawnParticle(Particle.REDSTONE, e2, 2, 0,0.4,0.01,0.4,1);
+						world.spawnParticle(Particle.REDSTONE, e2, 0, 0.4,0.01,0.4,1);
 						
 						var += Math.PI / 16;
 					}
@@ -114,7 +117,7 @@ public class ParticleEffect {
 					
 					for(int i = 0 ; i < 32 ; i++) {
 						e1 = normal.clone().add(Math.cos(var)*4, 0, Math.sin(var)*4);
-						world.spawnParticle(Particle.REDSTONE, e1, 2, 0,0.3,0.01,0.3,1);
+						world.spawnParticle(Particle.REDSTONE, e1, 0 ,0.3,0.01,0.3,1);
 						
 						if(i % 4 == 0) {
 							e3 = e1.clone().add(0,5,0);
@@ -166,17 +169,18 @@ public class ParticleEffect {
 				
 				if(!myTeam.equals(yourTeam)) {
 					p.damage(5);
+					
+					if(player.getHealth() >= 15) {
+						player.setHealth(20);
+					} else {
+						player.setHealth(player.getHealth() + 5);
+					}
+					
 					break;
 				}
 			}
 		}
 		
-		if(player.getHealth() >= 15) {
-			player.setHealth(20);
-		} else {
-			player.setHealth(player.getHealth() + 5);
-		}
-
 		world.playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 0.5f, 2.0f);
 	}
 
@@ -413,7 +417,7 @@ public class ParticleEffect {
 				Player p = (Player) ent;
 				String yourTeam = getTeam(p);
 				
-				if(myTeam.equals(yourTeam)) {
+				if(!myTeam.equals(yourTeam)) {
 					p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 100));
 					Location loc = p.getLocation();
 					loc.setPitch(p.getLocation().getPitch() + 180);
@@ -468,29 +472,6 @@ public class ParticleEffect {
 						e1 = normal.clone().add(Math.cos(var)*6, 0, Math.sin(var)*6);
 						world.spawnParticle(Particle.REDSTONE, e1, 2, 0,0.01,0.7,0.3,1);
 						
-						if(i % 4 == 0) {
-							e3 = e1.clone().add(0,5,0);
-							world.spawnParticle(Particle.REDSTONE, e3, 0,0.01,0.9,0.4,1);
-							e3 = e1.clone().add(0,4.5,0);
-							world.spawnParticle(Particle.REDSTONE, e3, 0,0.01,0.9,0.4,1);
-							e3 = e1.clone().add(0,4,0);
-							world.spawnParticle(Particle.REDSTONE, e3, 0,0.01,0.9,0.4,1);
-							e3 = e1.clone().add(0,3.5,0);
-							world.spawnParticle(Particle.REDSTONE, e3, 0,0.01,0.9,0.4,1);
-							e3 = e1.clone().add(0,3,0);
-							world.spawnParticle(Particle.REDSTONE, e3, 0,0.01,0.9,0.4,1);
-							e3 = e1.clone().add(0,2.5,0);
-							world.spawnParticle(Particle.REDSTONE, e3, 0,0.01,0.9,0.4,1);
-							e3 = e1.clone().add(0,2,0);
-							world.spawnParticle(Particle.REDSTONE, e3, 0,0.01,0.9,0.4,1);
-							e3 = e1.clone().add(0,1.5,0);
-							world.spawnParticle(Particle.REDSTONE, e3, 0,0.01,0.9,0.4,1);
-							e3 = e1.clone().add(0,1,0);
-							world.spawnParticle(Particle.REDSTONE, e3, 0,0.01,0.9,0.4,1);
-							e3 = e1.clone().add(0,0.5,0);
-							world.spawnParticle(Particle.REDSTONE, e3, 0,0.01,0.9,0.4,1);
-						}
-						
 						var += Math.PI / 16;
 					}
 					
@@ -528,12 +509,317 @@ public class ParticleEffect {
 		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 	}
 	
+	// 파이라
+	public void newEffect9() {
+		
+		World world = player.getWorld();
+		
+		Arrow arrow = player.launchProjectile(Arrow.class);
+		arrow.setShooter(player);
+		arrow.setVelocity(player.getLocation().getDirection().multiply(2.0f));		
+		world.spawnParticle(Particle.FLAME, arrow.getLocation(), 2);
+		world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5f, 1.0f);
+		
+		Item dItem = arrow.getWorld().dropItem(arrow.getLocation(), new ItemStack(Material.FIREBALL));
+		dItem.setPickupDelay(10000000);
+		arrow.addPassenger(dItem);
+		
+		Thread t = new Thread(player.getUniqueId());
+		sleep = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(Main.class), new Runnable() {
+			
+			@Override
+			public void run() {
+				if (!t.hasID()) {
+					t.setID(sleep);
+				}
+			
+				if(arrow.isDead()) {	
+					String myTeam = getTeam(player);
+					
+					for(Entity ent : arrow.getNearbyEntities(3, 3, 3)) {
+						if(ent instanceof Player) {
+							Player p = (Player) ent;
+							String yourTeam = getTeam(p);
+							
+							if(!myTeam.equals(yourTeam)) {
+								if(p.getPotionEffect(PotionEffectType.SLOW).getDuration() != 0) {
+									p.damage(6);
+								} else {
+									p.damage(3);
+								}
+								p.setFireTicks(100);
+								break;
+							}
+						}
+					}
+					t.endTask();
+					t.removeID();
+				}
+			}						
+			
+		}, 0, 1);
+		
+	}
+	
+	// 블리자드
+	public void newEffect10() {
+		
+		Location normal = player.getLocation();
+		World world = player.getWorld(); 
+		
+		world.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 3.0f, 1.0f);
+		
+		String myTeam = getTeam(player);
+		
+		for(Entity ent : player.getNearbyEntities(4, 4, 4)) {
+			if(ent instanceof Player) {
+				Player p = (Player) ent;
+				String yourTeam = getTeam(p);
+				
+				if(!myTeam.equals(yourTeam)) {
+					p.damage(2);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 1));
+				}
+			}
+		}
+        
+		new BukkitRunnable() {
+			int time = 0;
+			int size = 0;
+			
+		    Location e1, e2;
+
+			@Override
+			public void run() {
+				
+				if(time % 1 == 0) {
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						if(size % 2 == 0) {
+							e2 = normal.clone().add(Math.cos(var)*size, 0.5, Math.sin(var)*size);
+						} else {
+							e2 = normal.clone().add(Math.cos(var)*size, 0, Math.sin(var)*size);
+						}
+						world.spawnParticle(Particle.REDSTONE, e2, 0, 0.2,0.6,0.9,1);
+						
+						var += Math.PI / 16;
+					}
+					
+					if(size == 3) {
+						size = -1;
+					}
+					size++;
+				}
+				
+				if(time % 3 == 0) {
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = normal.clone().add(Math.cos(var)*4, 0, Math.sin(var)*4);
+						world.spawnParticle(Particle.REDSTONE, e1, 0 ,0.1,0.4,0.8,1);
+						
+						var += Math.PI / 16;
+					}
+				}
+
+				if(time >= 10) {
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
+	}
+	
+	// 시프트 브레이크
+	public void newEffect11() {
+		
+		World world = player.getWorld();
+
+		world.playSound(player.getLocation(), Sound.ENTITY_WITHER_BREAK_BLOCK, 1.0f, 0.7f);
+
+		String myTeam = getTeam(player);
+
+		for (Entity ent : player.getNearbyEntities(4, 4, 4)) {
+			if (ent instanceof Player) {
+				Player p = (Player) ent;
+				String yourTeam = getTeam(p);
+
+				if (!myTeam.equals(yourTeam)) {
+					Location loc = p.getLocation();
+					loc.add(0,1,0);
+					p.setVelocity(loc.getDirection().multiply(1.8f));
+				}
+			}
+		}
+
+	}
+
+	// 썬더가
+	public void newEffect12() {
+		
+		World world = player.getWorld();
+
+		world.playSound(player.getLocation(), Sound.ENTITY_WITHER_BREAK_BLOCK, 1.0f, 0.7f);
+		world.spawnEntity(player.getLocation(), EntityType.LIGHTNING);
+
+		String myTeam = getTeam(player);
+
+		for (Entity ent : player.getNearbyEntities(7, 7, 7)) {
+			if (ent instanceof Player) {
+				Player p = (Player) ent;
+				String yourTeam = getTeam(p);
+
+				if (!myTeam.equals(yourTeam)) {
+					p.damage(10);
+				}
+			}
+		}
+
+	}
+	
+	// 워커메이커
+	public void newEffect13() {
+		
+		Location normal = player.getLocation();
+		World world = player.getWorld(); 
+		
+		world.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1.0f, 1.5f);
+		
+		String myTeam = getTeam(player);
+		
+		for(Entity ent : player.getNearbyEntities(2, 2, 2)) {
+			if(ent instanceof Player) {
+				Player p = (Player) ent;
+				String yourTeam = getTeam(p);
+				
+				if(!myTeam.equals(yourTeam)) {
+					p.damage(8);
+				}
+			}
+		}
+        
+		new BukkitRunnable() {
+			int time = 0;
+			int size = 0;
+			
+		    Location e1, e2;
+
+			@Override
+			public void run() {
+				
+				if(time % 1 == 0) {
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						if(size % 2 == 0) {
+							e2 = normal.clone().add(Math.cos(var)*size, 0.5, Math.sin(var)*size);
+						} else {
+							e2 = normal.clone().add(Math.cos(var)*size, 0, Math.sin(var)*size);
+						}
+						world.spawnParticle(Particle.REDSTONE, e2, 0, 0.4,0.4,0.4,1);
+						
+						var += Math.PI / 16;
+					}
+					
+					if(size == 1) {
+						size = -1;
+					}
+					size++;
+				}
+				
+				if(time % 3 == 0) {
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = normal.clone().add(Math.cos(var)*2, 0, Math.sin(var)*2);
+						world.spawnParticle(Particle.REDSTONE, e1, 0 ,0.3,0.3,0.3,1);
+						
+						var += Math.PI / 16;
+					}
+				}
+
+				if(time >= 10) {
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
+	}
+	
+	// 인티미데이션
+	public void newEffect14() {
+		
+		World world = player.getWorld(); 
+		
+		world.playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 0.6f, 0.6f);
+		
+		String myTeam = getTeam(player);
+		
+		for(Entity ent : player.getNearbyEntities(1, 1, 1)) {
+			if(ent instanceof Player) {
+				Player p = (Player) ent;
+				String yourTeam = getTeam(p);
+				
+				if(!myTeam.equals(yourTeam)) {
+					p.damage(2);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 1));
+					p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 30, 1));
+				}
+			}
+		}
+        
+	}
+	
+	// 러시다운
+	public void newEffect15() {
+		Vector vec = player.getEyeLocation().getDirection().multiply(1.7f);
+		player.setVelocity(vec);
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 0.3f, 0.5f);
+	}
+	
+	// 마다토르
+	public void newEffect16() {
+		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 2));
+	}
+	
+	// 소환1
+	public void newEffect17() {
+		
+		new BukkitRunnable() {
+			int time = 0;
+			
+			Snowman ent;
+
+			@Override
+			public void run() {
+				
+				if(time == 0) {
+					ent = (Snowman) player.getWorld().spawnEntity(player.getLocation(), EntityType.SNOWMAN);
+					ent.setHealth(10);
+					ent.setCustomName(ChatColor.WHITE + "아이스 골렘");
+					ent.setCustomNameVisible(true);
+				}
+				
+				if(time >= 20) {
+					ent.setHealth(0);
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
+		
+	}
+	
 	public String getTeam(Player player) {
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		board = manager.getNewScoreboard();
-		
-		Team red = board.getEntryTeam("red");
-		
+		board = new BoardManager().getBoard();
+		Team red = new BoardManager().getRed();
 		if(red.getPlayers().contains(player)) {
 			return "red";
 		} else {

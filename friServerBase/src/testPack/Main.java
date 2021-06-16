@@ -23,11 +23,14 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -73,11 +76,12 @@ public class Main extends JavaPlugin implements Listener{
 		getCommand("blueteam").setExecutor(new Cmd2());
 		getCommand("giveToken").setExecutor(new Cmd3());
 		
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		board = manager.getNewScoreboard();
+		new BoardManager().startBoard();
 		
-		red = board.registerNewTeam("red");
-		blue = board.registerNewTeam("blue");
+		board = new BoardManager().getBoard();
+		
+		red = new BoardManager().getRed();
+		blue = new BoardManager().getBlue();
 		
 		red.setColor(ChatColor.DARK_RED);
 		blue.setColor(ChatColor.DARK_AQUA);
@@ -703,6 +707,19 @@ public class Main extends JavaPlugin implements Listener{
 					}
 				}
 			}
+		}
+		
+		if(damager instanceof Snowball) {
+			if(entity instanceof Player) {
+				event.setDamage(3);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void damage2Event(EntityDamageEvent event) {
+		if(event.getCause() == DamageCause.LIGHTNING) {
+			event.setCancelled(true);
 		}
 	}
 	

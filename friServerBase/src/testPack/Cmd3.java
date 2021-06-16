@@ -81,7 +81,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken1(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "흑마법사의 증표");
+		var2Im.setDisplayName(ChatColor.GOLD + "마우러스의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -96,7 +96,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken2(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "힐러의 증표");
+		var2Im.setDisplayName(ChatColor.GOLD + "나오의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
