@@ -22,8 +22,10 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
+import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -709,9 +711,21 @@ public class Main extends JavaPlugin implements Listener{
 			}
 		}
 		
+		if(damager instanceof Wolf) {
+			if(entity instanceof Player) {
+				event.setDamage(2);
+			}
+		}
+		
 		if(damager instanceof Snowball) {
 			if(entity instanceof Player) {
 				event.setDamage(3);
+			}
+		}
+		
+		if(damager instanceof IronGolem) {
+			if(entity instanceof Player) {
+				event.setDamage(5);
 			}
 		}
 	}

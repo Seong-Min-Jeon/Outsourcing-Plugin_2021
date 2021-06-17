@@ -62,6 +62,12 @@ public class Skill {
 			skill3(player, key);
 		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "루에리의 증표")) {
 			skill4(player, key);
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "루와이의 증표")) {
+			skill5(player, key);
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "아쿨의 증표")) {
+			skill6(player, key);
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "콜로서스의 증표")) {
+			skill7(player, key);
 		}
 	}
 	
@@ -238,7 +244,7 @@ public class Skill {
 		if (key.equals("RRR")) {
 			int cool = 30;
 			if (new CoolTime().coolCheck(player, cool, key)) {
-				new ParticleEffect(player).newEffect13();
+				new ParticleEffect(player).newEffect17();
 				player.sendMessage(ChatColor.GREEN + "[스킬]'하나된 별의 반짝임이, 새로운 기적을 비춰준다. 소환! 빛으로 태어나라! 아이스 골렘!'이 발동됩니다.");
 			} else {
 				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
@@ -247,7 +253,7 @@ public class Skill {
 		} else if (key.equals("RRL")) {
 			int cool = 30;
 			if (new CoolTime().coolCheck(player, cool, key)) {
-				new ParticleEffect(player).newEffect14();
+				new ParticleEffect(player).newEffect18();
 				player.sendMessage(ChatColor.GREEN + "[스킬]'결집한 별이 하나가 될 때, 새로운 유대가 미래를 밝히니, 빛이 비추는 길이 되어라! 소환! 진화의 빛, 울프 워리어!!'가 발동됩니다.");
 			} else {
 				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
@@ -256,7 +262,7 @@ public class Skill {
 		} else if (key.equals("RLL")) {
 			int cool = 30;
 			if (new CoolTime().coolCheck(player, cool, key)) {
-				new ParticleEffect(player).newEffect15();
+				new ParticleEffect(player).newEffect19();
 				player.sendMessage(ChatColor.GREEN + "[스킬]'클리어 마인드! 하나된 꿈의 결정이 새로운 진화의 문을 연다. 빛이 비추는 길이 되어라! 소환! 태어나라, 캣시 위저드!'가 발동됩니다.");
 			} else {
 				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
@@ -266,8 +272,92 @@ public class Skill {
 			if (player.getLevel() >= 10) {
 				player.setLevel(0);
 				player.setExp(0);
-				new ParticleEffect(player).newEffect16();
+				new ParticleEffect(player).newEffect20();
 				player.sendMessage(ChatColor.GREEN + "[스킬]'우주에 가득 찬 신비의 힘, 기적의 별에 쏟아져, 무한한 생명을 자아내라! 소환! 나타나라, 팬텀 나이트!'가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "궁극기는 10레벨에 사용할 수 있습니다.");
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		}
+	}
+	
+	// 아쿨
+	public void skill6(Player player, String key) {
+		if (key.equals("RRR")) {
+			int cool = 10;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect21();
+				player.sendMessage(ChatColor.GREEN + "[스킬]익스플로더가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RRL")) {
+			int cool = 30;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect22();
+				player.sendMessage(ChatColor.GREEN + "[스킬]퀵해머러시가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RLL")) {
+			int cool = 30;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect23();
+				player.sendMessage(ChatColor.GREEN + "[스킬]블러드팬이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RLR")) {
+			if (player.getLevel() >= 10) {
+				player.setLevel(0);
+				player.setExp(0);	
+				new ParticleEffect(player).newEffect24();
+				player.sendMessage(ChatColor.GREEN + "[스킬]더블콤바인이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "궁극기는 10레벨에 사용할 수 있습니다.");
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		}
+	}
+
+	// 콜로서스
+	public void skill7(Player player, String key) {
+		if (key.equals("RRR")) {
+			int cool = 40;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect25();
+				player.sendMessage(ChatColor.GREEN + "[스킬]기간틱앵거가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RRL")) {
+			int cool = 40;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect26();
+				player.sendMessage(ChatColor.GREEN + "[스킬]파워슬램이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RLL")) {
+			int cool = 20;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect27();
+				player.sendMessage(ChatColor.GREEN + "[스킬]아토믹버스터가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RLR")) {
+			if (player.getLevel() >= 10) {
+				player.setLevel(0);
+				player.setExp(0);	
+				new ParticleEffect(player).newEffect28();
+				player.sendMessage(ChatColor.GREEN + "[스킬]크레이그혼이 발동됩니다.");
 			} else {
 				player.sendMessage(ChatColor.WHITE + "궁극기는 10레벨에 사용할 수 있습니다.");
 				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);

@@ -18,12 +18,16 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
+import org.bukkit.entity.Ocelot;
+import org.bukkit.entity.Ocelot.Type;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowman;
 import org.bukkit.entity.SpectralArrow;
+import org.bukkit.entity.Wolf;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -800,12 +804,26 @@ public class ParticleEffect {
 				
 				if(time == 0) {
 					ent = (Snowman) player.getWorld().spawnEntity(player.getLocation(), EntityType.SNOWMAN);
-					ent.setHealth(10);
+					ent.setHealth(5);
 					ent.setCustomName(ChatColor.WHITE + "아이스 골렘");
 					ent.setCustomNameVisible(true);
+					
+					String myTeam = getTeam(player);
+					
+					for(Entity ent2 : player.getNearbyEntities(10, 10, 10)) {
+						if(ent2 instanceof Player) {
+							Player p = (Player) ent2;
+							String yourTeam = getTeam(p);
+							
+							if(!myTeam.equals(yourTeam)) {
+								ent.setTarget(p);
+								break;
+							}
+						}
+					}
 				}
 				
-				if(time >= 20) {
+				if(time >= 400) {
 					ent.setHealth(0);
 					this.cancel();
 				}
@@ -814,7 +832,301 @@ public class ParticleEffect {
 			}
 		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 		
+	}
+	
+	// 소환2
+	public void newEffect18() {
 		
+		new BukkitRunnable() {
+			int time = 0;
+			
+			Wolf ent;
+
+			@Override
+			public void run() {
+				
+				if(time == 0) {
+					ent = (Wolf) player.getWorld().spawnEntity(player.getLocation(), EntityType.WOLF);
+					ent.setHealth(5);
+					ent.setCustomName(ChatColor.WHITE + "울프 워리어");
+					ent.setCustomNameVisible(true);
+					
+					String myTeam = getTeam(player);
+					
+					for(Entity ent2 : player.getNearbyEntities(10, 10, 10)) {
+						if(ent2 instanceof Player) {
+							Player p = (Player) ent2;
+							String yourTeam = getTeam(p);
+							
+							if(!myTeam.equals(yourTeam)) {
+								ent.setTarget(p);
+								break;
+							}
+						}
+					}
+				}
+				
+				if(time >= 400) {
+					ent.setHealth(0);
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
+	}
+	
+	// 소환3
+	public void newEffect19() {
+		
+		new BukkitRunnable() {
+			int time = 0;
+			
+			Ocelot ent;
+			
+			@Override
+			public void run() {
+				
+				if(time == 0) {
+					ent = (Ocelot) player.getWorld().spawnEntity(player.getLocation(), EntityType.OCELOT);
+					ent.setHealth(5);
+					ent.setCatType(Type.BLACK_CAT);
+					ent.setCustomName(ChatColor.WHITE + "캣시 위저드");
+					ent.setCustomNameVisible(true);
+					
+					String myTeam = getTeam(player);
+					
+					for(Entity ent2 : ent.getNearbyEntities(2, 2, 2)) {
+						if(ent2 instanceof Player) {
+							Player p = (Player) ent2;
+							String yourTeam = getTeam(p);
+							
+							if(myTeam.equals(yourTeam)) {
+								ent.setTarget(p);
+								break;
+							}
+						}
+					}
+				}
+				
+				if(time % 80 == 0) {
+					String myTeam = getTeam(player);
+					
+					for(Entity ent2 : ent.getNearbyEntities(3, 3, 3)) {
+						if(ent2 instanceof Player) {
+							Player p = (Player) ent2;
+							String yourTeam = getTeam(p);
+							
+							if(myTeam.equals(yourTeam)) {
+								if(player.getHealth() >= 18) {
+									player.setHealth(20);
+								} else {
+									player.setHealth(player.getHealth() + 2);
+								}
+								break;
+							}
+						}
+					}
+				}
+				
+				if(time >= 400) {
+					ent.setHealth(0);
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
+	}
+	
+	// 소환4
+	public void newEffect20() {
+		
+		new BukkitRunnable() {
+			int time = 0;
+			
+			IronGolem ent;
+			
+			@Override
+			public void run() {
+				
+				if(time == 0) {
+					ent = (IronGolem) player.getWorld().spawnEntity(player.getLocation(), EntityType.IRON_GOLEM);
+					ent.setHealth(20);
+					ent.setCustomName(ChatColor.WHITE + "팬텀 나이트");
+					ent.setCustomNameVisible(true);
+					
+					String myTeam = getTeam(player);
+					
+					for(Entity ent2 : ent.getNearbyEntities(10, 10, 10)) {
+						if(ent2 instanceof Player) {
+							Player p = (Player) ent2;
+							String yourTeam = getTeam(p);
+							
+							if(!myTeam.equals(yourTeam)) {
+								ent.setTarget(p);
+								break;
+							}
+						}
+					}
+				}
+				
+				if(time >= 400) {
+					ent.setHealth(0);
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
+	}
+	
+	// 익스플로더
+	public void newEffect21() {
+		World world = player.getWorld();
+		
+		Arrow arrow = player.launchProjectile(Arrow.class);
+		arrow.setShooter(player);
+		arrow.setVelocity(player.getLocation().getDirection().multiply(2.0f));		
+		world.spawnParticle(Particle.FLAME, arrow.getLocation(), 2);
+		world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5f, 1.0f);
+		
+		Item dItem = arrow.getWorld().dropItem(arrow.getLocation(), new ItemStack(Material.CLAY_BALL));
+		dItem.setPickupDelay(10000000);
+		arrow.addPassenger(dItem);
+		
+		Thread t = new Thread(player.getUniqueId());
+		sleep = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(Main.class), new Runnable() {
+			
+			@Override
+			public void run() {
+				if (!t.hasID()) {
+					t.setID(sleep);
+				}
+			
+				if(arrow.isDead()) {	
+					player.teleport(arrow.getLocation());
+					t.endTask();
+					t.removeID();
+				}
+			}						
+			
+		}, 0, 1);
+	}
+	
+	// 퀵해머러시
+	public void newEffect22() {
+		player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 200, 1));
+	}
+	
+	// 블러드팬
+	public void newEffect23() {
+		player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
+	}
+	
+	// 더블콤바인
+	public void newEffect24() {
+		World world = player.getWorld(); 
+		
+		world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 2.0f);
+		
+		player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 400, 1));
+		
+		String myTeam = getTeam(player);
+		
+		for(Entity ent : player.getNearbyEntities(8, 8, 8)) {
+			if(ent instanceof Player) {
+				Player p = (Player) ent;
+				String yourTeam = getTeam(p);
+				
+				if(!myTeam.equals(yourTeam)) {
+					p.damage(2);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 400, 1));
+				}
+			}
+		}
+	}
+	
+	// 기간틱앵거 
+	public void newEffect25() {
+		World world = player.getWorld(); 
+		
+		world.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_CHAIN, 2.0f, 0.6f);
+		
+		String myTeam = getTeam(player);
+		
+		for(Entity ent : player.getNearbyEntities(3, 3, 3)) {
+			if(ent instanceof Player) {
+				Player p = (Player) ent;
+				String yourTeam = getTeam(p);
+				
+				if(!myTeam.equals(yourTeam)) {
+					p.teleport(player);
+				}
+			}
+		}
+	}
+	
+	// 파워슬램
+	public void newEffect26() {
+		World world = player.getWorld(); 
+		
+		world.playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 0.6f, 0.6f);
+		
+		String myTeam = getTeam(player);
+		
+		for(Entity ent : player.getNearbyEntities(4, 4, 4)) {
+			if(ent instanceof Player) {
+				Player p = (Player) ent;
+				String yourTeam = getTeam(p);
+				
+				if(!myTeam.equals(yourTeam)) {
+					p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30, 1));
+					p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 30, 1));
+				}
+			}
+		}
+	}
+	
+	// 아토믹버스터
+	public void newEffect27() {
+		World world = player.getWorld(); 
+		
+		if(player.getHealth() <= 5) {
+			player.setHealth(0);
+		} else {
+			player.setHealth(player.getHealth() - 5);
+		}
+		
+		world.playSound(player.getLocation(), Sound.ENTITY_GENERIC_DRINK, 1.0f, 1.0f);
+		
+		player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 2));
+	}
+	
+	// 크레이그혼
+	public void newEffect28() {
+		World world = player.getWorld(); 
+		
+		world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 0.5f);
+		
+		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 1));
+		
+		String myTeam = getTeam(player);
+		
+		for(Entity ent : player.getNearbyEntities(5, 5, 5)) {
+			if(ent instanceof Player) {
+				Player p = (Player) ent;
+				String yourTeam = getTeam(p);
+				
+				if(myTeam.equals(yourTeam)) {
+					p.damage(2);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 1));
+				}
+			}
+		}
 	}
 	
 	public String getTeam(Player player) {
