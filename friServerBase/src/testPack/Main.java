@@ -367,6 +367,13 @@ public class Main extends JavaPlugin implements Listener{
 		} catch(Exception e11) {
 
 		}
+		try {
+			Player player = (Player) event.getPlayer();
+			
+			new CoolTime().resetTime(player);
+		} catch(Exception e11) {
+
+		}
 	}
 	
 	@EventHandler
@@ -678,12 +685,14 @@ public class Main extends JavaPlugin implements Listener{
 				if(red.getPlayers().contains(p1)) {
 					if(red.getPlayers().contains(p2)) {
 						event.setCancelled(true);
+						return;
 					}
 				}
 				
 				if(blue.getPlayers().contains(p1)) {
 					if(blue.getPlayers().contains(p2)) {
 						event.setCancelled(true);
+						return;
 					}
 				}
 			}
@@ -699,12 +708,14 @@ public class Main extends JavaPlugin implements Listener{
 					if(red.getPlayers().contains(p1)) {
 						if(red.getPlayers().contains(p2)) {
 							event.setCancelled(true);
+							return;
 						}
 					}
 					
 					if(blue.getPlayers().contains(p1)) {
 						if(blue.getPlayers().contains(p2)) {
 							event.setCancelled(true);
+							return;
 						}
 					}
 				}
@@ -727,6 +738,42 @@ public class Main extends JavaPlugin implements Listener{
 			if(entity instanceof Player) {
 				event.setDamage(5);
 			}
+		}
+		
+		if(damager instanceof Arrow) {
+			if(entity instanceof Player) {
+				event.setDamage(2);
+			}
+			
+			if(damager.getCustomName() != null) {
+				if(damager.getCustomName().equals("독")) {
+					new BukkitRunnable() {
+						int time = 0;
+						
+						@Override
+						public void run() {
+							
+							if(time % 4 == 0) {
+								if(entity instanceof Player) {
+									Player p = (Player) entity;
+									p.damage(2);
+								}
+							}
+
+							if(time >= 20) {
+								this.cancel();
+							}
+							
+							time++;
+						}
+					}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+				}
+				
+				if(damager.getCustomName().equals("저지")) {
+					entity.teleport(((Entity)(((Arrow) damager).getShooter())).getLocation());
+				}
+			}
+			
 		}
 	}
 	

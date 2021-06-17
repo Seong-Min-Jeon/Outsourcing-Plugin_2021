@@ -106,6 +106,24 @@ public class CoolTime {
 		return cool;
 	}
 	
+	public void resetTime(Player player) {
+		
+		HashMap<String, String> hash1 = new HashMap<>();
+		String id = player.getUniqueId().toString();
+		hash1.put(id, "RRR");
+		map.put(hash1, 100000);
+		HashMap<String, String> hash2 = new HashMap<>();
+		hash2.put(id, "RRL");
+		map.put(hash2, 100000);
+		HashMap<String, String> hash3 = new HashMap<>();
+		hash3.put(id, "RLL");
+		map.put(hash3, 100000);
+		HashMap<String, String> hash4 = new HashMap<>();
+		hash4.put(id, "RLR");
+		map.put(hash4, 100000);
+		
+	}
+	
 	
 	public void showHash(HashMap<HashMap<String, String>, Integer> hash) {
 //		for(HashMap<String, String> tmp : hash.keySet()) {

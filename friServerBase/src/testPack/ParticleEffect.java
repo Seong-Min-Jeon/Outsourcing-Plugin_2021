@@ -1129,6 +1129,260 @@ public class ParticleEffect {
 		}
 	}
 	
+	// 이글훅
+	public void newEffect29() {
+		
+		Vector vec = player.getEyeLocation().getDirection().multiply(2.0f);
+		player.setVelocity(vec);
+		
+		World world = player.getWorld(); 
+		
+		world.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 1.0f, 3.0f);
+		
+		new BukkitRunnable() {
+			int time = 0;
+			
+		    Location e1;
+
+			@Override
+			public void run() {
+				
+				Location loc = player.getLocation();
+				
+				if(time == 18) {
+					double rot = Math.toRadians(loc.getYaw());
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.5-(i*0.05), Math.sin(var+rot)*1.5);
+						world.spawnParticle(Particle.REDSTONE, e1, 0,0.9,0.9,0.9,1);
+						
+						var += Math.PI / 32;
+					}	
+					
+					var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.3-(i*0.05), Math.sin(var+rot)*1.5);
+						world.spawnParticle(Particle.REDSTONE, e1, 0,0.8,0.8,0.8,1);
+						
+						var += Math.PI / 32;
+					}
+					
+					world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 2.0f);
+					
+					String myTeam = getTeam(player);
+					
+					for(Entity ent : player.getNearbyEntities(2, 2, 2)) {
+						if(ent instanceof Player) {
+							Player p = (Player) ent;
+							String yourTeam = getTeam(p);
+							
+							if(!myTeam.equals(yourTeam)) {
+								p.damage(5);
+							}
+						}
+					}
+				}
+
+				if(time >= 20) {
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+	}
+	
+	// 플리커
+	public void newEffect30() {
+		
+		Vector vec = player.getEyeLocation().getDirection().multiply(-1.6f);
+		player.setVelocity(vec);
+		
+		World world = player.getWorld(); 
+		
+		world.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_CHAIN, 2.0f, 0.6f);
+		
+		String myTeam = getTeam(player);
+		
+		for(Entity ent : player.getNearbyEntities(3, 3, 3)) {
+			if(ent instanceof Player) {
+				Player p = (Player) ent;
+				String yourTeam = getTeam(p);
+				
+				if(!myTeam.equals(yourTeam)) {
+					p.teleport(player);
+				}
+			}
+		}
+	}
+	
+	// 소닉팡
+	public void newEffect31() {
+		
+		World world = player.getWorld(); 
+		
+		world.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 4.0f);
+		
+		String myTeam = getTeam(player);
+		
+		for(Entity ent : player.getNearbyEntities(2, 2, 2)) {
+			if(ent instanceof Player) {
+				Player p = (Player) ent;
+				String yourTeam = getTeam(p);
+				
+				if(!myTeam.equals(yourTeam)) {
+					p.damage(5);
+					p.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 60, 0));
+				}
+			}
+		}
+	}
+	
+	// 파워 크래시
+	public void newEffect32() {
+		player.setNoDamageTicks(40);
+		player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 40, 0));
+	}
+	
+	// 포이즈너
+	public void newEffect33() {
+		
+		World world = player.getWorld();
+		Location loc = player.getLocation();
+		
+		Arrow arrow = player.launchProjectile(Arrow.class);
+		arrow.setShooter(player);
+		arrow.setCustomName("독");
+		arrow.setVelocity(player.getEyeLocation().getDirection().multiply(3.0f));
+		player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, loc.add(0,1,0), 0);			
+		world.playSound(player.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1.0f, 1.0f);
+		
+		SpectralArrow sarrow = (SpectralArrow) arrow.getWorld().spawnEntity(player.getEyeLocation(), EntityType.SPECTRAL_ARROW);
+		sarrow.setVelocity(arrow.getVelocity());
+		
+	}
+	
+	// 에로우 실드
+	public void newEffect34() {
+		
+		World world = player.getWorld();
+		
+		world.playSound(player.getLocation(), Sound.ENTITY_WITHER_BREAK_BLOCK, 1.0f, 1.0f);
+		Thread t = new Thread(player.getUniqueId());
+		sleep = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(Main.class), new Runnable() {
+
+			int time = 0;
+			double var = 0;
+			Location loc, first, second;
+			
+			@Override
+			public void run() {
+				if (!t.hasID()) {
+					t.setID(sleep);
+				}
+			
+				if(time>=200) {								
+					t.endTask();
+					t.removeID();
+				} 
+
+				String myTeam = getTeam(player);
+				
+				for(Entity ent : player.getNearbyEntities(2, 2, 2)) {
+					if(ent instanceof Player) {
+						Player p = (Player) ent;
+						String yourTeam = getTeam(p);
+						
+						if(!myTeam.equals(yourTeam)) {
+							p.damage(1);
+							p.setVelocity(new Vector(0.3,1,0.3));
+							time += 49;
+						}
+					}
+				}
+			
+				time++;
+				
+				var += Math.PI / 16;
+				loc = player.getLocation();
+				first = loc.clone().add(Math.cos(var), Math.sin(var) + 1, Math.sin(var));
+				second = loc.clone().add(Math.cos(var + Math.PI), Math.sin(var) + 1, Math.sin(var + Math.PI));
+				
+				
+				world.spawnParticle(Particle.TOTEM, first, 0);
+				world.spawnParticle(Particle.TOTEM, second, 0);
+			}						
+			
+		}, 0, 1);
+	}
+	
+	// 저지먼트 스크류
+	public void newEffect35() {
+		
+		World world = player.getWorld();
+		Location loc = player.getLocation();
+		
+		Arrow arrow = player.launchProjectile(Arrow.class);
+		arrow.setShooter(player);
+		arrow.setCustomName("저지");
+		arrow.setVelocity(player.getEyeLocation().getDirection().multiply(3.0f));
+		player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, loc.add(0,1,0), 0);			
+		world.playSound(player.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1.0f, 1.0f);
+		
+		SpectralArrow sarrow = (SpectralArrow) arrow.getWorld().spawnEntity(player.getEyeLocation(), EntityType.SPECTRAL_ARROW);
+		sarrow.setVelocity(arrow.getVelocity());
+		
+	}
+	
+	// 밤 에로우
+	public void newEffect36() {
+		
+		World world = player.getWorld();
+		Location loc = player.getLocation();
+		
+		Arrow arrow = player.launchProjectile(Arrow.class);
+		arrow.setShooter(player);
+		arrow.setVelocity(player.getEyeLocation().getDirection().multiply(3.0f));
+		player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, loc.add(0,1,0), 0);			
+		world.playSound(player.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1.0f, 1.0f);
+		
+		SpectralArrow sarrow = (SpectralArrow) arrow.getWorld().spawnEntity(player.getEyeLocation(), EntityType.SPECTRAL_ARROW);
+		sarrow.setVelocity(arrow.getVelocity());
+		
+		Thread t = new Thread(player.getUniqueId());
+		sleep = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(Main.class), new Runnable() {
+			
+			@Override
+			public void run() {
+				if (!t.hasID()) {
+					t.setID(sleep);
+				}
+			
+				if(arrow.isDead()) {	
+					String myTeam = getTeam(player);
+					
+					for(Entity ent : arrow.getNearbyEntities(4, 4, 4)) {
+						if(ent instanceof Player) {
+							Player p = (Player) ent;
+							String yourTeam = getTeam(p);
+							
+							if(!myTeam.equals(yourTeam)) {
+								p.damage(8);
+								break;
+							}
+						}
+					}
+					t.endTask();
+					t.removeID();
+				}
+			}						
+			
+		}, 0, 1);
+		
+	}
+	
 	public String getTeam(Player player) {
 		board = new BoardManager().getBoard();
 		Team red = new BoardManager().getRed();

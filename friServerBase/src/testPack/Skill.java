@@ -68,6 +68,10 @@ public class Skill {
 			skill6(player, key);
 		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "콜로서스의 증표")) {
 			skill7(player, key);
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "스티브의 증표")) {
+			skill8(player, key);
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "마리의 증표")) {
+			skill9(player, key);
 		}
 	}
 	
@@ -358,6 +362,89 @@ public class Skill {
 				player.setExp(0);	
 				new ParticleEffect(player).newEffect28();
 				player.sendMessage(ChatColor.GREEN + "[스킬]크레이그혼이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "궁극기는 10레벨에 사용할 수 있습니다.");
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		}
+	}
+	
+	// 스티브
+	public void skill8(Player player, String key) {
+		if (key.equals("RRR")) {
+			int cool = 10;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect29();
+				player.sendMessage(ChatColor.GREEN + "[스킬]이글훅이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RRL")) {
+			int cool = 20;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect30();
+				player.sendMessage(ChatColor.GREEN + "[스킬]플리커가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RLL")) {
+			int cool = 20;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect31();
+				player.sendMessage(ChatColor.GREEN + "[스킬]소닉팡이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RLR")) {
+			int cool = 60;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect32();
+				player.sendMessage(ChatColor.GREEN + "[스킬]파워크래시가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		}
+	}
+	
+	// 마리
+	public void skill9(Player player, String key) {
+		if (key.equals("RRR")) {
+			int cool = 15;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect33();
+				player.sendMessage(ChatColor.GREEN + "[스킬]포이즈너가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RRL")) {
+			int cool = 20;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect34();
+				player.sendMessage(ChatColor.GREEN + "[스킬]에로우 실드가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RLL")) {
+			int cool = 30;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect35();
+				player.sendMessage(ChatColor.GREEN + "[스킬]저지먼트 스크류가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RLR")) {
+			if (player.getLevel() >= 10) {
+				player.setLevel(0);
+				player.setExp(0);	
+				new ParticleEffect(player).newEffect36();
+				player.sendMessage(ChatColor.GREEN + "[스킬]밤 에로우가 발동됩니다.");
 			} else {
 				player.sendMessage(ChatColor.WHITE + "궁극기는 10레벨에 사용할 수 있습니다.");
 				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
