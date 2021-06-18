@@ -1815,7 +1815,7 @@ public class ParticleEffect {
 		World world = player.getWorld(); 
 		
 		player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 150, 0));
-		player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 150, 0));
+		player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 150, 2));
 		player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 150, 100));
 		player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 150, 200));
 		player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 150, 3));
