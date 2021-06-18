@@ -63,6 +63,130 @@ public class ParticleEffect {
 				
 				Location loc = player.getLocation();
 				
+				if(time == 2) {
+					double rot = Math.toRadians(loc.getYaw());
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.5-(i*0.05), Math.sin(var+rot)*1.5);
+						world.spawnParticle(Particle.REDSTONE, e1, 0,0.3,0.7,0.3,1);
+						
+						var += Math.PI / 32;
+					}	
+					
+					var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.3-(i*0.05), Math.sin(var+rot)*1.5);
+						world.spawnParticle(Particle.REDSTONE, e1, 0,0.2,0.5,0.2,1);
+						
+						var += Math.PI / 32;
+					}
+					
+					world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 2.0f);
+					
+					List<Entity> entitylist = player.getNearbyEntities(3, 3, 3);				
+					for (Entity nearEntity : entitylist) {
+						if (nearEntity instanceof LivingEntity) {
+							LivingEntity ent = (LivingEntity) nearEntity;
+							ent.damage(2);
+						}
+					}
+				}
+				
+				if(time == 6) {
+					double rot = Math.toRadians(loc.getYaw());
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.5-(i*0.05), Math.sin(var+rot)*1.5);
+						world.spawnParticle(Particle.REDSTONE, e1, 0,0.3,0.7,0.3,1);
+						
+						var += Math.PI / 32;
+					}	
+					
+					var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.3-(i*0.05), Math.sin(var+rot)*1.5);
+						world.spawnParticle(Particle.REDSTONE, e1, 0,0.2,0.5,0.2,1);
+						
+						var += Math.PI / 32;
+					}
+					
+					world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 2.0f);
+					
+					List<Entity> entitylist = player.getNearbyEntities(3, 3, 3);				
+					for (Entity nearEntity : entitylist) {
+						if (nearEntity instanceof LivingEntity) {
+							LivingEntity ent = (LivingEntity) nearEntity;
+							ent.damage(2);
+						}
+					}
+				}
+				
+				if(time == 10) {
+					double rot = Math.toRadians(loc.getYaw());
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.5-(i*0.05), Math.sin(var+rot)*1.5);
+						world.spawnParticle(Particle.REDSTONE, e1, 0,0.3,0.7,0.3,1);
+						
+						var += Math.PI / 32;
+					}	
+					
+					var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.3-(i*0.05), Math.sin(var+rot)*1.5);
+						world.spawnParticle(Particle.REDSTONE, e1, 0,0.2,0.5,0.2,1);
+						
+						var += Math.PI / 32;
+					}
+					
+					world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 2.0f);
+					
+					List<Entity> entitylist = player.getNearbyEntities(3, 3, 3);				
+					for (Entity nearEntity : entitylist) {
+						if (nearEntity instanceof LivingEntity) {
+							LivingEntity ent = (LivingEntity) nearEntity;
+							ent.damage(2);
+						}
+					}
+				}
+				
+				if(time == 14) {
+					double rot = Math.toRadians(loc.getYaw());
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.5-(i*0.05), Math.sin(var+rot)*1.5);
+						world.spawnParticle(Particle.REDSTONE, e1, 0,0.3,0.7,0.3,1);
+						
+						var += Math.PI / 32;
+					}	
+					
+					var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.3-(i*0.05), Math.sin(var+rot)*1.5);
+						world.spawnParticle(Particle.REDSTONE, e1, 0,0.2,0.5,0.2,1);
+						
+						var += Math.PI / 32;
+					}
+					
+					world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 2.0f);
+					
+					List<Entity> entitylist = player.getNearbyEntities(3, 3, 3);				
+					for (Entity nearEntity : entitylist) {
+						if (nearEntity instanceof LivingEntity) {
+							LivingEntity ent = (LivingEntity) nearEntity;
+							ent.damage(2);
+						}
+					}
+				}
+				
 				if(time == 18) {
 					double rot = Math.toRadians(loc.getYaw());
 					double var = 0;
@@ -90,7 +214,7 @@ public class ParticleEffect {
 					for (Entity nearEntity : entitylist) {
 						if (nearEntity instanceof LivingEntity) {
 							LivingEntity ent = (LivingEntity) nearEntity;
-							ent.damage(10);
+							ent.damage(4);
 						}
 					}
 				}

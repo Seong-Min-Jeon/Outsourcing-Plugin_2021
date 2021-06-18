@@ -77,11 +77,13 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.material.Button;
 import org.bukkit.material.Crops;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -144,6 +146,10 @@ public class Main extends JavaPlugin implements Listener{
 					event.setDamage(event.getDamage() * 1.5);
 				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
 					event.setDamage(event.getDamage() * 1.5);
+				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("19")) {
+					event.setDamage(event.getDamage() * 0.3);
+				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("20")) {
+					event.setDamage(event.getDamage() * 0.3);
 				}
 			}
 			
@@ -161,6 +167,10 @@ public class Main extends JavaPlugin implements Listener{
 						event.setDamage(event.getDamage() * 1.5);
 					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
 						event.setDamage(event.getDamage() * 1.5);
+					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("19")) {
+						event.setDamage(event.getDamage() * 0.3);
+					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("20")) {
+						event.setDamage(event.getDamage() * 0.3);
 					}
 				}
 			}
@@ -200,6 +210,20 @@ public class Main extends JavaPlugin implements Listener{
 					
 					if(player.getInventory().getItemInOffHand().getType() == Material.getMaterial("ICEANDFIRE_FISHING_SPEAR")) {
 						event.setCancelled(true);
+					}
+					
+					if(player.getInventory().getItemInMainHand().getType() == Material.POTION) {
+						PotionMeta pm = (PotionMeta) player.getInventory().getItemInMainHand().getItemMeta();
+						if(pm.getBasePotionData().getType() == PotionType.FIRE_RESISTANCE) {
+							event.setCancelled(true);
+						}
+					}
+					
+					if(player.getInventory().getItemInOffHand().getType() == Material.POTION) {
+						PotionMeta pm = (PotionMeta) player.getInventory().getItemInOffHand().getItemMeta();
+						if(pm.getBasePotionData().getType() == PotionType.FIRE_RESISTANCE) {
+							event.setCancelled(true);
+						}
 					}
 				} catch(Exception e2) {
 					
@@ -516,6 +540,18 @@ public class Main extends JavaPlugin implements Listener{
 					}
 				}
 			}
+			if(player.getInventory().contains(Material.POTION)) {
+				for (ItemStack is : player.getInventory().getContents()) {
+					if (is == null)
+						continue;
+					if (is.getType() == Material.POTION) {
+						PotionMeta pm = (PotionMeta) is.getItemMeta();
+						if(pm.getBasePotionData().getType() == PotionType.FIRE_RESISTANCE) {
+							is.setAmount(0);
+						}
+					}
+				}
+			}
 		} catch (Exception e7) {
 			System.err.println(e7);
 		}
@@ -593,6 +629,17 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void moveEvent(PlayerMoveEvent event) {
+		try {
+			Player player = event.getPlayer();
+			if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("19")) {
+				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 2, true, false));
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("20")) {
+				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 2, true, false));
+			}
+		} catch(Exception e) {
+			
+		}
+		
 		try {
 			if(event.getFrom().getBlockX() != event.getTo().getBlockX() || event.getFrom().getBlockZ() != event.getTo().getBlockZ()) {
 				Player player = event.getPlayer();
