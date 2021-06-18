@@ -353,9 +353,9 @@ public class Main extends JavaPlugin implements Listener{
 					
 					if(time >= 200) {
 						if(red.getPlayers().contains(player)) {
-							player.teleport(new Location(player.getWorld(), -123, 64, -5));
+							player.teleport(new Location(player.getWorld(), -123, 114, 96));
 						} else if(blue.getPlayers().contains(player)) {
-							player.teleport(new Location(player.getWorld(), -123, 64, 85, 180, 0));
+							player.teleport(new Location(player.getWorld(), -123, 114, -16, 180, 0));
 						} else {
 							player.teleport(new Location(player.getWorld(),-49.5,64,33.5,90,0));
 							player.getInventory().clear();
@@ -580,7 +580,7 @@ public class Main extends JavaPlugin implements Listener{
 												    }
 													all.setFireTicks(0);
 													
-													all.teleport(new Location(all.getWorld(), -123, 64, -5));
+													all.teleport(new Location(all.getWorld(), -123, 114, 96));
 												} else if (loc2.getX() <= -49 && loc2.getY() <= 255 && loc2.getZ() <= 49 
 														&& loc2.getX() >= -59 && loc2.getY() >= 0 && loc2.getZ() >= 39) {
 													// 블루팀
@@ -622,7 +622,7 @@ public class Main extends JavaPlugin implements Listener{
 												    }
 													all.setFireTicks(0);
 													
-													all.teleport(new Location(all.getWorld(), -123, 64, 85, 180, 0));
+													all.teleport(new Location(all.getWorld(), -123, 114, -16, 180, 0));
 												}
 											}
 										} catch(Exception e) {
