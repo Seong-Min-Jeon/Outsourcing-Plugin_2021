@@ -197,6 +197,37 @@ public class Main extends JavaPlugin implements Listener{
 	}
 	
 	@EventHandler
+	public void damage2Event(EntityDamageEvent event) {
+		try {
+			Entity entity = event.getEntity();
+			if(entity instanceof Player) {
+				Player player = (Player) entity;
+				for(Entity ent : player.getNearbyEntities(20, 30, 20)) {
+					System.out.println(ent.getName());
+					if(ent.getName().equals("Fire Dragon")) {
+						event.setDamage(event.getDamage() * 2);
+					} else if(ent.getName().equals("Ice Dragon")) {
+						event.setDamage(event.getDamage() * 2);
+					}
+				}
+			}
+		} catch(Exception e) {
+			
+		}
+		
+		try {
+			Entity entity = event.getEntity();
+			if(entity.getName().equals("Fire Dragon")) {
+				event.setDamage(event.getDamage() * 0.5);
+			} else if(entity.getName().equals("Ice Dragon")) {
+				event.setDamage(event.getDamage() * 0.5);
+			}
+		} catch(Exception e) {
+			
+		}
+	}
+	
+	@EventHandler
 	public void mouseEvent(PlayerInteractEvent event) {
 		try {
 			EquipmentSlot e = event.getHand();

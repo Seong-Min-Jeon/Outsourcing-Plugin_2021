@@ -25,6 +25,7 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Ocelot.Type;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.PolarBear;
 import org.bukkit.entity.Snowman;
 import org.bukkit.entity.SpectralArrow;
 import org.bukkit.entity.Wolf;
@@ -215,7 +216,7 @@ public class ParticleEffect {
 				if(arrow.isDead()) {	
 					String myTeam = getTeam(player);
 					
-					for(Entity ent : arrow.getNearbyEntities(1, 1, 1)) {
+					for(Entity ent : arrow.getNearbyEntities(1, 3, 1)) {
 						if(ent instanceof Player) {
 							Player p = (Player) ent;
 							String yourTeam = getTeam(p);
@@ -284,7 +285,7 @@ public class ParticleEffect {
 				if(arrow.isDead()) {	
 					String myTeam = getTeam(player);
 					
-					for(Entity ent : arrow.getNearbyEntities(2, 2, 2)) {
+					for(Entity ent : arrow.getNearbyEntities(2, 3, 2)) {
 						if(ent instanceof Player) {
 							Player p = (Player) ent;
 							String yourTeam = getTeam(p);
@@ -357,7 +358,7 @@ public class ParticleEffect {
 						} else {
 							e2 = normal.clone().add(Math.cos(var)*size, 0, Math.sin(var)*size);
 						}
-						world.spawnParticle(Particle.REDSTONE, e2, 2, 0,0.01,0.8,0.5,1);
+						world.spawnParticle(Particle.REDSTONE, e2, 2, 0.01,0.8,0.5,1);
 						
 						var += Math.PI / 16;
 					}
@@ -373,7 +374,7 @@ public class ParticleEffect {
 					
 					for(int i = 0 ; i < 32 ; i++) {
 						e1 = normal.clone().add(Math.cos(var)*4, 0, Math.sin(var)*4);
-						world.spawnParticle(Particle.REDSTONE, e1, 2, 0,0.01,0.7,0.3,1);
+						world.spawnParticle(Particle.REDSTONE, e1, 2, 0.01,0.7,0.3,1);
 						
 						if(i % 4 == 0) {
 							e3 = e1.clone().add(0,5,0);
@@ -422,7 +423,7 @@ public class ParticleEffect {
 				String yourTeam = getTeam(p);
 				
 				if(!myTeam.equals(yourTeam)) {
-					p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 100));
+					p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 100));
 					Location loc = p.getLocation();
 					loc.setPitch(p.getLocation().getPitch() + 180);
 					p.teleport(loc);
@@ -458,7 +459,7 @@ public class ParticleEffect {
 						} else {
 							e2 = normal.clone().add(Math.cos(var)*size, 0, Math.sin(var)*size);
 						}
-						world.spawnParticle(Particle.REDSTONE, e2, 2, 0,0.01,0.8,0.5,1);
+						world.spawnParticle(Particle.REDSTONE, e2, 2, 0.01,0.8,0.5,1);
 						
 						var += Math.PI / 16;
 					}
@@ -469,12 +470,12 @@ public class ParticleEffect {
 					size++;
 				}
 				
-				if(time % 3 == 0) {
+				if(time % 10 == 0) {
 					double var = 0;
 					
 					for(int i = 0 ; i < 32 ; i++) {
 						e1 = normal.clone().add(Math.cos(var)*6, 0, Math.sin(var)*6);
-						world.spawnParticle(Particle.REDSTONE, e1, 2, 0,0.01,0.7,0.3,1);
+						world.spawnParticle(Particle.REDSTONE, e1, 2, 0.01,0.7,0.3,1);
 						
 						var += Math.PI / 16;
 					}
@@ -504,7 +505,7 @@ public class ParticleEffect {
 					}
 				}
 				
-				if(time >= 20) {
+				if(time >= 60) {
 					this.cancel();
 				}
 				
@@ -546,7 +547,7 @@ public class ParticleEffect {
 							String yourTeam = getTeam(p);
 							
 							if(!myTeam.equals(yourTeam)) {
-								if(p.getPotionEffect(PotionEffectType.SLOW).getDuration() != 0) {
+								if(p.getPotionEffect(PotionEffectType.SLOW) == null) {
 									p.damage(6);
 								} else {
 									p.damage(3);
@@ -654,7 +655,7 @@ public class ParticleEffect {
 				if (!myTeam.equals(yourTeam)) {
 					Location loc = p.getLocation();
 					loc.add(0,1,0);
-					p.setVelocity(loc.getDirection().multiply(1.8f));
+					p.setVelocity(loc.getDirection().multiply(-3.0f));
 				}
 			}
 		}
@@ -804,6 +805,7 @@ public class ParticleEffect {
 				
 				if(time == 0) {
 					ent = (Snowman) player.getWorld().spawnEntity(player.getLocation(), EntityType.SNOWMAN);
+					ent.setMaxHealth(5);
 					ent.setHealth(5);
 					ent.setCustomName(ChatColor.WHITE + "아이스 골렘");
 					ent.setCustomNameVisible(true);
@@ -840,15 +842,16 @@ public class ParticleEffect {
 		new BukkitRunnable() {
 			int time = 0;
 			
-			Wolf ent;
+			PolarBear ent;
 
 			@Override
 			public void run() {
 				
 				if(time == 0) {
-					ent = (Wolf) player.getWorld().spawnEntity(player.getLocation(), EntityType.WOLF);
+					ent = (PolarBear) player.getWorld().spawnEntity(player.getLocation(), EntityType.POLAR_BEAR);
+					ent.setMaxHealth(5);
 					ent.setHealth(5);
-					ent.setCustomName(ChatColor.WHITE + "울프 워리어");
+					ent.setCustomName(ChatColor.WHITE + "쿠마 워리어");
 					ent.setCustomNameVisible(true);
 					
 					String myTeam = getTeam(player);
@@ -890,6 +893,7 @@ public class ParticleEffect {
 				
 				if(time == 0) {
 					ent = (Ocelot) player.getWorld().spawnEntity(player.getLocation(), EntityType.OCELOT);
+					ent.setMaxHealth(5);
 					ent.setHealth(5);
 					ent.setCatType(Type.BLACK_CAT);
 					ent.setCustomName(ChatColor.WHITE + "캣시 위저드");
@@ -954,6 +958,7 @@ public class ParticleEffect {
 				
 				if(time == 0) {
 					ent = (IronGolem) player.getWorld().spawnEntity(player.getLocation(), EntityType.IRON_GOLEM);
+					ent.setMaxHealth(20);
 					ent.setHealth(20);
 					ent.setCustomName(ChatColor.WHITE + "팬텀 나이트");
 					ent.setCustomNameVisible(true);

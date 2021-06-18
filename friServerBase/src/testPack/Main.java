@@ -22,17 +22,23 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.IronGolem;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
+import org.bukkit.entity.SpectralArrow;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -725,9 +731,24 @@ public class Main extends JavaPlugin implements Listener{
 			}
 		}
 		
+		try {
+			if (event.getDamager() instanceof SpectralArrow) {
+				event.setCancelled(true);
+				return;
+			}
+		} catch (Exception e) {
+
+		}
+		
 		if(damager instanceof Wolf) {
 			if(entity instanceof Player) {
 				event.setDamage(2);
+			}
+		}
+		
+		if(damager instanceof Ocelot) {
+			if(entity instanceof Player) {
+				event.setCancelled(true);
 			}
 		}
 		
@@ -870,20 +891,30 @@ public class Main extends JavaPlugin implements Listener{
 	}
 	
 	@EventHandler
+	public void arrowRemove(ProjectileHitEvent event) {
+		try {
+			event.getEntity().getPassenger().remove(); 
+		} catch(Exception e) {
+			
+		}
+		event.getEntity().remove();
+	}
+	
+	@EventHandler
 	public void moveEvent(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		if(red.getPlayers().contains(player)) {
 			Location loc = player.getLocation();
 			// 점령존 -125 255 42  -121 0 37
-			if(loc.getX() <= -121 && loc.getY() <= 69 && loc.getZ() <= 42 
-					&& loc.getX() >= -125 && loc.getY() >= 0 && loc.getZ() >= 37) {
+			if(loc.getX() <= -121 && loc.getY() <= 120 && loc.getZ() <= 42 
+					&& loc.getX() >= -125 && loc.getY() >= 116 && loc.getZ() >= 37) {
 				occup("red");
 			}
 		} else if(blue.getPlayers().contains(player)) {
 			Location loc = player.getLocation();
 			// 점령존 -125 255 42  -121 0 37
-			if(loc.getX() <= -121 && loc.getY() <= 69 && loc.getZ() <= 42 
-					&& loc.getX() >= -125 && loc.getY() >= 0 && loc.getZ() >= 37) {
+			if(loc.getX() <= -121 && loc.getY() <= 120 && loc.getZ() <= 42 
+					&& loc.getX() >= -125 && loc.getY() >= 116 && loc.getZ() >= 37) {
 				occup("blue");
 			}
 		} 
@@ -934,6 +965,13 @@ public class Main extends JavaPlugin implements Listener{
 			}
 		} catch (Exception e7) {
 			System.err.println(e7);
+		}
+	}
+	
+	@EventHandler
+	public void onBlockignite(BlockIgniteEvent event) {
+		if (event.getIgnitingEntity().getType() == EntityType.LIGHTNING) {
+			event.setCancelled(true);
 		}
 	}
 	

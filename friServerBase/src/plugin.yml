@@ -10,7 +10,7 @@ commands:
    usage: /blueteam
   giveToken:
    description: blue team title change
-   usage: /givetoken:
+   usage: /givetoken
   killme:
    description: blue team title change
    usage: /killme
