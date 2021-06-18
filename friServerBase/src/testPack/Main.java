@@ -23,6 +23,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.IronGolem;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.entity.Wolf;
@@ -51,6 +52,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -77,6 +79,7 @@ public class Main extends JavaPlugin implements Listener{
 		getCommand("redteam").setExecutor(new Cmd1());
 		getCommand("blueteam").setExecutor(new Cmd2());
 		getCommand("giveToken").setExecutor(new Cmd3());
+		getCommand("killme").setExecutor(new Cmd4());
 		
 		new BoardManager().startBoard();
 		
@@ -772,6 +775,10 @@ public class Main extends JavaPlugin implements Listener{
 				if(damager.getCustomName().equals("저지")) {
 					entity.teleport(((Entity)(((Arrow) damager).getShooter())).getLocation());
 				}
+
+				if(damager.getCustomName().equals("아이스")) {
+					((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 1));
+				}
 			}
 			
 		}
@@ -810,6 +817,51 @@ public class Main extends JavaPlugin implements Listener{
 			for(Player all : Bukkit.getOnlinePlayers()) {
 				all.sendMessage(ChatColor.GRAY + "[" + player.getDisplayName() + "] " + ChatColor.WHITE + msg);
 			}
+		}
+		
+		try {
+			if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "와라에의 증표")) {
+				if (msg.equals("매혹의 향기로 벌레를 유혹하는 두 송이의 아름다운 꽃이여! 지금 하나가 되어 그 꽃잎의 깊은 지옥에서, 새로운 위협을 낳아라! 나타나라, 굶주린 송곳니를 가진 늪!")) {
+					int cool = 20;
+					if (new CoolTime().coolCheck(player, cool, "RRR")) {
+						new ParticleEffect(player).newEffect37();
+						player.sendMessage(ChatColor.GREEN + "[스킬]스타브에리어가 발동됩니다.");
+					} else {
+						player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, "RRR"));
+						player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+					}
+				} else if (msg.equals("그 아름답고도 웅장한 날개를 펼치고, 빛의 속도로 적을 쳐라! 나타나라, 얼음 송곳!")) {
+					int cool = 20;
+					if (new CoolTime().coolCheck(player, cool, "RRL")) {
+						new ParticleEffect(player).newEffect38();
+						player.sendMessage(ChatColor.GREEN + "[스킬]아이스본이 발동됩니다.");
+					} else {
+						player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, "RRL"));
+						player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+					}
+				} else if (msg.equals("칠흑의 어둠에서 우둔한 힘에 저항하는 반역의 송곳니! 지금, 강림하라! 빛나는 칠흑의 날개!")) {
+					int cool = 10;
+					if (new CoolTime().coolCheck(player, cool, "RLL")) {
+						new ParticleEffect(player).newEffect39();
+						player.sendMessage(ChatColor.GREEN + "[스킬]리벨리온윙이 발동됩니다.");
+					} else {
+						player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, "RLL"));
+						player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+					}
+				} else if (msg.equals("사천룡을 거느리며, 제5차원에 군림하는 궁극룡이여! 지금이야말로 이 몸과 하나가 되는거다!")) {
+					if (player.getLevel() >= 10) {
+						player.setLevel(0);
+						player.setExp(0);
+						new ParticleEffect(player).newEffect40();
+						player.sendMessage(ChatColor.GREEN + "[스킬]패왕룡 즈아크가 발동됩니다.");
+					} else {
+						player.sendMessage(ChatColor.WHITE + "궁극기는 10레벨에 사용할 수 있습니다.");
+						player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+					}
+				}
+			}
+		} catch(Exception e) {
+			
 		}
 		
 //		if(player.getDisplayName().equals("yumehama")) {

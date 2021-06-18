@@ -10,5 +10,8 @@ commands:
    usage: /blueteam
   giveToken:
    description: blue team title change
-   usage: /blueteam
+   usage: /givetoken:
+  killme:
+   description: blue team title change
+   usage: /killme
 api-version: 1.12

@@ -120,7 +120,7 @@ public class Skill {
 	// 나오
 	public void skill2(Player player, String key) {
 		if(key.equals("RRR")) {
-			int cool = 10;
+			int cool = 5;
 			if(new CoolTime().coolCheck(player, cool, key)) {
 				new ParticleEffect(player).newEffect5();
 				player.sendMessage(ChatColor.GREEN + "[스킬]바르카롤이 발동됩니다.");
