@@ -203,11 +203,10 @@ public class Main extends JavaPlugin implements Listener{
 			if(entity instanceof Player) {
 				Player player = (Player) entity;
 				for(Entity ent : player.getNearbyEntities(20, 30, 20)) {
-					System.out.println(ent.getName());
 					if(ent.getName().equals("Fire Dragon")) {
-						event.setDamage(event.getDamage() * 2);
+						event.setDamage(event.getDamage() * 4);
 					} else if(ent.getName().equals("Ice Dragon")) {
-						event.setDamage(event.getDamage() * 2);
+						event.setDamage(event.getDamage() * 4);
 					}
 				}
 			}
@@ -218,9 +217,9 @@ public class Main extends JavaPlugin implements Listener{
 		try {
 			Entity entity = event.getEntity();
 			if(entity.getName().equals("Fire Dragon")) {
-				event.setDamage(event.getDamage() * 0.5);
+				event.setDamage(event.getDamage() * 0.33);
 			} else if(entity.getName().equals("Ice Dragon")) {
-				event.setDamage(event.getDamage() * 0.5);
+				event.setDamage(event.getDamage() * 0.33);
 			}
 		} catch(Exception e) {
 			

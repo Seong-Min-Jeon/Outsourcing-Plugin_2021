@@ -54,23 +54,23 @@ public class Skill {
 	Random rnd = new Random();
 	
 	public void effect(Player player, String key) {
-		if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "마우러스의 증표")) {
+		if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals("마우러스의 증표")) {
 			skill1(player, key);
-		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "나오의 증표")) {
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals("나오의 증표")) {
 			skill2(player, key);
-		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "타르라크의 증표")) {
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals("타르라크의 증표")) {
 			skill3(player, key);
-		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "루에리의 증표")) {
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals("루에리의 증표")) {
 			skill4(player, key);
-		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "루와이의 증표")) {
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals("루와이의 증표")) {
 			skill5(player, key);
-		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "아쿨의 증표")) {
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals("아쿨의 증표")) {
 			skill6(player, key);
-		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "콜로서스의 증표")) {
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals("콜로서스의 증표")) {
 			skill7(player, key);
-		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "스티브의 증표")) {
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals("스티브의 증표")) {
 			skill8(player, key);
-		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "마리의 증표")) {
+		} else if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals("마리의 증표")) {
 			skill9(player, key);
 		}
 	}

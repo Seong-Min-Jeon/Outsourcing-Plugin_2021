@@ -79,7 +79,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken1(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "마우러스의 증표");
+		var2Im.setDisplayName("마우러스의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -94,7 +94,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken2(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "나오의 증표");
+		var2Im.setDisplayName("나오의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -109,7 +109,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken3(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "타르라크의 증표");
+		var2Im.setDisplayName("타르라크의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -124,7 +124,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken4(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "루에리의 증표");
+		var2Im.setDisplayName("루에리의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -139,7 +139,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken5(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "루와이의 증표");
+		var2Im.setDisplayName("루와이의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -154,7 +154,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken6(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "아쿨의 증표");
+		var2Im.setDisplayName("아쿨의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -169,7 +169,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken7(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "콜로서스의 증표");
+		var2Im.setDisplayName("콜로서스의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -184,7 +184,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken8(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "스티브의 증표");
+		var2Im.setDisplayName("스티브의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -199,7 +199,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken9(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "마리의 증표");
+		var2Im.setDisplayName("마리의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -214,7 +214,7 @@ public class Cmd3 implements CommandExecutor {
 	public void giveToken10(Player player) {
 		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
 		ItemMeta var2Im = var2.getItemMeta();
-		var2Im.setDisplayName(ChatColor.GOLD + "와라에의 증표");
+		var2Im.setDisplayName("와라에의 증표");
 		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);

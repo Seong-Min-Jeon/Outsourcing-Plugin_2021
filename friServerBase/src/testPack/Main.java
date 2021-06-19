@@ -689,6 +689,19 @@ public class Main extends JavaPlugin implements Listener{
 			
 		}
 		
+		try {
+			if (event.getAction() == Action.PHYSICAL) {
+				if(event.getClickedBlock().getType() == Material.STONE_PLATE) {
+					boolean bool = new PlateEvent().plateEvent(event.getPlayer());
+					if(!bool) {
+						event.setCancelled(true);
+					}
+				}
+			}
+		} catch (Exception e) {
+
+		}
+		
     }
 	
 	@EventHandler
@@ -857,7 +870,7 @@ public class Main extends JavaPlugin implements Listener{
 		}
 		
 		try {
-			if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GOLD + "와라에의 증표")) {
+			if(player.getInventory().getItem(8).getItemMeta().getDisplayName().equals("와라에의 증표")) {
 				if (msg.equals("매혹의 향기로 벌레를 유혹하는 두 송이의 아름다운 꽃이여! 지금 하나가 되어 그 꽃잎의 깊은 지옥에서, 새로운 위협을 낳아라! 나타나라, 굶주린 송곳니를 가진 늪!")) {
 					int cool = 20;
 					if (new CoolTime().coolCheck(player, cool, "RRR")) {
