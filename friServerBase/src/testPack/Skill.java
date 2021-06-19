@@ -258,7 +258,7 @@ public class Skill {
 			int cool = 30;
 			if (new CoolTime().coolCheck(player, cool, key)) {
 				new ParticleEffect(player).newEffect18();
-				player.sendMessage(ChatColor.GREEN + "[스킬]'결집한 별이 하나가 될 때, 새로운 유대가 미래를 밝히니, 빛이 비추는 길이 되어라! 소환! 진화의 빛, 쿠마 워리어!!'가 발동됩니다.");
+				player.sendMessage(ChatColor.GREEN + "[스킬]'결집한 별이 하나가 될 때, 새로운 유대가 미래를 밝히니, 빛이 비추는 길이 되어라! 소환! 진화의 빛, 아라크네 워리어!!'가 발동됩니다.");
 			} else {
 				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
 				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);

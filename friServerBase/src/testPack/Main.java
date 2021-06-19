@@ -30,6 +30,7 @@ import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.entity.SpectralArrow;
+import org.bukkit.entity.Spider;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -73,7 +74,7 @@ public class Main extends JavaPlugin implements Listener{
 	boolean reset = true;
 	boolean start = false;
 	int startTime = 0;
- 
+	
 	Scoreboard board;
 	Team red;
 	Team blue;
@@ -581,6 +582,8 @@ public class Main extends JavaPlugin implements Listener{
 													
 													all.setHealth(20);
 													all.setFoodLevel(20);
+													all.setLevel(0);
+													all.setExp(0);
 													for(PotionEffect effect : all.getActivePotionEffects()){
 												        all.removePotionEffect(effect.getType());
 												    }
@@ -623,6 +626,8 @@ public class Main extends JavaPlugin implements Listener{
 													
 													all.setHealth(20);
 													all.setFoodLevel(20);
+													all.setLevel(0);
+													all.setExp(0);
 													for(PotionEffect effect : all.getActivePotionEffects()){
 												        all.removePotionEffect(effect.getType());
 												    }
@@ -655,30 +660,35 @@ public class Main extends JavaPlugin implements Listener{
 				Player player = event.getPlayer();
 				
 				if (event.getAction() == Action.RIGHT_CLICK_AIR) {
-					if (player.getInventory().contains(Material.NETHER_STAR)) {
-						MouseClickForSkill mc = new MouseClickForSkill();
-						int time = mc.getTime(player);
-						if (time == 0) {
-							mc.click(player, "R");
-						} else {
-							mc.click(player, "R", time);
+					if(player.getInventory().getItemInMainHand().getType() != Material.BOW) {
+						if (player.getInventory().contains(Material.NETHER_STAR)) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
 						}
 					}
 				} else if(event.getAction() == Action.LEFT_CLICK_AIR) {
-					if (player.getInventory().contains(Material.NETHER_STAR)) {
-						MouseClickForSkill mc = new MouseClickForSkill();
-						int time = mc.getTime(player);
-						if (time == 0) {
-							mc.click(player, "L");
-						} else {
-							mc.click(player, "L", time);
-						}						
+					if(player.getInventory().getItemInMainHand().getType() != Material.BOW) {
+						if (player.getInventory().contains(Material.NETHER_STAR)) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}						
+						}
 					}
 				}
 			}
 		} catch(Exception e) {
 			
 		}
+		
     }
 	
 	@EventHandler
@@ -746,6 +756,12 @@ public class Main extends JavaPlugin implements Listener{
 			}
 		}
 		
+		if(damager instanceof Spider) {
+			if(entity instanceof Player) {
+				event.setDamage(2);
+			}
+		}
+		
 		if(damager instanceof Ocelot) {
 			if(entity instanceof Player) {
 				event.setCancelled(true);
@@ -777,14 +793,14 @@ public class Main extends JavaPlugin implements Listener{
 						@Override
 						public void run() {
 							
-							if(time % 4 == 0) {
+							if(time % 20 == 0) {
 								if(entity instanceof Player) {
 									Player p = (Player) entity;
 									p.damage(2);
 								}
 							}
 
-							if(time >= 20) {
+							if(time >= 100) {
 								this.cancel();
 							}
 							

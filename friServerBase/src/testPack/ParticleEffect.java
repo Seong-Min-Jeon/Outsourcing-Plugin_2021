@@ -28,6 +28,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.PolarBear;
 import org.bukkit.entity.Snowman;
 import org.bukkit.entity.SpectralArrow;
+import org.bukkit.entity.Spider;
 import org.bukkit.entity.Wolf;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -799,6 +800,7 @@ public class ParticleEffect {
 			int time = 0;
 			
 			Snowman ent;
+			Player ptarget;
 
 			@Override
 			public void run() {
@@ -819,10 +821,15 @@ public class ParticleEffect {
 							
 							if(!myTeam.equals(yourTeam)) {
 								ent.setTarget(p);
+								ptarget = p;
 								break;
 							}
 						}
 					}
+				}
+				
+				if(time % 10 == 0) {
+					ent.setTarget(ptarget);
 				}
 				
 				if(time >= 400) {
@@ -842,16 +849,17 @@ public class ParticleEffect {
 		new BukkitRunnable() {
 			int time = 0;
 			
-			PolarBear ent;
+			Spider ent;
+			Player ptarget;
 
 			@Override
 			public void run() {
 				
 				if(time == 0) {
-					ent = (PolarBear) player.getWorld().spawnEntity(player.getLocation(), EntityType.POLAR_BEAR);
+					ent = (Spider) player.getWorld().spawnEntity(player.getLocation(), EntityType.SPIDER);
 					ent.setMaxHealth(5);
 					ent.setHealth(5);
-					ent.setCustomName(ChatColor.WHITE + "쿠마 워리어");
+					ent.setCustomName(ChatColor.WHITE + "아라크네 워리어");
 					ent.setCustomNameVisible(true);
 					
 					String myTeam = getTeam(player);
@@ -859,14 +867,20 @@ public class ParticleEffect {
 					for(Entity ent2 : player.getNearbyEntities(10, 10, 10)) {
 						if(ent2 instanceof Player) {
 							Player p = (Player) ent2;
+							
 							String yourTeam = getTeam(p);
 							
 							if(!myTeam.equals(yourTeam)) {
 								ent.setTarget(p);
+								ptarget = p;
 								break;
 							}
 						}
 					}
+				}
+				
+				if(time % 10 == 0) {
+					ent.setTarget(ptarget);
 				}
 				
 				if(time >= 400) {
@@ -887,6 +901,7 @@ public class ParticleEffect {
 			int time = 0;
 			
 			Ocelot ent;
+			Player ptarget;
 			
 			@Override
 			public void run() {
@@ -908,10 +923,15 @@ public class ParticleEffect {
 							
 							if(myTeam.equals(yourTeam)) {
 								ent.setTarget(p);
+								ptarget = p;
 								break;
 							}
 						}
 					}
+				}
+				
+				if(time % 10 == 0) {
+					ent.setTarget(ptarget);
 				}
 				
 				if(time % 80 == 0) {
@@ -952,6 +972,7 @@ public class ParticleEffect {
 			int time = 0;
 			
 			IronGolem ent;
+			Player ptarget;
 			
 			@Override
 			public void run() {
@@ -972,10 +993,15 @@ public class ParticleEffect {
 							
 							if(!myTeam.equals(yourTeam)) {
 								ent.setTarget(p);
+								ptarget = p;
 								break;
 							}
 						}
 					}
+				}
+				
+				if(time % 10 == 0) {
+					ent.setTarget(ptarget);
 				}
 				
 				if(time >= 400) {
@@ -1047,8 +1073,7 @@ public class ParticleEffect {
 				Player p = (Player) ent;
 				String yourTeam = getTeam(p);
 				
-				if(!myTeam.equals(yourTeam)) {
-					p.damage(2);
+				if(myTeam.equals(yourTeam)) {
 					p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 400, 1));
 				}
 			}
@@ -1127,7 +1152,6 @@ public class ParticleEffect {
 				String yourTeam = getTeam(p);
 				
 				if(myTeam.equals(yourTeam)) {
-					p.damage(2);
 					p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 1));
 				}
 			}
@@ -1217,7 +1241,23 @@ public class ParticleEffect {
 				String yourTeam = getTeam(p);
 				
 				if(!myTeam.equals(yourTeam)) {
-					p.teleport(player);
+					new BukkitRunnable() {
+						int time = 0;
+						
+						@Override
+						public void run() {
+							
+							if(time == 18) {
+								p.teleport(player);
+							}
+
+							if(time >= 20) {
+								this.cancel();
+							}
+							
+							time++;
+						}
+					}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 				}
 			}
 		}
@@ -1239,7 +1279,8 @@ public class ParticleEffect {
 				
 				if(!myTeam.equals(yourTeam)) {
 					p.damage(5);
-					p.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 60, 0));
+					Vector vec = new Vector(0,1,0);
+					p.setVelocity(vec);
 				}
 			}
 		}
@@ -1366,6 +1407,10 @@ public class ParticleEffect {
 				}
 			
 				if(arrow.isDead()) {	
+					player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
+					world.playSound(arrow.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
+					player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, arrow.getLocation(), 0);		
+					
 					String myTeam = getTeam(player);
 					
 					for(Entity ent : arrow.getNearbyEntities(4, 4, 4)) {
