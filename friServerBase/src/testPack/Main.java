@@ -38,6 +38,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -795,7 +796,7 @@ public class Main extends JavaPlugin implements Listener{
 		
 		if(damager instanceof Arrow) {
 			if(entity instanceof Player) {
-				event.setDamage(2);
+				event.setDamage(5);
 			}
 			
 			if(damager.getCustomName() != null) {
@@ -947,6 +948,10 @@ public class Main extends JavaPlugin implements Listener{
 				occup("blue");
 			}
 		} 
+		
+		if(player.getLocation().add(0,-1,0).getBlock().getType() == Material.EMERALD_BLOCK) {
+			player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100, 1));
+		}
 		
 //		for(Player all : Bukkit.getOnlinePlayers()) {
 //			if(all.getDisplayName().equals("yumehama")) {

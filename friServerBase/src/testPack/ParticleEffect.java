@@ -1021,7 +1021,7 @@ public class ParticleEffect {
 		
 		Arrow arrow = player.launchProjectile(Arrow.class);
 		arrow.setShooter(player);
-		arrow.setVelocity(player.getLocation().getDirection().multiply(2.0f));		
+		arrow.setVelocity(player.getLocation().getDirection().multiply(1.4f));		
 		world.spawnParticle(Particle.FLAME, arrow.getLocation(), 2);
 		world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.5f, 1.0f);
 		

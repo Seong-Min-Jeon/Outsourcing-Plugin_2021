@@ -64,6 +64,9 @@ public class Main extends JavaPlugin implements Listener{
 	boolean start = false;
 	boolean hajimeru = false;
 	int record = 0;
+	int rate = 0;
+	HashMap<Player, Integer> repeatSave = new HashMap<>(); 
+	HashMap<Player, Integer> repeat = new HashMap<>(); 
 	ArrayList<Location> ary = new ArrayList<>();
 	HashMap<Player, Block> map = new HashMap<>();
 	ArrayList<Player> rank = new ArrayList<>();
@@ -81,6 +84,14 @@ public class Main extends JavaPlugin implements Listener{
 			
 			@Override
 			public void run() {
+				
+				for(Player player : Bukkit.getOnlinePlayers()) {
+					if(repeat.containsKey(player)) {
+						repeat.put(player, repeat.get(player)+1);
+					} else {
+						repeat.put(player, 0);
+					}
+				}
 				
 				if(hajimeru) {
 					record++;
@@ -125,32 +136,58 @@ public class Main extends JavaPlugin implements Listener{
 							}
 						}
 						
+						// 피트스탑
+						if(ground.getType() == Material.CONCRETE) {
+							if(ground.getData() == 4) {
+								if(rate == 0) {
+									new Speed().addMap(all, 70);
+								} else if(rate == 1) {
+									new Speed().addMap(all, 100);
+								}
+							}
+						}
+						
 						// 결승점
 						if(ground.getType() == Material.CONCRETE) {
 							if(ground.getData() == 15) {
-								if(!rank.contains(all)) {
-									
-									rank.add(all);
-									all.getWorld().playSound(all.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3.0f, 2.0f);
-									for(Player all2 : Bukkit.getOnlinePlayers()) {
-										all2.sendMessage(ChatColor.BOLD + "" + ChatColor.GOLD + all.getDisplayName() + " ("  + record/20 + "." + (record%20)/2 + "초)");
-									}
-									
-									try {
-										if(rank.size() == 1) {
-											Location loc = all.getLocation();
-											
-											goldFirework(loc.clone().add(0,0,3));
-											goldFirework(loc.clone().add(0,0,-3));
-											redFirework(loc.clone().add(0,0,5));
-											redFirework(loc.clone().add(0,0,-5));
+								if(repeat.containsKey(all)) {
+									if(repeatSave.containsKey(all)) {
+										if(repeat.get(all) - repeatSave.get(all) > 200 || repeatSave.get(all) > repeat.get(all)) {
+											repeat.put(all, repeat.get(all)+10000000);
+											repeatSave.put(all, repeat.get(all));
+											new Speed().addMap(all, new Speed().getSpeed(all) - 15);
 										}
-									} catch(Exception e) {
+									} else {
+										repeat.put(all, repeat.get(all)+10000000);
+										repeatSave.put(all, repeat.get(all));
+										new Speed().addMap(all, new Speed().getSpeed(all) - 15);
+									}
+								}
+								if(repeat.get(all) > 30000000) {
+									if(!rank.contains(all)) {
 										
+										rank.add(all);
+										all.getWorld().playSound(all.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3.0f, 2.0f);
+										for(Player all2 : Bukkit.getOnlinePlayers()) {
+											all2.sendMessage(ChatColor.BOLD + "" + ChatColor.GOLD + all.getDisplayName() + " ("  + record/20 + "." + (record%20)/2 + "초)");
+										}
+										
+										try {
+											if(rank.size() == 1) {
+												Location loc = all.getLocation();
+												
+												goldFirework(loc.clone().add(0,0,3));
+												goldFirework(loc.clone().add(0,0,-3));
+												redFirework(loc.clone().add(0,0,5));
+												redFirework(loc.clone().add(0,0,-5));
+											}
+										} catch(Exception e) {
+											
+										}
 									}
 								}
 							}
-							if(ground.getData() == 15 && !finish) {
+							if(ground.getData() == 15 && !finish && repeat.get(all) > 30000000) {
 
 								finish = true;
 								
@@ -221,9 +258,12 @@ public class Main extends JavaPlugin implements Listener{
 												hajimeru = false;
 												finish = false;
 												record = 0;
+												rate = 0;
 												ary.clear();
 												map.clear();
 												rank.clear();
+												repeat.clear();
+												repeatSave.clear();
 												new Speed().clear();
 												for(Player target : Bukkit.getOnlinePlayers()) {
 													target.setFlySpeed(0.1f);
@@ -441,6 +481,7 @@ public class Main extends JavaPlugin implements Listener{
 									}
 									
 									hajimeru = true;
+									rate = 0;
 									
 									this.cancel();
 								}
@@ -620,6 +661,7 @@ public class Main extends JavaPlugin implements Listener{
 									}
 									
 									hajimeru = true;
+									rate = 1;
 									
 									this.cancel();
 								}

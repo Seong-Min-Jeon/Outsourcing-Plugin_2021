@@ -204,9 +204,9 @@ public class Main extends JavaPlugin implements Listener{
 				Player player = (Player) entity;
 				for(Entity ent : player.getNearbyEntities(20, 30, 20)) {
 					if(ent.getName().equals("Fire Dragon")) {
-						event.setDamage(event.getDamage() * 4);
+						event.setDamage(event.getDamage() * 2);
 					} else if(ent.getName().equals("Ice Dragon")) {
-						event.setDamage(event.getDamage() * 4);
+						event.setDamage(event.getDamage() * 2);
 					}
 				}
 			}
@@ -217,9 +217,9 @@ public class Main extends JavaPlugin implements Listener{
 		try {
 			Entity entity = event.getEntity();
 			if(entity.getName().equals("Fire Dragon")) {
-				event.setDamage(event.getDamage() * 0.33);
+				event.setDamage(event.getDamage() * 0.5);
 			} else if(entity.getName().equals("Ice Dragon")) {
-				event.setDamage(event.getDamage() * 0.33);
+				event.setDamage(event.getDamage() * 0.5);
 			}
 		} catch(Exception e) {
 			
@@ -681,7 +681,7 @@ public class Main extends JavaPlugin implements Listener{
 				num++;
 				move.put(player, num);
 				
-				if(num % 100 == 0) {
+				if(num % 500 == 0) {
 					int num1 = rnd.nextInt(10) + 1;
 					int num2 = rnd.nextInt(16) + 5;
 					if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("19")) {
