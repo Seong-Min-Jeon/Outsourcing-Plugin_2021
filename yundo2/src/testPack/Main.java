@@ -26,6 +26,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -144,6 +145,7 @@ public class Main extends JavaPlugin implements Listener{
 								} else if(rate == 1) {
 									new Speed().addMap(all, 100);
 								}
+								all.getWorld().playSound(all.getLocation(), Sound.BLOCK_ANVIL_USE, 2.0f, 2.0f);
 							}
 						}
 						
@@ -156,13 +158,26 @@ public class Main extends JavaPlugin implements Listener{
 											repeat.put(all, repeat.get(all)+10000000);
 											repeatSave.put(all, repeat.get(all));
 											new Speed().addMap(all, new Speed().getSpeed(all) - 15);
+											for(Player all2 : Bukkit.getOnlinePlayers()) {
+												int tmp = repeat.get(all)/10000000;
+												if(tmp < 3) {
+													all2.sendMessage(ChatColor.WHITE + "[" + all.getDisplayName() + "] " + tmp + "바퀴 통과!");
+												}
+											}
 										}
 									} else {
 										repeat.put(all, repeat.get(all)+10000000);
 										repeatSave.put(all, repeat.get(all));
 										new Speed().addMap(all, new Speed().getSpeed(all) - 15);
+										for(Player all2 : Bukkit.getOnlinePlayers()) {
+											int tmp = repeat.get(all)/10000000;
+											if(tmp < 3) {
+												all2.sendMessage(ChatColor.WHITE + "[" + all.getDisplayName() + "] " + tmp + "바퀴 통과!");
+											}
+										}
 									}
 								}
+								
 								if(repeat.get(all) > 30000000) {
 									if(!rank.contains(all)) {
 										
@@ -679,8 +694,18 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void dismountEvent(EntityDismountEvent event) {
-		if(start) 
-			event.getDismounted().addPassenger(event.getEntity());
+		if(start) {
+//			event.getDismounted().addPassenger(event.getEntity());
+			((LivingEntity) (event.getDismounted())).setHealth(0);
+			event.getDismounted().remove();
+			if(event.getEntity() instanceof Player) {
+				Player player = (Player) event.getEntity();
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					all.sendMessage(ChatColor.RED + "[" + player.getDisplayName() + "] 실격! (사유: 시프트 클릭)");
+				}
+			}
+		}
+			
 	}
 	
 	@EventHandler

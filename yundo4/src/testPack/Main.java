@@ -147,9 +147,13 @@ public class Main extends JavaPlugin implements Listener{
 				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
 					event.setDamage(event.getDamage() * 1.5);
 				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("19")) {
-					event.setDamage(event.getDamage() * 0.3);
+					if(!(event.getEntity() instanceof Player)) {
+						event.setDamage(event.getDamage() * 0.5);
+					}
 				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("20")) {
-					event.setDamage(event.getDamage() * 0.3);
+					if(!(event.getEntity() instanceof Player)) {
+						event.setDamage(event.getDamage() * 0.5);
+					}
 				}
 			}
 			
@@ -168,9 +172,13 @@ public class Main extends JavaPlugin implements Listener{
 					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
 						event.setDamage(event.getDamage() * 1.5);
 					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("19")) {
-						event.setDamage(event.getDamage() * 0.3);
+						if(!(event.getEntity() instanceof Player)) {
+							event.setDamage(event.getDamage() * 0.5);
+						}
 					} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("20")) {
-						event.setDamage(event.getDamage() * 0.3);
+						if(!(event.getEntity() instanceof Player)) {
+							event.setDamage(event.getDamage() * 0.5);
+						}
 					}
 				}
 			}
@@ -619,9 +627,25 @@ public class Main extends JavaPlugin implements Listener{
 		try {
 			if(player.getInventory().getItemInMainHand().getType() == Material.DIAMOND_PICKAXE) {
 				if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("5")) {
-					block.getWorld().dropItem(block.getLocation(), new ItemStack(block.getType(), 1));
+					if(block.getType() == Material.IRON_ORE) {
+						block.setType(Material.AIR);
+						block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.IRON_INGOT, 2));
+						event.setCancelled(true);
+					} else if(block.getType() == Material.GOLD_ORE) {
+						block.setType(Material.AIR);
+						block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.GOLD_INGOT, 2));
+						event.setCancelled(true);
+					}
 				} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("6")) {
-					block.getWorld().dropItem(block.getLocation(), new ItemStack(block.getType(), 2));
+					if(block.getType() == Material.IRON_ORE) {
+						block.setType(Material.AIR);
+						block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.IRON_INGOT, 3));
+						event.setCancelled(true);
+					} else if(block.getType() == Material.GOLD_ORE) {
+						block.setType(Material.AIR);
+						block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.GOLD_INGOT, 3));
+						event.setCancelled(true);
+					}
 				}
 			} 
 		} catch(Exception e) {

@@ -4,7 +4,13 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 public class CoolTime {
 
@@ -44,6 +50,136 @@ public class CoolTime {
 				map.put(hash4, 100000);
 			}
 			
+			try {
+				if(p.getInventory().getItem(8).getItemMeta().getDisplayName().equals("마우러스의 증표")) {
+					ScoreboardManager manager = Bukkit.getScoreboardManager();
+					Scoreboard board = manager.getNewScoreboard();
+					Objective obj = board.registerNewObjective(ChatColor.GOLD + "쿨타임 정보", "dummy");
+					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+					Score score = obj.getScore(ChatColor.BOLD + "RRR  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 10, "RRR")));
+					score.setScore(3);
+					Score score2 = obj.getScore(ChatColor.BOLD + "RRL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 20, "RRL")));
+					score2.setScore(2);
+					Score score3 = obj.getScore(ChatColor.BOLD + "RLL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 25, "RLL")));
+					score3.setScore(1);
+					p.setScoreboard(board);
+				} else if(p.getInventory().getItem(8).getItemMeta().getDisplayName().equals("나오의 증표")) {
+					ScoreboardManager manager = Bukkit.getScoreboardManager();
+					Scoreboard board = manager.getNewScoreboard();
+					Objective obj = board.registerNewObjective(ChatColor.GOLD + "쿨타임 정보", "dummy");
+					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+					Score score = obj.getScore(ChatColor.BOLD + "RRR  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 5, "RRR")));
+					score.setScore(3);
+					Score score2 = obj.getScore(ChatColor.BOLD + "RRL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 20, "RRL")));
+					score2.setScore(2);
+					Score score3 = obj.getScore(ChatColor.BOLD + "RLL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 30, "RLL")));
+					score3.setScore(1);
+					p.setScoreboard(board);
+				} else if(p.getInventory().getItem(8).getItemMeta().getDisplayName().equals("타르라크의 증표")) {
+					ScoreboardManager manager = Bukkit.getScoreboardManager();
+					Scoreboard board = manager.getNewScoreboard();
+					Objective obj = board.registerNewObjective(ChatColor.GOLD + "쿨타임 정보", "dummy");
+					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+					Score score = obj.getScore(ChatColor.BOLD + "RRR  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 20, "RRR")));
+					score.setScore(3);
+					Score score2 = obj.getScore(ChatColor.BOLD + "RRL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 20, "RRL")));
+					score2.setScore(2);
+					Score score3 = obj.getScore(ChatColor.BOLD + "RLL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 35, "RLL")));
+					score3.setScore(1);
+					p.setScoreboard(board);
+				} else if(p.getInventory().getItem(8).getItemMeta().getDisplayName().equals("루에리의 증표")) {
+					ScoreboardManager manager = Bukkit.getScoreboardManager();
+					Scoreboard board = manager.getNewScoreboard();
+					Objective obj = board.registerNewObjective(ChatColor.GOLD + "쿨타임 정보", "dummy");
+					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+					Score score = obj.getScore(ChatColor.BOLD + "RRR  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 25, "RRR")));
+					score.setScore(3);
+					Score score2 = obj.getScore(ChatColor.BOLD + "RRL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 20, "RRL")));
+					score2.setScore(2);
+					Score score3 = obj.getScore(ChatColor.BOLD + "RLL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 10, "RLL")));
+					score3.setScore(1);
+					p.setScoreboard(board);
+				} else if(p.getInventory().getItem(8).getItemMeta().getDisplayName().equals("루와이의 증표")) {
+					ScoreboardManager manager = Bukkit.getScoreboardManager();
+					Scoreboard board = manager.getNewScoreboard();
+					Objective obj = board.registerNewObjective(ChatColor.GOLD + "쿨타임 정보", "dummy");
+					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+					Score score = obj.getScore(ChatColor.BOLD + "RRR  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 30, "RRR")));
+					score.setScore(3);
+					Score score2 = obj.getScore(ChatColor.BOLD + "RRL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 30, "RRL")));
+					score2.setScore(2);
+					Score score3 = obj.getScore(ChatColor.BOLD + "RLL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 30, "RLL")));
+					score3.setScore(1);
+					p.setScoreboard(board);
+				} else if(p.getInventory().getItem(8).getItemMeta().getDisplayName().equals("아쿨의 증표")) {
+					ScoreboardManager manager = Bukkit.getScoreboardManager();
+					Scoreboard board = manager.getNewScoreboard();
+					Objective obj = board.registerNewObjective(ChatColor.GOLD + "쿨타임 정보", "dummy");
+					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+					Score score = obj.getScore(ChatColor.BOLD + "RRR  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 10, "RRR")));
+					score.setScore(3);
+					Score score2 = obj.getScore(ChatColor.BOLD + "RRL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 30, "RRL")));
+					score2.setScore(2);
+					Score score3 = obj.getScore(ChatColor.BOLD + "RLL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 30, "RLL")));
+					score3.setScore(1);
+					p.setScoreboard(board);
+				} else if(p.getInventory().getItem(8).getItemMeta().getDisplayName().equals("콜로서스의 증표")) {
+					ScoreboardManager manager = Bukkit.getScoreboardManager();
+					Scoreboard board = manager.getNewScoreboard();
+					Objective obj = board.registerNewObjective(ChatColor.GOLD + "쿨타임 정보", "dummy");
+					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+					Score score = obj.getScore(ChatColor.BOLD + "RRR  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 40, "RRR")));
+					score.setScore(3);
+					Score score2 = obj.getScore(ChatColor.BOLD + "RRL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 40, "RRL")));
+					score2.setScore(2);
+					Score score3 = obj.getScore(ChatColor.BOLD + "RLL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 20, "RLL")));
+					score3.setScore(1);
+					p.setScoreboard(board);
+				} else if(p.getInventory().getItem(8).getItemMeta().getDisplayName().equals("스티브의 증표")) {
+					ScoreboardManager manager = Bukkit.getScoreboardManager();
+					Scoreboard board = manager.getNewScoreboard();
+					Objective obj = board.registerNewObjective(ChatColor.GOLD + "쿨타임 정보", "dummy");
+					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+					Score score = obj.getScore(ChatColor.BOLD + "RRR  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 10, "RRR")));
+					score.setScore(3);
+					Score score2 = obj.getScore(ChatColor.BOLD + "RRL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 20, "RRL")));
+					score2.setScore(2);
+					Score score3 = obj.getScore(ChatColor.BOLD + "RLL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 20, "RLL")));
+					score3.setScore(1);
+					Score score4 = obj.getScore(ChatColor.BOLD + "RLR  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 60, "RLR")));
+					score4.setScore(0);
+					p.setScoreboard(board);
+				} else if(p.getInventory().getItem(8).getItemMeta().getDisplayName().equals("마리의 증표")) {
+					ScoreboardManager manager = Bukkit.getScoreboardManager();
+					Scoreboard board = manager.getNewScoreboard();
+					Objective obj = board.registerNewObjective(ChatColor.GOLD + "쿨타임 정보", "dummy");
+					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+					Score score = obj.getScore(ChatColor.BOLD + "RRR  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 15, "RRR")));
+					score.setScore(3);
+					Score score2 = obj.getScore(ChatColor.BOLD + "RRL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 20, "RRL")));
+					score2.setScore(2);
+					Score score3 = obj.getScore(ChatColor.BOLD + "RLL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 30, "RLL")));
+					score3.setScore(1);
+					p.setScoreboard(board);
+				} else if(p.getInventory().getItem(8).getItemMeta().getDisplayName().equals("와라에의 증표")) {
+					ScoreboardManager manager = Bukkit.getScoreboardManager();
+					Scoreboard board = manager.getNewScoreboard();
+					Objective obj = board.registerNewObjective(ChatColor.GOLD + "쿨타임 정보", "dummy");
+					obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+					Score score = obj.getScore(ChatColor.BOLD + "RRR  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 20, "RRR")));
+					score.setScore(3);
+					Score score2 = obj.getScore(ChatColor.BOLD + "RRL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 20, "RRL")));
+					score2.setScore(2);
+					Score score3 = obj.getScore(ChatColor.BOLD + "RLL  " + ChatColor.GREEN + "" + Integer.toString(timeCheck(p, 10, "RLL")));
+					score3.setScore(1);
+					p.setScoreboard(board);
+				} else {
+					p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+				}
+			} catch(Exception e) {
+				
+			}
+			
 		}
 	}
 	
@@ -81,6 +217,46 @@ public class CoolTime {
 			}
 		}
 		return false;
+	}
+	
+	public int timeCheck(Player player, int cool, String key) {
+		for(HashMap<String, String> tmp : map.keySet()) {
+			for(String id : tmp.keySet()) {
+				if(player.getUniqueId().toString().equals(id)) {
+//					System.out.println(tmp.get(id));
+					if(tmp.get(id).equals(key)) {
+						int currentCool = map.get(tmp);
+						int ret = cool - currentCool;
+						if(ret <= 0) {
+							ret = 0;
+						}
+						return ret;
+					} else if(tmp.get(id).equals(key)) {
+						int currentCool = map.get(tmp);
+						int ret = cool - currentCool;
+						if(ret <= 0) {
+							ret = 0;
+						}
+						return ret;
+					} else if(tmp.get(id).equals(key)) {
+						int currentCool = map.get(tmp);
+						int ret = cool - currentCool;
+						if(ret <= 0) {
+							ret = 0;
+						}
+						return ret;
+					} else if(tmp.get(id).equals(key)) {
+						int currentCool = map.get(tmp);
+						int ret = cool - currentCool;
+						if(ret <= 0) {
+							ret = 0;
+						}
+						return ret;
+					}
+				}
+			}
+		}
+		return 0;
 	}
 	
 	public int returnCool(Player player, int cool, String key) {
