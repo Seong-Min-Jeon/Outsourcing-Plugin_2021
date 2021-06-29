@@ -24,6 +24,7 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Boat;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.LivingEntity;
@@ -67,7 +68,8 @@ public class Main extends JavaPlugin implements Listener{
 	int record = 0;
 	int rate = 0;
 	HashMap<Player, Integer> repeatSave = new HashMap<>(); 
-	HashMap<Player, Integer> repeat = new HashMap<>(); 
+	HashMap<Player, Integer> repeat = new HashMap<>();
+	HashMap<Player, Integer> pit = new HashMap<>();
 	ArrayList<Location> ary = new ArrayList<>();
 	HashMap<Player, Block> map = new HashMap<>();
 	ArrayList<Player> rank = new ArrayList<>();
@@ -140,12 +142,49 @@ public class Main extends JavaPlugin implements Listener{
 						// 피트스탑
 						if(ground.getType() == Material.CONCRETE) {
 							if(ground.getData() == 4) {
-								if(rate == 0) {
-									new Speed().addMap(all, 70);
-								} else if(rate == 1) {
-									new Speed().addMap(all, 100);
+								
+								if(repeatSave.containsKey(all)) {
+									if(pit.containsKey(all)) {
+										if(pit.get(all) >= 1 && pit.get(all) != repeatSave.get(all)) {
+											pit.put(all, 0);
+											if(all.getVehicle() != null) {
+												Entity veh = all.getVehicle();
+												((LivingEntity) (veh)).setHealth(0);
+												veh.remove();
+												for(Player all2 : Bukkit.getOnlinePlayers()) {
+													all2.sendMessage(ChatColor.RED + "[" + all.getDisplayName() + "] 실격! (사유: 피트스탑 2회)");
+												}
+											}
+										} else {
+											pit.put(all, repeatSave.get(all));
+											
+											for(Player all2 : Bukkit.getOnlinePlayers()) {
+												all2.sendMessage(ChatColor.YELLOW + "[" + all.getDisplayName() + "] 피트스탑! (다음 피트스탑에는 실격)");
+											}
+											
+											if(rate == 0) {
+												new Speed().addMap(all, 70);
+											} else if(rate == 1) {
+												new Speed().addMap(all, 100);
+											}
+											all.getWorld().playSound(all.getLocation(), Sound.BLOCK_ANVIL_USE, 2.0f, 2.0f);
+										}
+									} else {
+										pit.put(all, repeatSave.get(all));
+										
+										for(Player all2 : Bukkit.getOnlinePlayers()) {
+											all2.sendMessage(ChatColor.YELLOW + "[" + all.getDisplayName() + "] 피트스탑! (다음 피트스탑에는 실격)");
+										}
+										
+										if(rate == 0) {
+											new Speed().addMap(all, 70);
+										} else if(rate == 1) {
+											new Speed().addMap(all, 100);
+										}
+										all.getWorld().playSound(all.getLocation(), Sound.BLOCK_ANVIL_USE, 2.0f, 2.0f);
+									}
 								}
-								all.getWorld().playSound(all.getLocation(), Sound.BLOCK_ANVIL_USE, 2.0f, 2.0f);
+								
 							}
 						}
 						
@@ -157,7 +196,7 @@ public class Main extends JavaPlugin implements Listener{
 										if(repeat.get(all) - repeatSave.get(all) > 200 || repeatSave.get(all) > repeat.get(all)) {
 											repeat.put(all, repeat.get(all)+10000000);
 											repeatSave.put(all, repeat.get(all));
-											new Speed().addMap(all, new Speed().getSpeed(all) - 15);
+											new Speed().addMap(all, new Speed().getSpeed(all) - 20);
 											for(Player all2 : Bukkit.getOnlinePlayers()) {
 												int tmp = repeat.get(all)/10000000;
 												if(tmp < 3) {
@@ -168,7 +207,7 @@ public class Main extends JavaPlugin implements Listener{
 									} else {
 										repeat.put(all, repeat.get(all)+10000000);
 										repeatSave.put(all, repeat.get(all));
-										new Speed().addMap(all, new Speed().getSpeed(all) - 15);
+										new Speed().addMap(all, new Speed().getSpeed(all) - 20);
 										for(Player all2 : Bukkit.getOnlinePlayers()) {
 											int tmp = repeat.get(all)/10000000;
 											if(tmp < 3) {

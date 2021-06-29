@@ -312,96 +312,11 @@ public class Main extends JavaPlugin implements Listener{
 				
 				if(time % 20 == 0) {
 					new CoolTime().countTime();
+					new CoolTime().board();
 				}
 				
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					ScoreboardManager manager = Bukkit.getScoreboardManager();
-					Scoreboard board = manager.getNewScoreboard();
-					if(p.getHealth() == 20) {
-						Objective obj = board.registerNewObjective(ChatColor.AQUA + "|||||20|||||", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 19) {
-						Objective obj = board.registerNewObjective(ChatColor.AQUA + "|||||19|||||", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 18) {
-						Objective obj = board.registerNewObjective(ChatColor.AQUA + "|||||18||||", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 17) {
-						Objective obj = board.registerNewObjective(ChatColor.AQUA + "|||||17||||", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 16) {
-						Objective obj = board.registerNewObjective(ChatColor.AQUA + "|||||16|||", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 15) {
-						Objective obj = board.registerNewObjective(ChatColor.GREEN + "|||||15|||", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 14) {
-						Objective obj = board.registerNewObjective(ChatColor.GREEN + "|||||14||", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 13) {
-						Objective obj = board.registerNewObjective(ChatColor.GREEN + "|||||13||", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 12) {
-						Objective obj = board.registerNewObjective(ChatColor.GREEN + "|||||12|", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 11) {
-						Objective obj = board.registerNewObjective(ChatColor.GREEN + "|||||11|", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 10) {
-						Objective obj = board.registerNewObjective(ChatColor.YELLOW + "|||||10", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 9) {
-						Objective obj = board.registerNewObjective(ChatColor.YELLOW + "|||||9", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 8) {
-						Objective obj = board.registerNewObjective(ChatColor.YELLOW + "||||8", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 7) {
-						Objective obj = board.registerNewObjective(ChatColor.YELLOW + "||||7", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 6) {
-						Objective obj = board.registerNewObjective(ChatColor.YELLOW + "|||6", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 5) {
-						Objective obj = board.registerNewObjective(ChatColor.RED + "|||6", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 4) {
-						Objective obj = board.registerNewObjective(ChatColor.RED + "||4", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 3) {
-						Objective obj = board.registerNewObjective(ChatColor.RED + "||3", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 2) {
-						Objective obj = board.registerNewObjective(ChatColor.RED + "|2", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 1) {
-						Objective obj = board.registerNewObjective(ChatColor.RED + "|1", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					} else if(p.getHealth() == 0) {
-						Objective obj = board.registerNewObjective(ChatColor.RED + "0", "dummy");
-						obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-						p.setScoreboard(board);
-					}
+					Scoreboard board = new MakeScoreboard().getManager().getNewScoreboard();
 					
 				}
 				
@@ -498,7 +413,7 @@ public class Main extends JavaPlugin implements Listener{
 			for(Player all : Bukkit.getOnlinePlayers()) {
 				if(blue.getPlayers().contains(all)) {
 					if(all.getLevel() < 10) {
-						all.setLevel(all.getLevel()+1);
+						all.setLevel(all.getLevel()+2);
 					}
 				}
 			}
@@ -506,7 +421,7 @@ public class Main extends JavaPlugin implements Listener{
 			for(Player all : Bukkit.getOnlinePlayers()) {
 				if(red.getPlayers().contains(all)) {
 					if(all.getLevel() < 10) {
-						all.setLevel(all.getLevel()+1);
+						all.setLevel(all.getLevel()+2);
 					}
 				}
 			}
@@ -890,7 +805,7 @@ public class Main extends JavaPlugin implements Listener{
 		
 		if(damager instanceof Arrow) {
 			if(entity instanceof Player) {
-				event.setDamage(5);
+				event.setDamage(4);
 			}
 			
 			if(damager.getCustomName() != null) {
