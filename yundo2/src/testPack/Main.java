@@ -121,6 +121,7 @@ public class Main extends JavaPlugin implements Listener{
 									map.remove(all);
 									map.put(all, ground);
 									new Speed().addMap(all, new Speed().getSpeed(all) + 10);
+									all.getWorld().playSound(all.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3.0f, 2.0f);
 									new BukkitRunnable() {
 										int time = 0;
 										
@@ -158,9 +159,9 @@ public class Main extends JavaPlugin implements Listener{
 										} else {
 											pit.put(all, repeatSave.get(all));
 											
-											for(Player all2 : Bukkit.getOnlinePlayers()) {
-												all2.sendMessage(ChatColor.YELLOW + "[" + all.getDisplayName() + "] 피트스탑! (다음 피트스탑에는 실격)");
-											}
+//											for(Player all2 : Bukkit.getOnlinePlayers()) {
+//												all2.sendMessage(ChatColor.YELLOW + "[" + all.getDisplayName() + "] 피트스탑! (다음 피트스탑에는 실격)");
+//											}
 											
 											if(rate == 0) {
 												new Speed().addMap(all, 70);
@@ -318,6 +319,7 @@ public class Main extends JavaPlugin implements Listener{
 												rank.clear();
 												repeat.clear();
 												repeatSave.clear();
+												pit.clear();
 												new Speed().clear();
 												for(Player target : Bukkit.getOnlinePlayers()) {
 													target.setFlySpeed(0.1f);

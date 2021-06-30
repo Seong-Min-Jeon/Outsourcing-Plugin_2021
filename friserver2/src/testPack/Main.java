@@ -101,11 +101,9 @@ public class Main extends JavaPlugin implements Listener{
 					
 					if(timer % 20 == 0) {
 						int cnt = 0;
-						for(Player all2 : playerList) {
-							for(Player all : Bukkit.getOnlinePlayers()) {
-								if(all2 == all) {
-									cnt++;
-								}
+						for(Player all : Bukkit.getOnlinePlayers()) {
+							if(all.getGameMode() != GameMode.SPECTATOR) {
+								cnt++;
 							}
 						}
 						if(cnt == 1) {
@@ -124,6 +122,7 @@ public class Main extends JavaPlugin implements Listener{
 							for(Player all : Bukkit.getOnlinePlayers()) {
 								all.teleport(startLoc);
 								all.getInventory().clear();
+								all.setGameMode(GameMode.ADVENTURE);
 								for(PotionEffect effect : all.getActivePotionEffects ()){
 							        all.removePotionEffect(effect.getType());
 							    }
@@ -166,6 +165,7 @@ public class Main extends JavaPlugin implements Listener{
 						for(Player all : Bukkit.getOnlinePlayers()) {
 							all.teleport(startLoc);
 							all.getInventory().clear();
+							all.setGameMode(GameMode.ADVENTURE);
 							for(PotionEffect effect : all.getActivePotionEffects ()){
 						        all.removePotionEffect(effect.getType());
 						    }
@@ -243,6 +243,8 @@ public class Main extends JavaPlugin implements Listener{
 		for(PotionEffect effect : player.getActivePotionEffects ()){
 			player.removePotionEffect(effect.getType());
 	    }
+		
+		player.setGameMode(GameMode.SPECTATOR);
 		
 //		ItemStack hel = new ItemStack(Material.LEATHER_HELMET);
 //		hel.addEnchantment(Enchantment.BINDING_CURSE, 1);
@@ -389,10 +391,6 @@ public class Main extends JavaPlugin implements Listener{
 		if(event.getPlayer() == new Joker().getJoker()) {
 			for(Player player : Bukkit.getOnlinePlayers()) {
 				player.sendMessage(ChatColor.DARK_RED + "[조커] " + event.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + event.getMessage());
-			}
-		} else if(event.getPlayer().isOp()) {
-			for(Player player : Bukkit.getOnlinePlayers()) {
-				player.sendMessage(ChatColor.GOLD + "[관리자] " + event.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + event.getMessage());
 			}
 		} else {
 			for(Player player : Bukkit.getOnlinePlayers()) {
