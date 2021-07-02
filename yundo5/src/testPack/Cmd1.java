@@ -68,8 +68,6 @@ public class Cmd1 implements CommandExecutor {
 						ItemStack bo = new ItemStack(Material.LEATHER_BOOTS);
 						bo.addEnchantment(Enchantment.BINDING_CURSE, 1);
 						p.getInventory().setBoots(bo);
-						
-						p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false));
 					}
 					
 					ItemStack hel = new ItemStack(Material.IRON_HELMET);
@@ -93,6 +91,8 @@ public class Cmd1 implements CommandExecutor {
 					im.setDisplayName(ChatColor.RED + "조커의 검");
 					we.setItemMeta(im);
 					target.getInventory().setItem(0, we);
+					
+					target.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false));
 					
 					for(Player p : Bukkit.getOnlinePlayers()) {
 						try {

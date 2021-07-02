@@ -388,17 +388,18 @@ public class Main extends JavaPlugin implements Listener{
 	public void chatEvent(AsyncPlayerChatEvent event) {
 		if(event.getPlayer() == new Joker().getJoker()) {
 			for(Player player : Bukkit.getOnlinePlayers()) {
-				player.sendMessage(ChatColor.DARK_RED + "[조커] " + event.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + event.getMessage());
+				player.sendMessage(ChatColor.DARK_RED + "[조커] " + event.getPlayer().getDisplayName() + ": " + ChatColor.WHITE + event.getMessage());
 			}
 		} else if(event.getPlayer().isOp()) {
 			for(Player player : Bukkit.getOnlinePlayers()) {
-				player.sendMessage(ChatColor.GOLD + "[관리자] " + event.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + event.getMessage());
+				player.sendMessage(ChatColor.GOLD + "[관리자] " + event.getPlayer().getDisplayName() + ": " + ChatColor.WHITE + event.getMessage());
 			}
 		} else {
 			for(Player player : Bukkit.getOnlinePlayers()) {
-				player.sendMessage(ChatColor.GRAY + "[일반인] " + event.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + event.getMessage());
+				player.sendMessage(ChatColor.GRAY + "[일반인] " + event.getPlayer().getDisplayName() + ": " + ChatColor.WHITE + event.getMessage());
 			}
 		}
+		event.setCancelled(true);
 	}
 	
 	public void firework(Location loc) {
