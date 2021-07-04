@@ -116,7 +116,6 @@ public class Main extends JavaPlugin implements Listener{
 							ary.clear();
 							banList.clear();
 							playerList.clear();
-							start = false;
 							timer = 0;
 							new Joker().setJoker(null);
 							new Bar().bar1.setVisible(false);
@@ -137,7 +136,8 @@ public class Main extends JavaPlugin implements Listener{
 						for(Player all : Bukkit.getOnlinePlayers()) {
 							if(all == new Joker().getJoker()) {
 								all.getWorld().playSound(all.getLocation(), Sound.ENTITY_ZOMBIE_AMBIENT, 2.0f, 1.0f);
-								all.setWalkSpeed(0.4f);
+								all.setWalkSpeed(0.35f);
+								all.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 0, true, false));
 							} else {
 								all.setWalkSpeed(0.3f);
 							}
@@ -158,7 +158,6 @@ public class Main extends JavaPlugin implements Listener{
 						ary.clear();
 						banList.clear();
 						playerList.clear();
-						start = false;
 						timer = 0;
 						new Joker().setJoker(null);
 						new Bar().bar1.setVisible(false);
@@ -189,12 +188,17 @@ public class Main extends JavaPlugin implements Listener{
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer(); 
 		
-		if(banList.contains(player.getDisplayName())) {
-			event.setJoinMessage(null);
-			player.kickPlayer(ChatColor.RED + "이번 게임에는 다시 참여할 수 없습니다.");
-		} else {
+		if(player.isOp() && start) {
 			new Bar().bar1.addPlayer(player);
-			new Bar().bar1.setVisible(false);
+			event.setJoinMessage(null);
+		} else {
+			if(banList.contains(player.getDisplayName()) || start) {
+				event.setJoinMessage(null);
+				player.kickPlayer(ChatColor.RED + "이번 게임에는 참여할 수 없습니다.");
+			} else {	
+				new Bar().bar1.addPlayer(player);
+				new Bar().bar1.setVisible(false);
+			}
 		}
 		
 		player.getInventory().clear();
@@ -344,36 +348,95 @@ public class Main extends JavaPlugin implements Listener{
 								return;
 							}
 							
+							for(Player all : Bukkit.getOnlinePlayers()) {
+								all.sendMessage(ChatColor.WHITE + "10초 후 게임이 시작됩니다.");
+							}
 							
-							
-							int cnt = 0;
-							
-							try {
-								for(Player all : Bukkit.getOnlinePlayers()) {
-									if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
-										if(all.getLocation().add(0,-1,0).getBlock().getData() == 13) {
-											int num = rnd.nextInt(ary.size());
-											Location startLoc = ary.get(num).add(0.5,1,0.5);
-											all.teleport(startLoc);
-											ary.remove(ary.get(num));
+							new BukkitRunnable() {
+								int time = 0;
+								
+								@Override
+								public void run() {
+									time++;
+									
+									if(time == 141) {
+										try {
+											for(Player all : Bukkit.getOnlinePlayers()) {
+												PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+														ChatSerializer.a("{\"text\":\"§73\"}"));
+												Object handle = all.getClass().getMethod("getHandle").invoke(all);
+										        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+										        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+											}
+										} catch(Exception e) {
 											
-											playerList.add(all);
-											cnt++;
 										}
 									}
+									
+									if(time == 161) {
+										try {
+											for(Player all : Bukkit.getOnlinePlayers()) {
+												PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+														ChatSerializer.a("{\"text\":\"§72\"}"));
+												Object handle = all.getClass().getMethod("getHandle").invoke(all);
+										        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+										        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+											}
+										} catch(Exception e) {
+											
+										}
+									}
+									
+									if(time == 181) {
+										try {
+											for(Player all : Bukkit.getOnlinePlayers()) {
+												PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+														ChatSerializer.a("{\"text\":\"§71\"}"));
+												Object handle = all.getClass().getMethod("getHandle").invoke(all);
+										        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+										        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+											}
+										} catch(Exception e) {
+											
+										}
+									}
+									
+									if(time >= 201) {
+										
+										int cnt = 0;
+										
+										try {
+											for(Player all : Bukkit.getOnlinePlayers()) {
+												if(all.getLocation().add(0,-1,0).getBlock().getType() == Material.CONCRETE) {
+													if(all.getLocation().add(0,-1,0).getBlock().getData() == 13) {
+														int num = rnd.nextInt(ary.size());
+														Location startLoc = ary.get(num).add(0.5,1,0.5);
+														all.teleport(startLoc);
+														ary.remove(ary.get(num));
+														
+														playerList.add(all);
+														cnt++;
+													}
+												}
+											}
+										} catch(Exception e1) {
+											
+										}
+										
+										if(cnt == 0) {
+											for(Player all : Bukkit.getOnlinePlayers()) {
+												all.sendMessage(ChatColor.RED + "참가자가 없어 게임이 초기화됩니다.");
+											}
+											start = false;
+										} else {
+											timer = 0;
+										}
+
+										this.cancel();
+									}
+									
 								}
-							} catch(Exception e1) {
-								
-							}
-							
-							if(cnt == 0) {
-								for(Player all : Bukkit.getOnlinePlayers()) {
-									all.sendMessage(ChatColor.RED + "참가자가 없어 게임이 초기화됩니다.");
-								}
-								start = false;
-							} else {
-								timer = 0;
-							}
+							}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 							
 						}
 					}
@@ -386,20 +449,61 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void chatEvent(AsyncPlayerChatEvent event) {
-		if(event.getPlayer() == new Joker().getJoker()) {
-			for(Player player : Bukkit.getOnlinePlayers()) {
-				player.sendMessage(ChatColor.DARK_RED + "[조커] " + event.getPlayer().getDisplayName() + ": " + ChatColor.WHITE + event.getMessage());
+		if(start) {
+			if(event.getPlayer() == new Joker().getJoker()) {
+				for(Player player : Bukkit.getOnlinePlayers()) {
+					player.sendMessage(ChatColor.DARK_RED + "[조커] " + event.getPlayer().getDisplayName() + ": " + ChatColor.WHITE + event.getMessage());
+				}
+			} else if(event.getPlayer().isOp()) {
+				if(event.getMessage().equals("강제종료")) {
+					for(Player player : Bukkit.getOnlinePlayers()) {
+						player.sendMessage("게임이 강제종료 되었습니다.");
+						
+						for(Player all : Bukkit.getOnlinePlayers()) {
+							all.sendMessage(ChatColor.BOLD + "생존자 목록");
+							for(Player all2 : playerList) {
+								if(all2 != new Joker().getJoker()) {
+									all.sendMessage(all2.getDisplayName());
+								}
+							}
+						}
+						
+						ary.clear();
+						banList.clear();
+						playerList.clear();
+						timer = 0;
+						new Joker().setJoker(null);
+						new Bar().bar1.setVisible(false);
+						
+						for(Player all : Bukkit.getOnlinePlayers()) {
+							all.teleport(startLoc);
+							all.getInventory().clear();
+							for(PotionEffect effect : all.getActivePotionEffects ()){
+						        all.removePotionEffect(effect.getType());
+						    }
+						}
+						
+						firework(startLoc);
+					}
+				}
 			}
-		} else if(event.getPlayer().isOp()) {
-			for(Player player : Bukkit.getOnlinePlayers()) {
-				player.sendMessage(ChatColor.GOLD + "[관리자] " + event.getPlayer().getDisplayName() + ": " + ChatColor.WHITE + event.getMessage());
-			}
+			event.setCancelled(true);
 		} else {
-			for(Player player : Bukkit.getOnlinePlayers()) {
-				player.sendMessage(ChatColor.GRAY + "[일반인] " + event.getPlayer().getDisplayName() + ": " + ChatColor.WHITE + event.getMessage());
+			if(event.getPlayer() == new Joker().getJoker()) {
+				for(Player player : Bukkit.getOnlinePlayers()) {
+					player.sendMessage(ChatColor.DARK_RED + "[조커] " + event.getPlayer().getDisplayName() + ": " + ChatColor.WHITE + event.getMessage());
+				}
+			} else if(event.getPlayer().isOp()) {
+				for(Player player : Bukkit.getOnlinePlayers()) {
+					player.sendMessage(ChatColor.GOLD + "[관리자] " + event.getPlayer().getDisplayName() + ": " + ChatColor.WHITE + event.getMessage());
+				}
+			} else {
+				for(Player player : Bukkit.getOnlinePlayers()) {
+					player.sendMessage(ChatColor.GRAY + "[일반인] " + event.getPlayer().getDisplayName() + ": " + ChatColor.WHITE + event.getMessage());
+				}
 			}
+			event.setCancelled(true);
 		}
-		event.setCancelled(true);
 	}
 	
 	public void firework(Location loc) {

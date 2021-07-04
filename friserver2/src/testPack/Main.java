@@ -194,10 +194,11 @@ public class Main extends JavaPlugin implements Listener{
 			player.kickPlayer(ChatColor.RED + "이번 게임에는 다시 참여할 수 없습니다.");
 		} else {
 			new Bar().bar1.addPlayer(player);
-			new Bar().bar1.setVisible(false);
 		}
 		
 		player.getInventory().clear();
+		
+		player.teleport(new Location(player.getWorld(),36, 143, -227));
 		
 		for(PotionEffect effect : player.getActivePotionEffects ()){
 			player.removePotionEffect(effect.getType());
@@ -246,6 +247,8 @@ public class Main extends JavaPlugin implements Listener{
 		
 		player.setGameMode(GameMode.SPECTATOR);
 		
+		event.setRespawnLocation(new Location(player.getWorld(),36, 143, -227));
+		
 //		ItemStack hel = new ItemStack(Material.LEATHER_HELMET);
 //		hel.addEnchantment(Enchantment.BINDING_CURSE, 1);
 //		player.getInventory().setHelmet(hel);
@@ -272,9 +275,7 @@ public class Main extends JavaPlugin implements Listener{
 		Location loc = event.getEntity().getLocation();
 		try {
 			Player player = (Player) event.getEntity();
-			player.kickPlayer(ChatColor.RED + "You Died");
-			
-			banList.add(player.getDisplayName());
+			player.setGameMode(GameMode.SPECTATOR);
 		} catch(Exception e) {
 			
 		}
@@ -312,8 +313,8 @@ public class Main extends JavaPlugin implements Listener{
 						Block b = event.getClickedBlock();
 						Location loc = b.getLocation();
 						startLoc = loc;
-						if (loc.getX() <= 1000 && loc.getY() <= 255 && loc.getZ() <= 1000 
-								&& loc.getX() >= -1000 && loc.getY() >= 0 && loc.getZ() >= -1000) {
+						if (loc.getX() <= 38 && loc.getY() <= 142 && loc.getZ() <= -226 
+								&& loc.getX() >= 32 && loc.getY() >= 135 && loc.getZ() >= -232) {
 							
 							if(start) {
 								player.sendMessage(ChatColor.RED + "아직 경기가 진행 중입니다.");
@@ -327,9 +328,9 @@ public class Main extends JavaPlugin implements Listener{
 							
 							World world = loc.getWorld();
 							
-							for(int i = -300 ; i <= 300 ; i++) {
-								for(int j = 40 ; j <= 80 ; j++) {
-									for(int k = -300 ; k <= 300 ; k++) {
+							for(int i = -137 ; i <= 174 ; i++) {
+								for(int j = 60 ; j <= 100 ; j++) {
+									for(int k = -331 ; k <= -144 ; k++) {
 										loc = new Location(world,i,j,k);
 										if(loc.getBlock().getType() == Material.CONCRETE) {
 											if(loc.getBlock().getData() == 0) {

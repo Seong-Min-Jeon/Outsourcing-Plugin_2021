@@ -93,6 +93,7 @@ public class Cmd1 implements CommandExecutor {
 					target.getInventory().setItem(0, we);
 					
 					target.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false));
+					target.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false));
 					
 					for(Player p : Bukkit.getOnlinePlayers()) {
 						try {
