@@ -79,7 +79,7 @@ public class Main extends JavaPlugin implements Listener{
 	Location startLoc = null;
 	int timer = 0;
 	double limit = 12000.0;
- 
+
 	Random rnd = new Random();
 	
 	@Override
@@ -136,7 +136,8 @@ public class Main extends JavaPlugin implements Listener{
 						for(Player all : Bukkit.getOnlinePlayers()) {
 							if(all == new Joker().getJoker()) {
 								all.getWorld().playSound(all.getLocation(), Sound.ENTITY_ZOMBIE_AMBIENT, 2.0f, 1.0f);
-								all.setWalkSpeed(0.4f);
+								all.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false));
+								all.setWalkSpeed(0.35f);
 							} else {
 								all.setWalkSpeed(0.3f);
 							}
