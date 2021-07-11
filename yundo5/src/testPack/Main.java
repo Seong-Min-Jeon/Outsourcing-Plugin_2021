@@ -135,8 +135,9 @@ public class Main extends JavaPlugin implements Listener{
 					if(timer % 60 == 0) {
 						for(Player all : Bukkit.getOnlinePlayers()) {
 							if(all == new Joker().getJoker()) {
-								all.getWorld().playSound(all.getLocation(), Sound.ENTITY_ZOMBIE_AMBIENT, 2.0f, 1.0f);
+								all.getWorld().playSound(all.getLocation(), Sound.ENTITY_WITCH_AMBIENT, 2.0f, 1.0f);
 								all.setWalkSpeed(0.35f);
+								all.setNoDamageTicks(60);
 								all.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 0, true, false));
 							} else {
 								all.setWalkSpeed(0.3f);
