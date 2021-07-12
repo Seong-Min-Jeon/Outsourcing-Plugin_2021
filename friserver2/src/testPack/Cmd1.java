@@ -94,6 +94,15 @@ public class Cmd1 implements CommandExecutor {
 					we.setItemMeta(im);
 					target.getInventory().setItem(0, we);
 					
+					ItemStack we2 = new ItemStack(Material.BOW);
+					ItemMeta im2 = we.getItemMeta();
+					im2.setDisplayName(ChatColor.RED + "조커의 활");
+					we.setItemMeta(im2);
+					target.getInventory().setItem(1, we2);
+					
+					ItemStack we3 = new ItemStack(Material.BOW, 64);
+					target.getInventory().setItem(2, we3);
+					
 					for(Player p : Bukkit.getOnlinePlayers()) {
 						try {
 							PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 

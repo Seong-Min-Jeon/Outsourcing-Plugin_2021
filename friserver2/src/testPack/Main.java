@@ -28,6 +28,7 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Pig;
@@ -143,6 +144,27 @@ public class Main extends JavaPlugin implements Listener{
 							}
 						}
 					}
+					
+					if(timer % 1200 == 0) {
+						if(timer >= 6000) {
+							for(Player all : Bukkit.getOnlinePlayers()) {
+								if(all == new Joker().getJoker()) {
+									all.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 6000, Integer.MAX_VALUE, true, false));
+								} else {
+									all.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 6000, Integer.MAX_VALUE, true, false));
+								}
+							}
+						} else {
+							for(Player all : Bukkit.getOnlinePlayers()) {
+								if(all == new Joker().getJoker()) {
+									all.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 100, Integer.MAX_VALUE, true, false));
+								} else {
+									all.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 200, Integer.MAX_VALUE, true, false));
+								}
+							}
+						}
+					}
+					
 					
 					if(timer == limit) {
 						// 생존자 승리
@@ -291,6 +313,14 @@ public class Main extends JavaPlugin implements Listener{
 					event.setDamage(2000);
 				}
 			}
+			
+			Entity damager = event.getDamager();
+			Entity entity = event.getEntity();
+			if(damager instanceof Arrow) {
+				if(entity instanceof Player) {
+					event.setDamage(2000);
+				}
+			}	
 		} catch(Exception e) {
 			
 		}
@@ -314,8 +344,8 @@ public class Main extends JavaPlugin implements Listener{
 						Block b = event.getClickedBlock();
 						Location loc = b.getLocation();
 						startLoc = loc;
-						if (loc.getX() <= 38 && loc.getY() <= 142 && loc.getZ() <= -226 
-								&& loc.getX() >= 32 && loc.getY() >= 135 && loc.getZ() >= -232) {
+						if (loc.getX() <= 45 && loc.getY() <= 142 && loc.getZ() <= -220 
+								&& loc.getX() >= 26 && loc.getY() >= 135 && loc.getZ() >= -240) {
 							
 							if(start) {
 								player.sendMessage(ChatColor.RED + "아직 경기가 진행 중입니다.");
@@ -333,17 +363,15 @@ public class Main extends JavaPlugin implements Listener{
 								for(int j = 60 ; j <= 100 ; j++) {
 									for(int k = -331 ; k <= -144 ; k++) {
 										loc = new Location(world,i,j,k);
-										if(loc.getBlock().getType() == Material.CONCRETE) {
-											if(loc.getBlock().getData() == 0) {
-												ary.add(loc);
-											}
+										if(loc.getBlock().getType() == Material.STRUCTURE_BLOCK) {
+											ary.add(loc);
 										}
 									}
 								}
 							}
 							
 							if(ary.size() == 0) {
-								player.sendMessage(ChatColor.RED + "출발 포인트가 없습니다. 출발 포인트는 하얀 콘크리트로 만들어주세요.");
+								player.sendMessage(ChatColor.RED + "출발 포인트가 없습니다. 출발 포인트는 스트럭처 블럭으로 만들어주세요.");
 								start = false;
 								return;
 							}
@@ -399,6 +427,7 @@ public class Main extends JavaPlugin implements Listener{
 				player.sendMessage(ChatColor.GRAY + "[일반인] " + event.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + event.getMessage());
 			}
 		}
+		event.setCancelled(true);
 	}
 	
 	public void firework(Location loc) {
