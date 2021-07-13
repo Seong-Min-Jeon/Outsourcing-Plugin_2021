@@ -75,10 +75,10 @@ public class Main extends JavaPlugin implements Listener{
 	
 	boolean finish = false;
 	boolean start = false;
+	boolean halfR = false;
+	boolean halfB = false;
 	ArrayList<Player> redT = new ArrayList<>();
 	ArrayList<Player> blueT = new ArrayList<>();
-	double red = 500;
-	double blue = 500;
 	
 	@Override
 	public void onEnable() {
@@ -108,8 +108,7 @@ public class Main extends JavaPlugin implements Listener{
 								}
 							}
 						}
-						System.out.println(cnt);
-						new Bar().bar2.setProgress(cnt/500);
+						new Bar().bar2.setProgress(cnt/1116.0);
 //						new Bar().bar2.setTitle(ChatColor.RED + "");
 					} catch(Exception e) {
 						
@@ -131,11 +130,30 @@ public class Main extends JavaPlugin implements Listener{
 								}
 							}
 						}
-						System.out.println(cnt);
-						new Bar().bar1.setProgress(cnt/500);
+						new Bar().bar1.setProgress(cnt/1116.0);
 //						new Bar().bar1.setTitle(ChatColor.RED + "");
 					} catch(Exception e) {
 						
+					}
+				}
+				
+				if(new Bar().bar1.getProgress() == 558/1116.0 && halfR == false) {
+					//레드 절반
+					halfR = true;
+					for(Player all : Bukkit.getOnlinePlayers()) {
+						all.sendMessage("============================");
+						all.sendMessage(ChatColor.RED + "레드팀 머리카락 절반 남았습니다!");
+						all.sendMessage("============================");
+					}
+				}
+				
+				if(new Bar().bar2.getProgress() == 558/1116.0 && halfB == false) {
+					//블루 절반
+					halfB = true;
+					for(Player all : Bukkit.getOnlinePlayers()) {
+						all.sendMessage("============================");
+						all.sendMessage(ChatColor.AQUA + "블루팀 머리카락 절반 남았습니다!");
+						all.sendMessage("============================");
 					}
 				}
 				
@@ -266,12 +284,58 @@ public class Main extends JavaPlugin implements Listener{
 	public void respawn(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
 		
-		player.getInventory().clear();
-		
 		if(redT.contains(player)) {
 			event.setRespawnLocation(new Location(player.getWorld(),40.5,100,-39.5,90,0));
+			EntityEquipment helmet = player.getEquipment();
+			ItemStack helmetItem = new ItemStack(Material.LEATHER_HELMET);
+			LeatherArmorMeta helmetmeta = (LeatherArmorMeta) helmetItem.getItemMeta();
+			helmetmeta.setColor(Color.fromRGB(255, 0, 0));
+			helmetItem.setItemMeta(helmetmeta);
+			helmet.setHelmet(helmetItem);
+			EntityEquipment chestplate = player.getEquipment();
+			ItemStack chestplateItem = new ItemStack(Material.LEATHER_CHESTPLATE);
+			LeatherArmorMeta chestmeta = (LeatherArmorMeta) chestplateItem.getItemMeta();
+			chestmeta.setColor(Color.fromRGB(255, 0, 0));
+			chestplateItem.setItemMeta(chestmeta);
+			chestplate.setChestplate(chestplateItem);
+			EntityEquipment leggings = player.getEquipment();
+			ItemStack leggingsItem = new ItemStack(Material.LEATHER_LEGGINGS);
+			LeatherArmorMeta leggingsmeta = (LeatherArmorMeta) leggingsItem.getItemMeta();
+			leggingsmeta.setColor(Color.fromRGB(255, 0, 0));
+			leggingsItem.setItemMeta(leggingsmeta);
+			leggings.setLeggings(leggingsItem);
+			EntityEquipment boots = player.getEquipment();
+			ItemStack bootsItem = new ItemStack(Material.LEATHER_BOOTS);
+			LeatherArmorMeta bootsmeta = (LeatherArmorMeta) bootsItem.getItemMeta();
+			bootsmeta.setColor(Color.fromRGB(255, 0, 0));
+			bootsItem.setItemMeta(bootsmeta);
+			boots.setBoots(bootsItem);
 		} else if(blueT.contains(player)) {
 			event.setRespawnLocation(new Location(player.getWorld(),-31.5,100,-39.5, 270, 0));
+			EntityEquipment helmet = player.getEquipment();
+			ItemStack helmetItem = new ItemStack(Material.LEATHER_HELMET);
+			LeatherArmorMeta helmetmeta = (LeatherArmorMeta) helmetItem.getItemMeta();
+			helmetmeta.setColor(Color.fromRGB(0, 0, 255));
+			helmetItem.setItemMeta(helmetmeta);
+			helmet.setHelmet(helmetItem);
+			EntityEquipment chestplate = player.getEquipment();
+			ItemStack chestplateItem = new ItemStack(Material.LEATHER_CHESTPLATE);
+			LeatherArmorMeta chestmeta = (LeatherArmorMeta) chestplateItem.getItemMeta();
+			chestmeta.setColor(Color.fromRGB(0, 0, 255));
+			chestplateItem.setItemMeta(chestmeta);
+			chestplate.setChestplate(chestplateItem);
+			EntityEquipment leggings = player.getEquipment();
+			ItemStack leggingsItem = new ItemStack(Material.LEATHER_LEGGINGS);
+			LeatherArmorMeta leggingsmeta = (LeatherArmorMeta) leggingsItem.getItemMeta();
+			leggingsmeta.setColor(Color.fromRGB(0, 0, 255));
+			leggingsItem.setItemMeta(leggingsmeta);
+			leggings.setLeggings(leggingsItem);
+			EntityEquipment boots = player.getEquipment();
+			ItemStack bootsItem = new ItemStack(Material.LEATHER_BOOTS);
+			LeatherArmorMeta bootsmeta = (LeatherArmorMeta) bootsItem.getItemMeta();
+			bootsmeta.setColor(Color.fromRGB(0, 0, 255));
+			bootsItem.setItemMeta(bootsmeta);
+			boots.setBoots(bootsItem);
 		} else {
 			event.setRespawnLocation(new Location(player.getWorld(),4,65,-104));
 		}
@@ -355,8 +419,6 @@ public class Main extends JavaPlugin implements Listener{
 								
 								if(time >= 201) {
 									
-									int cnt = 0;
-									
 									try {
 										for(Player all : Bukkit.getOnlinePlayers()) {
 											Location loc = all.getLocation();
@@ -434,13 +496,6 @@ public class Main extends JavaPlugin implements Listener{
 										
 									}
 									
-									if(cnt == 0) {
-										for(Player all : Bukkit.getOnlinePlayers()) {
-											all.sendMessage(ChatColor.RED + "참가자가 없어 게임이 초기화됩니다.");
-										}
-										start = false;
-									}
-
 									this.cancel();
 								}
 								
@@ -478,7 +533,8 @@ public class Main extends JavaPlugin implements Listener{
 	public void breakEvent(BlockBreakEvent event) {
 		if(event.getBlock().getType() == Material.WOOL) {
 			if(event.getBlock().getData() == 15) {
-				event.setDropItems(false);
+				event.getBlock().setType(Material.AIR);
+				event.setCancelled(true);
 			}
 		}
 	}

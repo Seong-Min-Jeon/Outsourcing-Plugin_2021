@@ -27,6 +27,6 @@ import org.bukkit.potion.PotionEffectType;
 public class Bar {
 	
 	public static BossBar bar1 = Bukkit.createBossBar(ChatColor.RED + "Red", BarColor.RED, BarStyle.SEGMENTED_10);
-	public static BossBar bar2 = Bukkit.createBossBar(ChatColor.RED + "Blue", BarColor.BLUE, BarStyle.SEGMENTED_10);
+	public static BossBar bar2 = Bukkit.createBossBar(ChatColor.AQUA + "Blue", BarColor.BLUE, BarStyle.SEGMENTED_10);
 	
 }
