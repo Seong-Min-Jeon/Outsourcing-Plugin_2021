@@ -84,6 +84,7 @@ public class Main extends JavaPlugin implements Listener{
 	Player killer = null;
 	boolean start = false;
 	Location startLoc = null;
+	int leave = 100;
 	int timer = -200;
  
 	Random rnd = new Random();
@@ -98,6 +99,12 @@ public class Main extends JavaPlugin implements Listener{
 			
 			@Override
 			public void run() {
+				
+				if(new Bar().bar1.getProgress() != 1 && timer >= 0 && leave <= 2) {
+					new Bar().bar1.setProgress(timer/600.0);
+					new Bar().bar1.setTitle(ChatColor.RED + "" + timer%1200/20 + "초");
+				}
+				
 				if(start) {
 					
 					if(new Bar().bar1.getProgress() != 1 && timer >= 0) {
@@ -259,6 +266,21 @@ public class Main extends JavaPlugin implements Listener{
 												killer = null;
 												chestCntMap.clear();
 												timer = -40;
+												
+												if(new PlayerList().playerList.size() == 2) {
+													leave = 2;
+												} else if(new PlayerList().playerList.size() == 1) {
+													leave = 1;
+												}
+												
+												if(leave <= 2) {
+													chestCntMap.clear();
+													ary.clear();
+													killerList.clear();
+													killer = null;
+													start = false;
+													timer = -200;
+												}
 											}
 											this.cancel();
 										}
@@ -295,6 +317,182 @@ public class Main extends JavaPlugin implements Listener{
 					
 					timer++;
 				}
+				
+				if(!start && leave == 2) {
+					new BukkitRunnable() {
+						
+						int time = 0;
+						
+						@Override
+						public void run() {
+							
+							if(time == 0) {
+								Bukkit.getWorld("world").setTime(18000);
+								//결투
+								ary.clear();
+								
+								Location loc = null;
+								for(int i = -300 ; i <= 300 ; i++) {
+									for(int j = 40 ; j <= 80 ; j++) {
+										for(int k = -300 ; k <= 300 ; k++) {
+											loc = new Location(Bukkit.getWorld("world"),i,j,k);
+											if(loc.getBlock().getType() == Material.CONCRETE) {
+												if(loc.getBlock().getData() == 11) {
+													ary.add(loc);
+												}
+											}
+										}
+									}
+								}
+								
+								for(Player all : new PlayerList().playerList) {
+									int num = rnd.nextInt(ary.size());
+									Location startLoc = ary.get(num).add(0.5,1,0.5);
+									all.teleport(startLoc);
+									ary.remove(ary.get(num));
+									
+									ItemStack we = new ItemStack(Material.IRON_SWORD);
+									ItemMeta im = we.getItemMeta();
+									im.setDisplayName(ChatColor.YELLOW + "칼");
+									we.setItemMeta(im);
+									
+									all.getInventory().setItem(0, we);
+									all.getInventory().setItem(1, we);
+									all.getInventory().setItem(2, we);
+									all.getInventory().setItem(3, we);
+									all.getInventory().setItem(4, we);
+									all.getInventory().setItem(5, we);
+									all.getInventory().setItem(6, we);
+									all.getInventory().setItem(7, we);
+									all.getInventory().setItem(8, we);
+								}
+							}
+							
+							if(time == 600) {
+								if(new PlayerList().playerList.size() == 2) {
+									String name1 = new PlayerList().playerList.get(0).getDisplayName();
+									String name2 = new PlayerList().playerList.get(1).getDisplayName();
+									firework(new PlayerList().playerList.get(0).getLocation());
+									firework(new PlayerList().playerList.get(1).getLocation());
+									try {
+										for(Player all : Bukkit.getOnlinePlayers()) {
+											PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+													ChatSerializer.a("{\"text\":\"§6"+ name1 + ", " + name2 + " 공동 우승입니다!"  +"\"}"));
+											Object handle = all.getClass().getMethod("getHandle").invoke(all);
+									        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+									        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+										}
+									} catch(Exception e) {
+										
+									}
+								} else {
+									String name1 = new PlayerList().playerList.get(0).getDisplayName();
+									firework(new PlayerList().playerList.get(0).getLocation());
+									try {
+										for(Player all : Bukkit.getOnlinePlayers()) {
+											PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+													ChatSerializer.a("{\"text\":\"§6"+ name1 + " 우승입니다!"  +"\"}"));
+											Object handle = all.getClass().getMethod("getHandle").invoke(all);
+									        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+									        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+										}
+									} catch(Exception e) {
+										
+									}
+								}
+							}
+							
+							if(time == 740) {
+								try {
+									for(Player all : Bukkit.getOnlinePlayers()) {
+										all.teleport(startLoc);
+									}
+								} catch(Exception e) {
+									
+								}
+							}
+							
+							if(time >= 750) {
+								new Bar().bar1.setProgress(0);
+								new Bar().bar1.setVisible(true);
+								chestCntMap.clear();
+								ary.clear();
+								killerList.clear();
+								killer = null;
+								start = false;
+								timer = -200;
+								startLoc = null;
+								leave = 100;
+								new PlayerList().playerList.clear();
+								Bukkit.getWorld("world").setTime(0);
+								
+								this.cancel();
+							}
+							
+							time++;
+						}
+					}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+					
+				} else if(!start && leave == 1) {
+					Bukkit.getWorld("world").setTime(18000);
+					//우승
+					new BukkitRunnable() {
+						
+						int time = 0;
+						
+						@Override
+						public void run() {
+							
+							if(time == 0) {
+								String name1 = new PlayerList().playerList.get(0).getDisplayName();
+								firework(new PlayerList().playerList.get(0).getLocation());
+								try {
+									for(Player all : Bukkit.getOnlinePlayers()) {
+										PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+												ChatSerializer.a("{\"text\":\"§6"+ name1 + " 우승입니다!"  +"\"}"));
+										Object handle = all.getClass().getMethod("getHandle").invoke(all);
+								        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+								        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+									}
+								} catch(Exception e) {
+									
+								}
+							}
+							
+							if(time == 140) {
+								try {
+									for(Player all : Bukkit.getOnlinePlayers()) {
+										all.teleport(startLoc);
+									}
+								} catch(Exception e) {
+									
+								}
+							}
+							
+							if(time >= 150) {
+								new Bar().bar1.setProgress(0);
+								new Bar().bar1.setVisible(true);
+								chestCntMap.clear();
+								ary.clear();
+								killerList.clear();
+								killer = null;
+								start = false;
+								timer = -200;
+								startLoc = null;
+								leave = 100;
+								new PlayerList().playerList.clear();
+								Bukkit.getWorld("world").setTime(0);
+								
+								this.cancel();
+							}
+							
+							time++;
+							
+						}
+					}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+					
+				}
+				
 			}
 		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 	}
@@ -640,11 +838,28 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void moveEvent(PlayerMoveEvent event) {
-		if(Bukkit.getWorld("world").getTime() == 18000 && start) {
-            if(event.getPlayer() != killer) {
-            	event.setCancelled(true);
-            }
-        }
+		if(leave > 2) {
+			if(Bukkit.getWorld("world").getTime() == 18000 && start) {
+	            if(event.getPlayer() != killer) {
+	            	event.setCancelled(true);
+	            }
+	        }
+		}
+	}
+	
+	@EventHandler
+	public void offEvent(PlayerQuitEvent event) {
+		try {
+			killerList.remove(event.getPlayer());
+		} catch(Exception e) {
+			
+		}
+		
+		try {
+			new PlayerList().playerList.remove(event.getPlayer());
+		} catch(Exception e) {
+			
+		}
 	}
 	
 	public void firework(Location loc) {
