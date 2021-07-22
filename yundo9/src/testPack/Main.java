@@ -86,6 +86,7 @@ public class Main extends JavaPlugin implements Listener{
 	Location startLoc = null;
 	int leave = 100;
 	int timer = -200;
+	boolean last = false;
  
 	Random rnd = new Random();
 	
@@ -120,7 +121,7 @@ public class Main extends JavaPlugin implements Listener{
 						
 						Location loc = null;
 						for(int i = -300 ; i <= 300 ; i++) {
-							for(int j = 40 ; j <= 80 ; j++) {
+							for(int j = 40 ; j <= 150 ; j++) {
 								for(int k = -300 ; k <= 300 ; k++) {
 									loc = new Location(world,i,j,k);
 									if(loc.getBlock().getType() == Material.CONCRETE) {
@@ -145,7 +146,7 @@ public class Main extends JavaPlugin implements Listener{
 						
 						//상자 배치
 						for(int i = -300 ; i <= 300 ; i++) {
-							for(int j = 40 ; j <= 80 ; j++) {
+							for(int j = 40 ; j <= 150 ; j++) {
 								for(int k = -300 ; k <= 300 ; k++) {
 									loc = new Location(world,i,j,k);
 									if(loc.getBlock().getType() == Material.CONCRETE) {
@@ -191,7 +192,7 @@ public class Main extends JavaPlugin implements Listener{
 						World world = Bukkit.getWorld("world");
 						Location loc = null;
 						for(int i = -300 ; i <= 300 ; i++) {
-							for(int j = 40 ; j <= 80 ; j++) {
+							for(int j = 40 ; j <= 150 ; j++) {
 								for(int k = -300 ; k <= 300 ; k++) {
 									loc = new Location(world,i,j,k);
 									if(loc.getBlock().getType() == Material.CHEST) {
@@ -232,7 +233,7 @@ public class Main extends JavaPlugin implements Listener{
 										
 										Location loc = null;
 										for(int i = -300 ; i <= 300 ; i++) {
-											for(int j = 40 ; j <= 80 ; j++) {
+											for(int j = 40 ; j <= 150 ; j++) {
 												for(int k = -300 ; k <= 300 ; k++) {
 													loc = new Location(world,i,j,k);
 													if(loc.getBlock().getType() == Material.CONCRETE) {
@@ -279,7 +280,8 @@ public class Main extends JavaPlugin implements Listener{
 													killerList.clear();
 													killer = null;
 													start = false;
-													timer = -200;
+													timer = 0;
+													last = true;
 												}
 											}
 											this.cancel();
@@ -318,7 +320,10 @@ public class Main extends JavaPlugin implements Listener{
 					timer++;
 				}
 				
-				if(!start && leave == 2) {
+				if(!start && leave == 2 && last) {
+					
+					last = false;
+					
 					new BukkitRunnable() {
 						
 						int time = 0;
@@ -333,7 +338,7 @@ public class Main extends JavaPlugin implements Listener{
 								
 								Location loc = null;
 								for(int i = -300 ; i <= 300 ; i++) {
-									for(int j = 40 ; j <= 80 ; j++) {
+									for(int j = 40 ; j <= 150 ; j++) {
 										for(int k = -300 ; k <= 300 ; k++) {
 											loc = new Location(Bukkit.getWorld("world"),i,j,k);
 											if(loc.getBlock().getType() == Material.CONCRETE) {
@@ -350,6 +355,10 @@ public class Main extends JavaPlugin implements Listener{
 									Location startLoc = ary.get(num).add(0.5,1,0.5);
 									all.teleport(startLoc);
 									ary.remove(ary.get(num));
+									
+									for(PotionEffect effect : all.getActivePotionEffects()){
+										all.removePotionEffect(effect.getType());
+								    }
 									
 									ItemStack we = new ItemStack(Material.IRON_SWORD);
 									ItemMeta im = we.getItemMeta();
@@ -406,6 +415,7 @@ public class Main extends JavaPlugin implements Listener{
 								try {
 									for(Player all : Bukkit.getOnlinePlayers()) {
 										all.teleport(startLoc);
+										all.getInventory().clear();
 									}
 								} catch(Exception e) {
 									
@@ -430,10 +440,14 @@ public class Main extends JavaPlugin implements Listener{
 							}
 							
 							time++;
+							timer++;
 						}
 					}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 					
-				} else if(!start && leave == 1) {
+				} else if(!start && leave == 1 && last) {
+					
+					last = false;
+					
 					Bukkit.getWorld("world").setTime(18000);
 					//우승
 					new BukkitRunnable() {
@@ -453,6 +467,11 @@ public class Main extends JavaPlugin implements Listener{
 										Object handle = all.getClass().getMethod("getHandle").invoke(all);
 								        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
 								        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+								        
+								        for(PotionEffect effect : all.getActivePotionEffects()){
+											all.removePotionEffect(effect.getType());
+									    }
+								        
 									}
 								} catch(Exception e) {
 									
@@ -463,6 +482,7 @@ public class Main extends JavaPlugin implements Listener{
 								try {
 									for(Player all : Bukkit.getOnlinePlayers()) {
 										all.teleport(startLoc);
+										all.getInventory().clear();
 									}
 								} catch(Exception e) {
 									
@@ -619,7 +639,7 @@ public class Main extends JavaPlugin implements Listener{
 		Player player = (Player) event.getPlayer();
 		if(event.getInventory().getType() == InventoryType.CHEST) {
 			if(chestCntMap.containsKey(player)) {
-				if(chestCntMap.get(player) >= 2) {
+				if(chestCntMap.get(player) >= 3) {
 					event.setCancelled(true);
 					return;
 				}
@@ -705,7 +725,7 @@ public class Main extends JavaPlugin implements Listener{
 							ary.clear();
 							
 							for(int i = -300 ; i <= 300 ; i++) {
-								for(int j = 40 ; j <= 80 ; j++) {
+								for(int j = 40 ; j <= 150 ; j++) {
 									for(int k = -300 ; k <= 300 ; k++) {
 										loc = new Location(world,i,j,k);
 										if(loc.getBlock().getType() == Material.CONCRETE) {
@@ -841,7 +861,9 @@ public class Main extends JavaPlugin implements Listener{
 		if(leave > 2) {
 			if(Bukkit.getWorld("world").getTime() == 18000 && start) {
 	            if(event.getPlayer() != killer) {
-	            	event.setCancelled(true);
+	            	if(event.getTo().getX() != event.getFrom().getX() || event.getTo().getZ() != event.getFrom().getZ()) {
+	            		event.setCancelled(true);
+	            	}
 	            }
 	        }
 		}

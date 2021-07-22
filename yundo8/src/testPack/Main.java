@@ -417,7 +417,7 @@ public class Main extends JavaPlugin implements Listener{
 						Location loc;
 						
 						for(int i = -100 ; i <= 100 ; i++) {
-							for(int j = 60 ; j <= 110 ; j++) {
+							for(int j = 1 ; j <= 250 ; j++) {
 								for(int k = -100 ; k <= 100 ; k++) {
 									loc = new Location(world,i,j,k);
 									if(loc.getBlock().getType() == Material.CONCRETE) {
@@ -587,7 +587,7 @@ public class Main extends JavaPlugin implements Listener{
 						Location loc;
 						
 						for(int i = -100 ; i <= 100 ; i++) {
-							for(int j = 60 ; j <= 110 ; j++) {
+							for(int j = 1 ; j <= 250 ; j++) {
 								for(int k = -100 ; k <= 100 ; k++) {
 									loc = new Location(world,i,j,k);
 									if(loc.getBlock().getType() == Material.CONCRETE) {

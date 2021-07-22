@@ -327,9 +327,9 @@ public class Main extends JavaPlugin implements Listener{
 		Player player = event.getPlayer(); 
 		player.setGameMode(GameMode.SURVIVAL);
 		
-		if(banList.contains(player.getDisplayName())) {
+		if(banList.contains(player.getDisplayName()) || start) {
 			event.setJoinMessage(null);
-			player.kickPlayer(ChatColor.RED + "이번 게임에는 다시 참여할 수 없습니다.");
+			player.kickPlayer(ChatColor.RED + "이번 게임에는 참여할 수 없습니다.");
 		} else {
 			new Bar().bar1.addPlayer(player);
 			new Bar().bar1.setVisible(false);
