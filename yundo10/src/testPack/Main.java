@@ -93,7 +93,7 @@ import org.bukkit.scoreboard.Team;
 public class Main extends JavaPlugin implements Listener{
 	
 //	HashMap<HashMap<Location, Integer>, Location> map = new HashMap<>();
-	HashMap<Location, String> door = new HashMap();
+	HashMap<Location, String> door = new HashMap<>();
 	HashMap<Player, Integer> move = new HashMap<>();
 	Random rnd = new Random();
 	
@@ -103,9 +103,12 @@ public class Main extends JavaPlugin implements Listener{
 		
 		getCommand("giveToken").setExecutor(new Cmd1());
 		getCommand("door").setExecutor(new Cmd2());
+		getCommand("증표").setExecutor(new Cmd3());
 		
 		new BukkitRunnable() {
 			int time = 0;
+			double var = 0;
+			Location loc, first, second;
 
 			@Override
 			public void run() {
@@ -119,6 +122,51 @@ public class Main extends JavaPlugin implements Listener{
 					}
 				}
 				
+				try {
+					for(Player player : Bukkit.getOnlinePlayers()) {
+						if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("1")) {
+							player.setWalkSpeed(0.35f);
+							player.getWorld().spawnParticle(Particle.CRIT, player.getLocation().add(0, 0.3, 0), 0);
+						} else if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("2")) {
+							player.setWalkSpeed(0.4f);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(0, 0.3, 0), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(1, 0.3, 0), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(-1, 0.3, 0), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(1, 0.3, 1), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(-1, 0.3, 1), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(1, 0.3, -1), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(-1, 0.3, -1), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(0, 0.3, 1), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(0, 0.3, -1), 0);
+						} else if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("3")) {
+							player.setWalkSpeed(0.45f);
+							
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(0, 0.3, 0), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(1, 0.3, 0), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(-1, 0.3, 0), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(1, 0.3, 1), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(-1, 0.3, 1), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(1, 0.3, -1), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(-1, 0.3, -1), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(0, 0.3, 1), 0);
+							player.getWorld().spawnParticle(Particle.CRIT_MAGIC, player.getLocation().add(0, 0.3, -1), 0);
+							
+							var += Math.PI / 16;
+
+							loc = player.getLocation();
+							first = loc.clone().add(Math.cos(var) * 0.5, Math.sin(var) + 1, Math.sin(var) * 0.5);
+							second = loc.clone().add(Math.cos(var + Math.PI) * 0.5, Math.sin(var) + 1, Math.sin(var + Math.PI) * 0.5);
+
+							player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, first, 0);
+							player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, second, 0);
+						} else {
+							player.setWalkSpeed(0.3f);
+						}
+					}
+				} catch(Exception e) {
+					
+				}
+				
 				time++;
 			}
 		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
@@ -129,6 +177,22 @@ public class Main extends JavaPlugin implements Listener{
 	@Override
 	public void onDisable() {
 		getLogger().info(" ");
+	}
+	 
+	@EventHandler
+	public void joinEvent(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		try {
+			if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("1")) {
+				event.setJoinMessage(ChatColor.GOLD + "[1성 귀족] " + ChatColor.WHITE + "" + player.getDisplayName() + "님이 접속하셨습니다.");
+			} else if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("2")) {
+				event.setJoinMessage(ChatColor.GOLD + "[2성 귀족] " + ChatColor.WHITE + "" + player.getDisplayName() + "님이 접속하셨습니다.");
+			} else if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("3")) {
+				event.setJoinMessage(ChatColor.GOLD + "[3성 귀족] " + ChatColor.WHITE + "" + player.getDisplayName() + "님이 접속하셨습니다.");
+			}
+		} catch(Exception e) {
+			
+		}
 	}
 	
 	@EventHandler
@@ -492,11 +556,34 @@ public class Main extends JavaPlugin implements Listener{
 		if(event.getItemDrop().getItemStack().getType() == Material.NETHER_STAR) {
 			event.setCancelled(true);
 		}
+		
+		try {
+			if(event.getItemDrop().getItemStack().getType() == Material.BARRIER) {
+				if(event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(ChatColor.RED + " "))
+					event.setCancelled(true);
+			}
+		} catch(Exception e) {
+			
+		}
 	}
 	
 	@EventHandler
 	public void clickInv(InventoryClickEvent event) {
 		Player player = (Player) event.getWhoClicked();
+		
+		try {
+			if(event.getCurrentItem().getType() == Material.BARRIER) {
+				if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.RED + " "))
+					event.setCancelled(true);
+			}
+			if(event.getCursor().getType() == Material.BARRIER) {
+				if(event.getCursor().getItemMeta().getDisplayName().equals(ChatColor.RED + " "))
+					event.setCancelled(true);
+			}
+		} catch(Exception e) {
+			
+		}
+		
 		try {
 			
 			if(event.getCurrentItem().getType() == Material.NETHER_STAR) {
@@ -565,7 +652,317 @@ public class Main extends JavaPlugin implements Listener{
 				}
 			}
 		} catch (Exception e7) {
-			System.err.println(e7);
+			
+		}
+		
+		try {
+			if(event.getCurrentItem().getType() == Material.NETHER_STAR) {
+				if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "농부의 별")) {
+					if(player.getInventory().getItem(35).getItemMeta() == null) {
+						new Cmd1().giveToken1(player);
+					} else {
+						int num = 0;
+						if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+							for (ItemStack is : player.getInventory().getContents()) {
+								if(is == null) continue;
+							    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+							         num += is.getAmount();
+							         is.setAmount(0);
+							    }
+							}
+						}
+						if(num > 10) {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-10));
+							new Cmd1().giveToken1(player);
+							player.sendMessage(ChatColor.GREEN + "직업이 변경되었습니다.");
+						} else {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+							player.sendMessage(ChatColor.RED + "10골드를 보유하고 있지 않습니다.");
+						}
+					}
+				} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "광부의 별")) {
+					if(player.getInventory().getItem(35).getItemMeta() == null) {
+						new Cmd1().giveToken4(player);
+					} else {
+						int num = 0;
+						if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+							for (ItemStack is : player.getInventory().getContents()) {
+								if(is == null) continue;
+							    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+							         num += is.getAmount();
+							         is.setAmount(0);
+							    }
+							}
+						}
+						if(num > 10) {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-10));
+							new Cmd1().giveToken4(player);
+							player.sendMessage(ChatColor.GREEN + "직업이 변경되었습니다.");
+						} else {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+							player.sendMessage(ChatColor.RED + "10골드를 보유하고 있지 않습니다.");
+						}
+					}
+				} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "어부의 별")) {
+					if(player.getInventory().getItem(35).getItemMeta() == null) {
+						new Cmd1().giveToken7(player);
+					} else {
+						int num = 0;
+						if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+							for (ItemStack is : player.getInventory().getContents()) {
+								if(is == null) continue;
+							    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+							         num += is.getAmount();
+							         is.setAmount(0);
+							    }
+							}
+						}
+						if(num > 10) {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-10));
+							new Cmd1().giveToken7(player);
+							player.sendMessage(ChatColor.GREEN + "직업이 변경되었습니다.");
+						} else {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+							player.sendMessage(ChatColor.RED + "10골드를 보유하고 있지 않습니다.");
+						}
+					}
+				} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "도적의 별")) {
+					if(player.getInventory().getItem(35).getItemMeta() == null) {
+						new Cmd1().giveToken10(player);
+					} else {
+						int num = 0;
+						if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+							for (ItemStack is : player.getInventory().getContents()) {
+								if(is == null) continue;
+							    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+							         num += is.getAmount();
+							         is.setAmount(0);
+							    }
+							}
+						}
+						if(num > 10) {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-10));
+							new Cmd1().giveToken10(player);
+							player.sendMessage(ChatColor.GREEN + "직업이 변경되었습니다.");
+						} else {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+							player.sendMessage(ChatColor.RED + "10골드를 보유하고 있지 않습니다.");
+						}
+					}
+				} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "모험가의 별")) {
+					if(player.getInventory().getItem(35).getItemMeta() == null) {
+						new Cmd1().giveToken13(player);
+					} else {
+						int num = 0;
+						if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+							for (ItemStack is : player.getInventory().getContents()) {
+								if(is == null) continue;
+							    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+							         num += is.getAmount();
+							         is.setAmount(0);
+							    }
+							}
+						}
+						if(num > 10) {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-10));
+							new Cmd1().giveToken13(player);
+							player.sendMessage(ChatColor.GREEN + "직업이 변경되었습니다.");
+						} else {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+							player.sendMessage(ChatColor.RED + "10골드를 보유하고 있지 않습니다.");
+						}
+					}
+				} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "상인의 별")) {
+					if(player.getInventory().getItem(35).getItemMeta() == null) {
+						new Cmd1().giveToken18(player);
+					} else {
+						int num = 0;
+						if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+							for (ItemStack is : player.getInventory().getContents()) {
+								if(is == null) continue;
+							    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+							         num += is.getAmount();
+							         is.setAmount(0);
+							    }
+							}
+						}
+						if(num > 10) {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-10));
+							new Cmd1().giveToken18(player);
+							player.sendMessage(ChatColor.GREEN + "직업이 변경되었습니다.");
+						} else {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+							player.sendMessage(ChatColor.RED + "10골드를 보유하고 있지 않습니다.");
+						}
+					}
+				} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "기사의 별")) {
+					if(player.getInventory().getItem(35).getItemMeta() == null) {
+						new Cmd1().giveToken21(player);
+					} else {
+						int num = 0;
+						if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+							for (ItemStack is : player.getInventory().getContents()) {
+								if(is == null) continue;
+							    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+							         num += is.getAmount();
+							         is.setAmount(0);
+							    }
+							}
+						}
+						if(num > 10) {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-10));
+							new Cmd1().giveToken21(player);
+							player.sendMessage(ChatColor.GREEN + "직업이 변경되었습니다.");
+						} else {
+							player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+							player.sendMessage(ChatColor.RED + "10골드를 보유하고 있지 않습니다.");
+						}
+					}
+				} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "직업 업그레이드")) {
+					if(player.getInventory().getItem(35).getItemMeta() != null) {
+						if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("1")) {
+							int num = 0;
+							if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+								for (ItemStack is : player.getInventory().getContents()) {
+									if(is == null) continue;
+								    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+								         num += is.getAmount();
+								         is.setAmount(0);
+								    }
+								}
+							}
+							if(num > 50) {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-50));
+								new Cmd1().giveToken2(player);
+								player.sendMessage(ChatColor.GREEN + "직업이 업그레이드 되었습니다.");
+							} else {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+								player.sendMessage(ChatColor.RED + "50골드를 보유하고 있지 않습니다.");
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("4")) {
+							int num = 0;
+							if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+								for (ItemStack is : player.getInventory().getContents()) {
+									if(is == null) continue;
+								    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+								         num += is.getAmount();
+								         is.setAmount(0);
+								    }
+								}
+							}
+							if(num > 50) {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-50));
+								new Cmd1().giveToken5(player);
+								player.sendMessage(ChatColor.GREEN + "직업이 업그레이드 되었습니다.");
+							} else {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+								player.sendMessage(ChatColor.RED + "50골드를 보유하고 있지 않습니다.");
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("7")) {
+							int num = 0;
+							if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+								for (ItemStack is : player.getInventory().getContents()) {
+									if(is == null) continue;
+								    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+								         num += is.getAmount();
+								         is.setAmount(0);
+								    }
+								}
+							}
+							if(num > 50) {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-50));
+								new Cmd1().giveToken8(player);
+								player.sendMessage(ChatColor.GREEN + "직업이 업그레이드 되었습니다.");
+							} else {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+								player.sendMessage(ChatColor.RED + "50골드를 보유하고 있지 않습니다.");
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("10")) {
+							int num = 0;
+							if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+								for (ItemStack is : player.getInventory().getContents()) {
+									if(is == null) continue;
+								    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+								         num += is.getAmount();
+								         is.setAmount(0);
+								    }
+								}
+							}
+							if(num > 50) {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-50));
+								new Cmd1().giveToken11(player);
+								player.sendMessage(ChatColor.GREEN + "직업이 업그레이드 되었습니다.");
+							} else {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+								player.sendMessage(ChatColor.RED + "50골드를 보유하고 있지 않습니다.");
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("13")) {
+							int num = 0;
+							if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+								for (ItemStack is : player.getInventory().getContents()) {
+									if(is == null) continue;
+								    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+								         num += is.getAmount();
+								         is.setAmount(0);
+								    }
+								}
+							}
+							if(num > 50) {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-50));
+								new Cmd1().giveToken14(player);
+								player.sendMessage(ChatColor.GREEN + "직업이 업그레이드 되었습니다.");
+							} else {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+								player.sendMessage(ChatColor.RED + "50골드를 보유하고 있지 않습니다.");
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("18")) {
+							int num = 0;
+							if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+								for (ItemStack is : player.getInventory().getContents()) {
+									if(is == null) continue;
+								    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+								         num += is.getAmount();
+								         is.setAmount(0);
+								    }
+								}
+							}
+							if(num > 50) {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-50));
+								new Cmd1().giveToken19(player);
+								player.sendMessage(ChatColor.GREEN + "직업이 업그레이드 되었습니다.");
+							} else {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+								player.sendMessage(ChatColor.RED + "50골드를 보유하고 있지 않습니다.");
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("21")) {
+							int num = 0;
+							if(player.getInventory().contains(Material.getMaterial("ORDINARYCOINS_COINGOLD"))) {
+								for (ItemStack is : player.getInventory().getContents()) {
+									if(is == null) continue;
+								    if (is.getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {			
+								         num += is.getAmount();
+								         is.setAmount(0);
+								    }
+								}
+							}
+							if(num > 50) {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-50));
+								new Cmd1().giveToken22(player);
+								player.sendMessage(ChatColor.GREEN + "직업이 업그레이드 되었습니다.");
+							} else {
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
+								player.sendMessage(ChatColor.RED + "50골드를 보유하고 있지 않습니다.");
+							}
+						} else {
+							player.sendMessage(ChatColor.RED + "업그레이드 가능한 직업이 아닙니다.");
+						}
+					} else {
+						player.sendMessage(ChatColor.RED + "직업을 보유하고 있지 않습니다.");
+					}
+				}
+			}
+		} catch(Exception e) {
+			
 		}
 	}
 	

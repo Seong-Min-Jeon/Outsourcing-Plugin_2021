@@ -8,4 +8,7 @@ commands:
   door:
    description: set door
    usage: /door
+  증표:
+   description: 증표선택
+   usage: /증표
 api-version: 1.12

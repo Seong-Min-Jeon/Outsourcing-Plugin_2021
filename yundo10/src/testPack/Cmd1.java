@@ -91,6 +91,12 @@ public class Cmd1 implements CommandExecutor {
 						giveToken22(target);
 					} else if(job.equals("23")) {
 						giveToken23(target);
+					} else if(job.equals("24")) {
+						giveToken24(target);
+					} else if(job.equals("25")) {
+						giveToken25(target);
+					} else if(job.equals("26")) {
+						giveToken26(target);
 					} else if(job.equals("100")) {
 						giveToken100(target);
 					}
@@ -468,6 +474,54 @@ public class Cmd1 implements CommandExecutor {
 		var2.setItemMeta(var2Im);
 		
 		player.getInventory().setItem(35, var2);
+		
+		player.sendMessage("새로운 증표를 얻게되었습니다.");
+	}
+	
+	public void giveToken24(Player player) {
+		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
+		ItemMeta var2Im = var2.getItemMeta();
+		var2Im.setLocalizedName("1");
+		var2Im.setDisplayName(ChatColor.GOLD + "1성 귀족의 증표");
+		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+		var2Im.setUnbreakable(true);
+		var2.setItemMeta(var2Im);
+		
+		player.getInventory().setItem(34, var2);
+		
+		player.sendMessage("새로운 증표를 얻게되었습니다.");
+	}
+	
+	public void giveToken25(Player player) {
+		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
+		ItemMeta var2Im = var2.getItemMeta();
+		var2Im.setLocalizedName("2");
+		var2Im.setDisplayName(ChatColor.GOLD + "2성 귀족의 증표");
+		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+		var2Im.setUnbreakable(true);
+		var2.setItemMeta(var2Im);
+		
+		player.getInventory().setItem(34, var2);
+		
+		player.sendMessage("새로운 증표를 얻게되었습니다.");
+	}
+	
+	public void giveToken26(Player player) {
+		ItemStack var2 = new ItemStack(Material.NETHER_STAR);
+		ItemMeta var2Im = var2.getItemMeta();
+		var2Im.setLocalizedName("3");
+		var2Im.setDisplayName(ChatColor.GOLD + "3성 귀족의 증표");
+		var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+		var2Im.setUnbreakable(true);
+		var2.setItemMeta(var2Im);
+		
+		player.getInventory().setItem(34, var2);
 		
 		player.sendMessage("새로운 증표를 얻게되었습니다.");
 	}
