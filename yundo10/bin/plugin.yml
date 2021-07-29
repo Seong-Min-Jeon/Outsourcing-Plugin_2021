@@ -20,4 +20,7 @@ commands:
   명성랭킹:
    description: 명성랭킹
    usage: /명성랭킹
+  레이드:
+   description: 레이드 시작 커맨드
+   usage: /레이드
 api-version: 1.12

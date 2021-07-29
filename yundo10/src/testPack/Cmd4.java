@@ -132,11 +132,11 @@ public class Cmd4 implements CommandExecutor {
 						}
 						FileReader filereader = new FileReader(file);
 						BufferedReader bufReader = new BufferedReader(filereader);
-						BufferedWriter fw = new BufferedWriter(new FileWriter(file));
+						BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
 
-						if(map.keySet().contains(pName)) {
+						if(map.keySet().contains(target.getDisplayName())) {
 							for(String key : map.keySet()) {
-								if(key.equals(pName)) {
+								if(key.equals(target.getDisplayName())) {
 									fw.write(key + "/" + Integer.toString( Integer.parseInt(map.get(key)) + 1 ));
 									fw.write("\n");
 								} else {
@@ -145,7 +145,11 @@ public class Cmd4 implements CommandExecutor {
 								}
 							}
 						} else {
-							fw.write(pName + "/1");
+							for(String key : map.keySet()) {
+								fw.write(key + "/" + map.get(key));
+								fw.write("\n");
+							}
+							fw.write(target.getDisplayName() + "/1");
 							fw.write("\n");
 						}
 						
@@ -153,6 +157,8 @@ public class Cmd4 implements CommandExecutor {
 						bufReader.close();
 					}
 					
+		            player.sendMessage(ChatColor.GREEN + "" + target.getDisplayName() +"님에게 명성을 주었습니다.");
+		            
 				} else {
 					player.sendMessage(ChatColor.RED + "해당 플레이어는 서버에 없습니다.");
 				}

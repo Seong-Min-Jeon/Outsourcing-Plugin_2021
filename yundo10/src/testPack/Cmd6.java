@@ -97,11 +97,20 @@ public class Cmd6 implements CommandExecutor {
 	        					if(Integer.parseInt(aryLoc[1]) > t2) {
 	        						if(Integer.parseInt(aryLoc[1]) > s2) {
 	        							if(Integer.parseInt(aryLoc[1]) > f2) {
+	        								s1 = f1;
+	        								s2 = f2;
 	    	        						f1 = aryLoc[0];
+	    	        						f2 = Integer.parseInt(aryLoc[1]);
+	    	        					} else {
+	    	        						t1 = s1;
+	    	        						t2 = s2;
+	    	        						s1 = aryLoc[0];
+	    	        						s2 = Integer.parseInt(aryLoc[1]);
 	    	        					}
-	        							s1 = aryLoc[0];
+		        					} else {
+		        						t1 = aryLoc[0];
+		        						t2 = Integer.parseInt(aryLoc[1]);
 		        					}
-	        						t1 = aryLoc[0];
 	        					}
 	        				} catch(Exception e) {
 	        					

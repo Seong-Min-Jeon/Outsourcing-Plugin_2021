@@ -17,6 +17,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -44,6 +45,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -92,7 +94,6 @@ import org.bukkit.scoreboard.Team;
 
 public class Main extends JavaPlugin implements Listener{
 	
-//	HashMap<HashMap<Location, Integer>, Location> map = new HashMap<>();
 	HashMap<Location, String> door = new HashMap<>();
 	HashMap<Player, Integer> move = new HashMap<>();
 	Random rnd = new Random();
@@ -107,6 +108,7 @@ public class Main extends JavaPlugin implements Listener{
 		getCommand("명성추가").setExecutor(new Cmd4());
 		getCommand("명성").setExecutor(new Cmd5());
 		getCommand("명성랭킹").setExecutor(new Cmd6());
+		getCommand("레이드").setExecutor(new Cmd7());
 		
 		new BukkitRunnable() {
 			int time = 0;
@@ -308,6 +310,75 @@ public class Main extends JavaPlugin implements Listener{
 				event.setDamage(event.getDamage() * 0.5);
 			} else if(entity.getName().equals("Ice Dragon")) {
 				event.setDamage(event.getDamage() * 0.5);
+			}
+		} catch(Exception e) {
+			
+		}
+		
+		// 몹 스킬 트리거
+		try {
+			try {
+				if (event.getEntity() instanceof Monster) {
+					Entity entity = (Entity) event.getEntity();
+					Player player = null;
+					List<Entity> nearEntity = entity.getNearbyEntities(20, 10, 20);
+					for (Entity ent : nearEntity) {
+						if (ent instanceof Player) {
+							player = (Player) ent;
+							break;
+						}
+					}
+					PlayerHitDebuff debuff = new PlayerHitDebuff();
+					debuff.playerHitDebuff(player, entity);
+				}
+			} catch (Exception e) {
+
+			}
+		} catch (Exception e) {
+
+		}
+
+		try {
+			Entity entity = event.getEntity();
+			if (entity.getCustomName().substring(2).equalsIgnoreCase("[부활한 왕] 듄뮤엘")) {
+
+				LivingEntity boss = (LivingEntity) entity;
+
+				if(boss.getHealth() - event.getFinalDamage() <= 0) {
+					for(Player p : new Bar().bar1.getPlayers()) {
+						new Bar().bar1.setProgress(0);
+						new Bar().removePlayer(p);
+					}
+				} else {
+					new Bar().bar1.setProgress((boss.getHealth()-event.getFinalDamage()) / 1000.0);
+				}
+				
+			} else if (entity.getCustomName().substring(2).equalsIgnoreCase("[분노한 왕] 듄뮤엘")) {
+
+				LivingEntity boss = (LivingEntity) entity;
+
+				if(boss.getHealth() - event.getFinalDamage() <= 0) {
+					for(Player p : new Bar().bar1.getPlayers()) {
+						new Bar().bar1.setProgress(0);
+						new Bar().removePlayer(p);
+					}
+				} else {
+					new Bar().bar1.setProgress((boss.getHealth()-event.getFinalDamage()) / 2000.0);
+				}
+				
+			} else if (entity.getCustomName().substring(2).equalsIgnoreCase("[진정한 왕] 듄뮤엘")) {
+
+				LivingEntity boss = (LivingEntity) entity;
+
+				if(boss.getHealth() - event.getFinalDamage() <= 0) {
+					for(Player p : new Bar().bar1.getPlayers()) {
+						new Bar().bar1.setProgress(0);
+						new Bar().removePlayer(p);
+					}
+				} else {
+					new Bar().bar1.setProgress((boss.getHealth()-event.getFinalDamage()) / 3000.0);
+				}
+				
 			}
 		} catch(Exception e) {
 			
