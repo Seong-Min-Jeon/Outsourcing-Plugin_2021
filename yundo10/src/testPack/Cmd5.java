@@ -3,12 +3,15 @@ package testPack;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -28,13 +31,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class Cmd2 implements CommandExecutor {
+public class Cmd5 implements CommandExecutor {
 	
 	static File folder = null;
 	
@@ -48,24 +52,12 @@ public class Cmd2 implements CommandExecutor {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			
-			if(!player.isOp()) {
-				player.sendMessage("오피 명령어 입니다!");
-				return false;
-			}
-			
 			try {
-				String mo = args[0];
-				
-				int x = player.getLocation().getBlockX();
-				int y = player.getLocation().getBlockY();
-				int z = player.getLocation().getBlockZ();
-				
 				File dataFolder = folder;
-				
-				if (!dataFolder.exists()) {
-					dataFolder.mkdir();
-				} else {
-					File dir = new File(dataFolder + "/save");
+	            if(!dataFolder.exists()) {
+	                dataFolder.mkdir();
+	            } else {
+	            	File dir = new File(dataFolder + "/save");
 	            	if(!dir.exists()) {
 	            		try{
 	            		    dir.mkdir(); 
@@ -73,26 +65,38 @@ public class Cmd2 implements CommandExecutor {
 	            		    e.getStackTrace();
 	            		}
 	            	}
-
-	            	File file = new File(dir, "door.txt");
-					if (!file.exists()) {
-						try {
-							file.createNewFile();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					FileReader filereader = new FileReader(file);
-					BufferedReader bufReader = new BufferedReader(filereader);
-					BufferedWriter fw = new BufferedWriter(new FileWriter(file, true));
-
-					fw.write(x + " " + y + " " + z + "/" + mo);
-					fw.write("\n");
-					fw.close();
-					bufReader.close();
+	            	try {
+	            		File file = new File(dir, "fame.txt");
+	    				if (!file.exists()) {
+	    					try {
+	    						file.createNewFile();
+	    					} catch (IOException e) {
+	    						e.printStackTrace();
+	    					}
+	    				}
+	    				FileReader filereader = new FileReader(file);
+	    				BufferedReader bufReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));
+	    				String name;
+	    				while((name = bufReader.readLine()) != null) {
+	        				try {
+	        					if(name.substring(0, 1).equals("#")) {
+	        						continue;
+	        					}
+	        					
+	        					String[] aryLoc = name.split("/");
+	        					
+	        					if(aryLoc[0].equals(player.getDisplayName())) {
+	        						player.sendMessage("당신의 명성수치는 " + ChatColor.BOLD + aryLoc[1] + ChatColor.RESET + " 입니다.");
+	        					}
+	        				} catch(Exception e) {
+	        					
+	        				}
+	    				}
+	    				bufReader.close();
+	            	} catch(Exception e) {
+	            		
+	            	}
 				}
-				
-				player.sendMessage("설정완료!");
 			} catch(Exception e) {
 				
 			}

@@ -103,7 +103,10 @@ public class Main extends JavaPlugin implements Listener{
 		
 		getCommand("giveToken").setExecutor(new Cmd1());
 		getCommand("door").setExecutor(new Cmd2());
-		getCommand("증표").setExecutor(new Cmd3());
+		getCommand("직업").setExecutor(new Cmd3());
+		getCommand("명성추가").setExecutor(new Cmd4());
+		getCommand("명성").setExecutor(new Cmd5());
+		getCommand("명성랭킹").setExecutor(new Cmd6());
 		
 		new BukkitRunnable() {
 			int time = 0;
@@ -172,6 +175,9 @@ public class Main extends JavaPlugin implements Listener{
 		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 		
 		new Cmd2().setFolder(getDataFolder());
+		new Cmd4().setFolder(getDataFolder());
+		new Cmd5().setFolder(getDataFolder());
+		new Cmd6().setFolder(getDataFolder());
 	}
 	
 	@Override
@@ -570,6 +576,16 @@ public class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void clickInv(InventoryClickEvent event) {
 		Player player = (Player) event.getWhoClicked();
+		
+//		try {
+//			if(event.getClick() == ClickType.MIDDLE) {
+//				ArmorStand proTotem = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
+//				proTotem.setVisible(false);
+//				proTotem.setHelmet(event.getCurrentItem());
+//			}
+//		} catch(Exception e) {
+//			
+//		}
 		
 		try {
 			if(event.getCurrentItem().getType() == Material.BARRIER) {
