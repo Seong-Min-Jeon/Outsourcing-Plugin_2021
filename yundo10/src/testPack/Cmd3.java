@@ -131,6 +131,7 @@ public class Cmd3 implements CommandExecutor {
 		var9Im.setDisplayName(ChatColor.GOLD + "직업 업그레이드");
 		ArrayList<String> var9Lore = new ArrayList();
 		var9Lore.add(ChatColor.GRAY + "50골드를 지불하는 것으로 현재 직업을 2단계로 업그레이드 할 수 있다.");
+		var9Lore.add(ChatColor.GRAY + "(도적은 30골드만 지불해도 업그레이드가 가능하다.)");
 		var9Lore.add(ChatColor.GRAY + "(직업이 없는 경우에는 사용할 수 없다.)");
 		var9Im.setLore(var9Lore);
 		var9Im.addEnchant(Enchantment.DURABILITY, 0, true);

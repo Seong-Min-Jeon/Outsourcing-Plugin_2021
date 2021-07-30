@@ -56,6 +56,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -78,7 +79,9 @@ import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.material.Button;
@@ -91,6 +94,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
+import org.bukkit.util.Vector;
 
 public class Main extends JavaPlugin implements Listener{
 	
@@ -109,6 +113,7 @@ public class Main extends JavaPlugin implements Listener{
 		getCommand("명성").setExecutor(new Cmd5());
 		getCommand("명성랭킹").setExecutor(new Cmd6());
 		getCommand("레이드").setExecutor(new Cmd7());
+		getCommand("강화").setExecutor(new Cmd8());
 		
 		new BukkitRunnable() {
 			int time = 0;
@@ -186,7 +191,7 @@ public class Main extends JavaPlugin implements Listener{
 	public void onDisable() {
 		getLogger().info(" ");
 	}
-	 
+	
 	@EventHandler
 	public void joinEvent(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
@@ -208,6 +213,94 @@ public class Main extends JavaPlugin implements Listener{
 		if(event.getEntityType() == EntityType.VILLAGER) {
 			LivingEntity ent = (LivingEntity) event.getEntity();
 			ent.damage(2000);
+		}
+	}
+	
+	@EventHandler
+	public void deathEvent(EntityDeathEvent event) {
+		try {
+			int num = rnd.nextInt(100);
+			if(event.getEntity().getCustomName().substring(2).equalsIgnoreCase("[부활한 왕] 둔뮤엘")) {
+				if(num < 5) {
+					ItemStack var2 = new ItemStack(Material.QUARTZ);
+					ItemMeta var2Im = var2.getItemMeta();
+					var2Im.setDisplayName(ChatColor.DARK_RED + "둔뮤엘의 혼");
+					var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+					var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+					var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+					var2Im.setUnbreakable(true);
+					var2.setItemMeta(var2Im);
+					event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), var2);
+				} else if(num < 15) {
+					ItemStack var2 = new ItemStack(Material.CHORUS_PLANT);
+					ItemMeta var2Im = var2.getItemMeta();
+					var2Im.setDisplayName(ChatColor.DARK_RED + "강화 크리스탈");
+					var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+					var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+					var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+					var2Im.setUnbreakable(true);
+					var2.setItemMeta(var2Im);
+					event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), var2);
+				} else {
+					int num2 = rnd.nextInt(10) + 1;
+					ItemStack var2 = new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num2);
+					event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), var2);
+				}
+			} else if(event.getEntity().getCustomName().substring(2).equalsIgnoreCase("[분노한 왕] 둔뮤엘")) {
+				if(num < 10) {
+					ItemStack var2 = new ItemStack(Material.QUARTZ);
+					ItemMeta var2Im = var2.getItemMeta();
+					var2Im.setDisplayName(ChatColor.DARK_RED + "둔뮤엘의 혼");
+					var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+					var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+					var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+					var2Im.setUnbreakable(true);
+					var2.setItemMeta(var2Im);
+					event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), var2);
+				} else if(num < 30) {
+					ItemStack var2 = new ItemStack(Material.CHORUS_PLANT);
+					ItemMeta var2Im = var2.getItemMeta();
+					var2Im.setDisplayName(ChatColor.DARK_RED + "강화 크리스탈");
+					var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+					var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+					var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+					var2Im.setUnbreakable(true);
+					var2.setItemMeta(var2Im);
+					event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), var2);
+				} else {
+					int num2 = rnd.nextInt(10) + 1;
+					ItemStack var2 = new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num2);
+					event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), var2);
+				}
+			} else if(event.getEntity().getCustomName().substring(2).equalsIgnoreCase("[진정한 왕] 둔뮤엘")) {
+				if(num < 15) {
+					ItemStack var2 = new ItemStack(Material.QUARTZ);
+					ItemMeta var2Im = var2.getItemMeta();
+					var2Im.setDisplayName(ChatColor.DARK_RED + "둔뮤엘의 혼");
+					var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+					var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+					var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+					var2Im.setUnbreakable(true);
+					var2.setItemMeta(var2Im);
+					event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), var2);
+				} else if(num < 45) {
+					ItemStack var2 = new ItemStack(Material.CHORUS_PLANT);
+					ItemMeta var2Im = var2.getItemMeta();
+					var2Im.setDisplayName(ChatColor.DARK_RED + "강화 크리스탈");
+					var2Im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+					var2Im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+					var2Im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+					var2Im.setUnbreakable(true);
+					var2.setItemMeta(var2Im);
+					event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), var2);
+				} else {
+					int num2 = rnd.nextInt(10) + 1;
+					ItemStack var2 = new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num2);
+					event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), var2);
+				}
+			}
+		} catch(Exception e) {
+			
 		}
 	}
 	
@@ -284,6 +377,33 @@ public class Main extends JavaPlugin implements Listener{
 		} catch(Exception e) {
 			
 		}
+		
+		try {
+			if(event.getEntity().getCustomName().substring(2).equalsIgnoreCase("[부활한 왕] 둔뮤엘")) {
+				final Monster m = (Monster) event.getEntity();
+				this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+	                public void run() {
+	                    m.setVelocity(new Vector()); 
+	                }
+	            }, 1L);
+			} else if(event.getEntity().getCustomName().substring(2).equalsIgnoreCase("[분노한 왕] 둔뮤엘")) {
+				final Monster m = (Monster) event.getEntity();
+				this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+	                public void run() {
+	                    m.setVelocity(new Vector()); 
+	                }
+	            }, 1L);
+			} else if(event.getEntity().getCustomName().substring(2).equalsIgnoreCase("[진정한 왕] 둔뮤엘")) {
+				final Monster m = (Monster) event.getEntity();
+				this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+	                public void run() {
+	                    m.setVelocity(new Vector()); 
+	                }
+	            }, 1L);
+			}
+		} catch(Exception e) {
+			
+		}
 	}
 	
 	@EventHandler
@@ -340,7 +460,7 @@ public class Main extends JavaPlugin implements Listener{
 
 		try {
 			Entity entity = event.getEntity();
-			if (entity.getCustomName().substring(2).equalsIgnoreCase("[부활한 왕] 듄뮤엘")) {
+			if (entity.getCustomName().substring(2).equalsIgnoreCase("[부활한 왕] 둔뮤엘")) {
 
 				LivingEntity boss = (LivingEntity) entity;
 
@@ -353,7 +473,7 @@ public class Main extends JavaPlugin implements Listener{
 					new Bar().bar1.setProgress((boss.getHealth()-event.getFinalDamage()) / 1000.0);
 				}
 				
-			} else if (entity.getCustomName().substring(2).equalsIgnoreCase("[분노한 왕] 듄뮤엘")) {
+			} else if (entity.getCustomName().substring(2).equalsIgnoreCase("[분노한 왕] 둔뮤엘")) {
 
 				LivingEntity boss = (LivingEntity) entity;
 
@@ -366,7 +486,7 @@ public class Main extends JavaPlugin implements Listener{
 					new Bar().bar1.setProgress((boss.getHealth()-event.getFinalDamage()) / 2000.0);
 				}
 				
-			} else if (entity.getCustomName().substring(2).equalsIgnoreCase("[진정한 왕] 듄뮤엘")) {
+			} else if (entity.getCustomName().substring(2).equalsIgnoreCase("[진정한 왕] 둔뮤엘")) {
 
 				LivingEntity boss = (LivingEntity) entity;
 
@@ -648,16 +768,6 @@ public class Main extends JavaPlugin implements Listener{
 	public void clickInv(InventoryClickEvent event) {
 		Player player = (Player) event.getWhoClicked();
 		
-//		try {
-//			if(event.getClick() == ClickType.MIDDLE) {
-//				ArmorStand proTotem = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
-//				proTotem.setVisible(false);
-//				proTotem.setHelmet(event.getCurrentItem());
-//			}
-//		} catch(Exception e) {
-//			
-//		}
-		
 		try {
 			if(event.getCurrentItem().getType() == Material.BARRIER) {
 				if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.RED + " "))
@@ -740,6 +850,168 @@ public class Main extends JavaPlugin implements Listener{
 			}
 		} catch (Exception e7) {
 			
+		}
+		
+		try {
+			if(event.getCurrentItem().getType() == Material.SLIME_BALL) {
+				if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "강화하기")) {
+					Inventory inv = event.getClickedInventory();
+					
+					if(inv.getItem(1).getItemMeta() != null) {
+						if(inv.getItem(1).getItemMeta().getDisplayName().equals(ChatColor.DARK_RED + "강화 크리스탈")) {
+							if(inv.getItem(2).getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {
+								
+								if(inv.getItem(0).getItemMeta() == null) {
+									if(inv.getItem(1).getAmount() >= 1) {
+										if(inv.getItem(2).getAmount() >= 10) {
+											if(rnd.nextInt(10) < 7) {
+												ItemStack var2 = inv.getItem(0);
+												ItemMeta var2Im = var2.getItemMeta();
+												var2Im.setLocalizedName("1");
+												var2Im.setUnbreakable(true);
+												var2.setItemMeta(var2Im);
+												inv.setItem(0, var2);
+												player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
+												for(Player p : Bukkit.getOnlinePlayers()) {
+													p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
+												}
+											} else {
+												player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+												for(Player p : Bukkit.getOnlinePlayers()) {
+													p.sendMessage(player.getDisplayName() + "님이 [1강화]에 실패했습니다.");
+												}
+											}
+										} else {
+											player.sendMessage("골드의 개수가 부족합니다.");
+										}
+									} else {
+										player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
+									}
+								} else {
+									ItemStack var2 = inv.getItem(0);
+									int rank = Integer.parseInt(var2.getItemMeta().getLocalizedName());
+									
+									if(rank >= 12) {
+										player.sendMessage("더 이상 강화할 수 없습니다.");
+									} else if(rank == 11) {
+										if(inv.getItem(1).getAmount() >= 5) {
+											if(inv.getItem(2).getAmount() >= 60) {
+												if(rnd.nextInt(10) < 2) {
+													ItemMeta var2Im = var2.getItemMeta();
+													var2Im.setLocalizedName(Integer.toString(rank + 1));
+													var2Im.setUnbreakable(true);
+													var2.setItemMeta(var2Im);
+													inv.setItem(0, var2);
+													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
+													for(Player p : Bukkit.getOnlinePlayers()) {
+														p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
+													}
+												} else {
+													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+													for(Player p : Bukkit.getOnlinePlayers()) {
+														p.sendMessage(player.getDisplayName() + "님이 [" + rank+1 + "강화]에 실패했습니다.");
+													}
+												}
+											} else {
+												player.sendMessage("골드의 개수가 부족합니다.");
+											}
+										} else {
+											player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
+										}
+									} else if(rank == 10) {
+										if(inv.getItem(1).getAmount() >= 4) {
+											if(inv.getItem(2).getAmount() >= 40) {
+												if(rnd.nextInt(10) < 2) {
+													ItemMeta var2Im = var2.getItemMeta();
+													var2Im.setLocalizedName(Integer.toString(rank + 1));
+													var2Im.setUnbreakable(true);
+													var2.setItemMeta(var2Im);
+													inv.setItem(0, var2);
+													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
+													for(Player p : Bukkit.getOnlinePlayers()) {
+														p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
+													}
+												} else {
+													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+													for(Player p : Bukkit.getOnlinePlayers()) {
+														p.sendMessage(player.getDisplayName() + "님이 [" + rank+1 + "강화]에 실패했습니다.");
+													}
+												}
+											} else {
+												player.sendMessage("골드의 개수가 부족합니다.");
+											}
+										} else {
+											player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
+										}
+									} else if(rank > 5) {
+										if(inv.getItem(1).getAmount() >= 2) {
+											if(inv.getItem(2).getAmount() >= 20) {
+												if(rnd.nextInt(10) < 5) {
+													ItemMeta var2Im = var2.getItemMeta();
+													var2Im.setLocalizedName(Integer.toString(rank + 1));
+													var2Im.setUnbreakable(true);
+													var2.setItemMeta(var2Im);
+													inv.setItem(0, var2);
+													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
+													for(Player p : Bukkit.getOnlinePlayers()) {
+														p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
+													}
+												} else {
+													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+													for(Player p : Bukkit.getOnlinePlayers()) {
+														p.sendMessage(player.getDisplayName() + "님이 [" + rank+1 + "강화]에 실패했습니다.");
+													}
+												}
+											} else {
+												player.sendMessage("골드의 개수가 부족합니다.");
+											}
+										} else {
+											player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
+										}
+									} else if(rank > 0) {
+										if(inv.getItem(1).getAmount() >= 1) {
+											if(inv.getItem(2).getAmount() >= 10) {
+												if(rnd.nextInt(10) < 7) {
+													ItemMeta var2Im = var2.getItemMeta();
+													var2Im.setLocalizedName(Integer.toString(rank + 1));
+													var2Im.setUnbreakable(true);
+													var2.setItemMeta(var2Im);
+													inv.setItem(0, var2);
+													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
+													for(Player p : Bukkit.getOnlinePlayers()) {
+														p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
+													}
+												} else {
+													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+													for(Player p : Bukkit.getOnlinePlayers()) {
+														p.sendMessage(player.getDisplayName() + "님이 [" + rank+1 + "강화]에 실패했습니다.");
+													}
+												}
+											} else {
+												player.sendMessage("골드의 개수가 부족합니다.");
+											}
+										} else {
+											player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
+										}
+									}
+									
+								}
+								
+							} else {
+								player.sendMessage("3번째칸에는 골드를 넣어주세요.");
+							}
+						} else {
+							player.sendMessage("2번째칸에는 강화 크리스탈을 넣어주세요.");
+						}
+					} else {
+						player.sendMessage("2번째칸에는 강화 크리스탈을 넣어주세요.");
+					}
+					
+					player.updateInventory();
+				}
+			}
+		} catch(Exception e) {
+			player.sendMessage("강화 소재가 잘못되었습니다!");
 		}
 		
 		try {
@@ -976,12 +1248,12 @@ public class Main extends JavaPlugin implements Listener{
 								}
 							}
 							if(num > 50) {
-								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-50));
+								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num-30));
 								new Cmd1().giveToken11(player);
 								player.sendMessage(ChatColor.GREEN + "직업이 업그레이드 되었습니다.");
 							} else {
 								player.getInventory().addItem(new ItemStack(Material.getMaterial("ORDINARYCOINS_COINGOLD"), num));
-								player.sendMessage(ChatColor.RED + "50골드를 보유하고 있지 않습니다.");
+								player.sendMessage(ChatColor.RED + "30골드를 보유하고 있지 않습니다.");
 							}
 						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("13")) {
 							int num = 0;
@@ -1204,6 +1476,19 @@ public class Main extends JavaPlugin implements Listener{
 				if(!pass && isNear(player)) {
 					blockTp(player, nearestLoc(player));
 				}
+			}
+		} catch(Exception e) {
+			
+		}
+	}
+	
+	@EventHandler
+	public void closeInv(InventoryCloseEvent event) {
+		try {
+			if(event.getInventory().getItem(8).getItemMeta().getDisplayName().equals(ChatColor.GREEN + "강화하기")) {
+				try {event.getPlayer().getInventory().addItem(event.getInventory().getItem(0));} catch(Exception e) {}
+				try {event.getPlayer().getInventory().addItem(event.getInventory().getItem(1));} catch(Exception e) {}
+				try {event.getPlayer().getInventory().addItem(event.getInventory().getItem(2));} catch(Exception e) {}
 			}
 		} catch(Exception e) {
 			

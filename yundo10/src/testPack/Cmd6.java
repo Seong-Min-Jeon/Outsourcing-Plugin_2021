@@ -117,9 +117,9 @@ public class Cmd6 implements CommandExecutor {
 	        				}
 	    				}
 	    				
-	    				player.sendMessage(ChatColor.DARK_RED + "[1위] " + ChatColor.WHITE + f1);
-	    				player.sendMessage(ChatColor.AQUA + "[2위] " + ChatColor.WHITE + s1);
-	    				player.sendMessage(ChatColor.GREEN + "[3위] " + ChatColor.WHITE + t1);
+	    				player.sendMessage(ChatColor.DARK_RED + "[1위] " + ChatColor.WHITE + f1 + "  " + ChatColor.BOLD + f2);
+	    				player.sendMessage(ChatColor.AQUA + "[2위] " + ChatColor.WHITE + s1 + "  " + ChatColor.BOLD + s2);
+	    				player.sendMessage(ChatColor.GREEN + "[3위] " + ChatColor.WHITE + t1 + "  " + ChatColor.BOLD + t2);
 	    				
 	    				bufReader.close();
 	            	} catch(Exception e) {

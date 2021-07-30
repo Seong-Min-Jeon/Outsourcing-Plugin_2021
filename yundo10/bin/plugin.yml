@@ -23,4 +23,7 @@ commands:
   레이드:
    description: 레이드 시작 커맨드
    usage: /레이드
+  강화:
+   description: 강화
+   usage: /강화
 api-version: 1.12

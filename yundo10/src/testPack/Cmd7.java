@@ -57,39 +57,39 @@ public class Cmd7 implements CommandExecutor {
 				String raid = args[0];
 				String level = args[1];
 				
-				if(raid.equals("뮨듀엘")) {
+				if(raid.equals("둔뮤엘")) {
 					Location chestLoc = new Location(player.getWorld(), 10000, 1, 10000);
 					Block block = chestLoc.getBlock();
 					Chest chest = (Chest) block.getState();
 					
 					if(level.equals("1")) {
 						Skeleton entity = (Skeleton) loc.getWorld().spawnEntity(loc, EntityType.SKELETON);
-						entity.setCustomName(ChatColor.DARK_RED + "[부활한 왕] 듄뮤엘");
-						entity.setCustomNameVisible(false);
+						entity.setCustomName(ChatColor.DARK_RED + "[부활한 왕] 둔뮤엘");
+						entity.setCustomNameVisible(true);
 						entity.setMaxHealth(1000);
 						entity.setHealth(1000);
 						entity.setRemoveWhenFarAway(false);
-						entity.setAI(false);
 						EntityEquipment head = entity.getEquipment();
 						ItemStack headItem = chest.getInventory().getItem(0);
 						head.setHelmet(headItem);
 						EntityEquipment chestplate = entity.getEquipment();
 						ItemStack chestplateItem = chest.getInventory().getItem(1);
 						chestplate.setChestplate(chestplateItem);
+						entity.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 5));
 						entity.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0));
 						
 						for(Player p : Bukkit.getOnlinePlayers()) {
-							p.sendMessage(ChatColor.DARK_RED + "[부활한 왕] 듄뮤엘이 소환됩니다.");
+							p.sendMessage(ChatColor.DARK_RED + "[부활한 왕] 둔뮤엘이 소환됩니다.");
 							p.sendMessage("좌표: " + (int)(loc.getX()) + " " +  + (int)(loc.getY()) + " "  + (int)(loc.getZ()));
 							new Bar().bar1.setProgress(1.0);
 							new Bar().bar1.addPlayer(p);
 						}
 					} else if(level.equals("2")) {
 						Skeleton entity = (Skeleton) loc.getWorld().spawnEntity(loc, EntityType.SKELETON);
-						entity.setCustomName(ChatColor.DARK_RED + "[분노한 왕] 듄뮤엘");
-						entity.setCustomNameVisible(false);
-						entity.setMaxHealth(1000);
-						entity.setHealth(1000);
+						entity.setCustomName(ChatColor.DARK_RED + "[분노한 왕] 둔뮤엘");
+						entity.setCustomNameVisible(true);
+						entity.setMaxHealth(2000);
+						entity.setHealth(2000);
 						entity.setRemoveWhenFarAway(false);
 						entity.setAI(false);
 						EntityEquipment head = entity.getEquipment();
@@ -98,20 +98,21 @@ public class Cmd7 implements CommandExecutor {
 						EntityEquipment chestplate = entity.getEquipment();
 						ItemStack chestplateItem = chest.getInventory().getItem(1);
 						chestplate.setChestplate(chestplateItem);
+						entity.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 10));
 						entity.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0));
 						
 						for(Player p : Bukkit.getOnlinePlayers()) {
-							p.sendMessage(ChatColor.DARK_RED + "[분노한 왕] 듄뮤엘이 소환됩니다.");
+							p.sendMessage(ChatColor.DARK_RED + "[분노한 왕] 둔뮤엘이 소환됩니다.");
 							p.sendMessage("좌표: " + (int)(loc.getX()) + " " +  + (int)(loc.getY()) + " "  + (int)(loc.getZ()));
 							new Bar().bar1.setProgress(1.0);
 							new Bar().bar1.addPlayer(p);
 						}
 					} else if(level.equals("3")) {
 						Skeleton entity = (Skeleton) loc.getWorld().spawnEntity(loc, EntityType.SKELETON);
-						entity.setCustomName(ChatColor.DARK_RED + "[진정한 왕] 듄뮤엘");
-						entity.setCustomNameVisible(false);
-						entity.setMaxHealth(1000);
-						entity.setHealth(1000);
+						entity.setCustomName(ChatColor.DARK_RED + "[진정한 왕] 둔뮤엘");
+						entity.setCustomNameVisible(true);
+						entity.setMaxHealth(3000);
+						entity.setHealth(3000);
 						entity.setRemoveWhenFarAway(false);
 						entity.setAI(false);
 						EntityEquipment head = entity.getEquipment();
@@ -120,10 +121,11 @@ public class Cmd7 implements CommandExecutor {
 						EntityEquipment chestplate = entity.getEquipment();
 						ItemStack chestplateItem = chest.getInventory().getItem(1);
 						chestplate.setChestplate(chestplateItem);
+						entity.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 15));
 						entity.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0));
 						
 						for(Player p : Bukkit.getOnlinePlayers()) {
-							p.sendMessage(ChatColor.DARK_RED + "[진정한 왕] 듄뮤엘이 소환됩니다.");
+							p.sendMessage(ChatColor.DARK_RED + "[진정한 왕] 둔뮤엘이 소환됩니다.");
 							p.sendMessage("좌표: " + (int)(loc.getX()) + " " +  + (int)(loc.getY()) + " "  + (int)(loc.getZ()));
 							new Bar().bar1.setProgress(1.0);
 							new Bar().bar1.addPlayer(p);
