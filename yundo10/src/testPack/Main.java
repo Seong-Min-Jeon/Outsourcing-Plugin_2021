@@ -69,6 +69,7 @@ import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -925,9 +926,17 @@ public class Main extends JavaPlugin implements Listener{
 														p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
 													}
 												} else {
-													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
-													for(Player p : Bukkit.getOnlinePlayers()) {
-														p.sendMessage(player.getDisplayName() + "님이 [1강화]에 실패했습니다.");
+													if(rnd.nextInt(10) < 3) {
+														inv.setItem(0, new ItemStack(Material.AIR));
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [1강화]에 실패하여 아이템이 소멸했습니다.");
+														}
+													} else {
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [1강화]에 실패했습니다.");
+														}
 													}
 												}
 											} else {
@@ -954,9 +963,17 @@ public class Main extends JavaPlugin implements Listener{
 														p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
 													}
 												} else {
-													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
-													for(Player p : Bukkit.getOnlinePlayers()) {
-														p.sendMessage(player.getDisplayName() + "님이 [1강화]에 실패했습니다.");
+													if(rnd.nextInt(10) < 3) {
+														inv.setItem(0, new ItemStack(Material.AIR));
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [1강화]에 실패하여 아이템이 소멸했습니다.");
+														}
+													} else {
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [1강화]에 실패했습니다.");
+														}
 													}
 												}
 											} else {
@@ -988,9 +1005,17 @@ public class Main extends JavaPlugin implements Listener{
 															p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
 														}
 													} else {
-														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
-														for(Player p : Bukkit.getOnlinePlayers()) {
-															p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+														if(rnd.nextInt(10) < 9) {
+															inv.setItem(0, new ItemStack(Material.AIR));
+															player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+															for(Player p : Bukkit.getOnlinePlayers()) {
+																p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패하여 아이템이 소멸했습니다.");
+															}
+														} else {
+															player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+															for(Player p : Bukkit.getOnlinePlayers()) {
+																p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+															}
 														}
 													}
 												} else {
@@ -1016,9 +1041,17 @@ public class Main extends JavaPlugin implements Listener{
 															p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
 														}
 													} else {
-														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
-														for(Player p : Bukkit.getOnlinePlayers()) {
-															p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+														if(rnd.nextInt(10) < 8) {
+															inv.setItem(0, new ItemStack(Material.AIR));
+															player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+															for(Player p : Bukkit.getOnlinePlayers()) {
+																p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패하여 아이템이 소멸했습니다.");
+															}
+														} else {
+															player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+															for(Player p : Bukkit.getOnlinePlayers()) {
+																p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+															}
 														}
 													}
 												} else {
@@ -1044,9 +1077,17 @@ public class Main extends JavaPlugin implements Listener{
 															p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
 														}
 													} else {
-														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
-														for(Player p : Bukkit.getOnlinePlayers()) {
-															p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+														if(rnd.nextInt(10) < 5) {
+															inv.setItem(0, new ItemStack(Material.AIR));
+															player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+															for(Player p : Bukkit.getOnlinePlayers()) {
+																p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패하여 아이템이 소멸했습니다.");
+															}
+														} else {
+															player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+															for(Player p : Bukkit.getOnlinePlayers()) {
+																p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+															}
 														}
 													}
 												} else {
@@ -1072,9 +1113,17 @@ public class Main extends JavaPlugin implements Listener{
 															p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
 														}
 													} else {
-														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
-														for(Player p : Bukkit.getOnlinePlayers()) {
-															p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+														if(rnd.nextInt(10) < 3) {
+															inv.setItem(0, new ItemStack(Material.AIR));
+															player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+															for(Player p : Bukkit.getOnlinePlayers()) {
+																p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패하여 아이템이 소멸했습니다.");
+															}
+														} else {
+															player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+															for(Player p : Bukkit.getOnlinePlayers()) {
+																p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+															}
 														}
 													}
 												} else {
@@ -1086,6 +1135,8 @@ public class Main extends JavaPlugin implements Listener{
 										}
 										
 									}
+								} else {
+									player.sendMessage("강화될 아이템은 하나만 넣어주세요.");
 								}
 								
 							} else {
@@ -1102,7 +1153,7 @@ public class Main extends JavaPlugin implements Listener{
 				}
 			}
 		} catch(Exception e) {
-			player.sendMessage("강화 소재가 잘못되었습니다!");
+
 		}
 		
 		try {
