@@ -404,6 +404,41 @@ public class Main extends JavaPlugin implements Listener{
 		} catch(Exception e) {
 			
 		}
+		
+		try {
+			Entity damager = event.getDamager();
+				
+			if(damager instanceof Player) {
+				Player player = (Player) damager;
+				String num1 = player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName();
+				int num2 = Integer.parseInt(num1);
+				if(num2 >= 10) {
+					event.setDamage(event.getDamage() + 5 + 10 + ((num2-10)*2));
+				} else if(num2 >= 5) {
+					event.setDamage(event.getDamage() + 5 + ((num2-5)*2));
+				} else if(num2 > 0) {
+					event.setDamage(event.getDamage() + num2);
+				}
+			}
+		} catch(Exception e) {
+			
+		}
+		
+		try {
+			Entity entity = event.getEntity();
+			
+			if(entity instanceof Player) {
+				Player player = (Player) entity;
+				String num1 = player.getInventory().getHelmet().getItemMeta().getLocalizedName();
+				String num2 = player.getInventory().getChestplate().getItemMeta().getLocalizedName();
+				String num3 = player.getInventory().getLeggings().getItemMeta().getLocalizedName();
+				String num4 = player.getInventory().getBoots().getItemMeta().getLocalizedName();
+				int num5 = Integer.parseInt(num1) + Integer.parseInt(num2) + Integer.parseInt(num3) + Integer.parseInt(num4);
+				event.setDamage(event.getDamage() * (100-num5) / 100.0);
+			}
+		} catch(Exception e) {
+			
+		}
 	}
 	
 	@EventHandler
@@ -762,6 +797,15 @@ public class Main extends JavaPlugin implements Listener{
 		} catch(Exception e) {
 			
 		}
+		
+		try {
+			if(event.getItemDrop().getItemStack().getType() == Material.SLIME_BALL) {
+				if(event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "강화하기"))
+					event.setCancelled(true);
+			}
+		} catch(Exception e) {
+			
+		}
 	}
 	
 	@EventHandler
@@ -855,125 +899,24 @@ public class Main extends JavaPlugin implements Listener{
 		try {
 			if(event.getCurrentItem().getType() == Material.SLIME_BALL) {
 				if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "강화하기")) {
+					event.setCancelled(true);
 					Inventory inv = event.getClickedInventory();
 					
 					if(inv.getItem(1).getItemMeta() != null) {
 						if(inv.getItem(1).getItemMeta().getDisplayName().equals(ChatColor.DARK_RED + "강화 크리스탈")) {
 							if(inv.getItem(2).getType() == Material.getMaterial("ORDINARYCOINS_COINGOLD")) {
-								
-								if(inv.getItem(0).getItemMeta() == null) {
-									if(inv.getItem(1).getAmount() >= 1) {
-										if(inv.getItem(2).getAmount() >= 10) {
-											if(rnd.nextInt(10) < 7) {
-												ItemStack var2 = inv.getItem(0);
-												ItemMeta var2Im = var2.getItemMeta();
-												var2Im.setLocalizedName("1");
-												var2Im.setUnbreakable(true);
-												var2.setItemMeta(var2Im);
-												inv.setItem(0, var2);
-												player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
-												for(Player p : Bukkit.getOnlinePlayers()) {
-													p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
-												}
-											} else {
-												player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
-												for(Player p : Bukkit.getOnlinePlayers()) {
-													p.sendMessage(player.getDisplayName() + "님이 [1강화]에 실패했습니다.");
-												}
-											}
-										} else {
-											player.sendMessage("골드의 개수가 부족합니다.");
-										}
-									} else {
-										player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
-									}
-								} else {
-									ItemStack var2 = inv.getItem(0);
-									int rank = Integer.parseInt(var2.getItemMeta().getLocalizedName());
-									
-									if(rank >= 12) {
-										player.sendMessage("더 이상 강화할 수 없습니다.");
-									} else if(rank == 11) {
-										if(inv.getItem(1).getAmount() >= 5) {
-											if(inv.getItem(2).getAmount() >= 60) {
-												if(rnd.nextInt(10) < 2) {
-													ItemMeta var2Im = var2.getItemMeta();
-													var2Im.setLocalizedName(Integer.toString(rank + 1));
-													var2Im.setUnbreakable(true);
-													var2.setItemMeta(var2Im);
-													inv.setItem(0, var2);
-													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
-													for(Player p : Bukkit.getOnlinePlayers()) {
-														p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
-													}
-												} else {
-													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
-													for(Player p : Bukkit.getOnlinePlayers()) {
-														p.sendMessage(player.getDisplayName() + "님이 [" + rank+1 + "강화]에 실패했습니다.");
-													}
-												}
-											} else {
-												player.sendMessage("골드의 개수가 부족합니다.");
-											}
-										} else {
-											player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
-										}
-									} else if(rank == 10) {
-										if(inv.getItem(1).getAmount() >= 4) {
-											if(inv.getItem(2).getAmount() >= 40) {
-												if(rnd.nextInt(10) < 2) {
-													ItemMeta var2Im = var2.getItemMeta();
-													var2Im.setLocalizedName(Integer.toString(rank + 1));
-													var2Im.setUnbreakable(true);
-													var2.setItemMeta(var2Im);
-													inv.setItem(0, var2);
-													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
-													for(Player p : Bukkit.getOnlinePlayers()) {
-														p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
-													}
-												} else {
-													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
-													for(Player p : Bukkit.getOnlinePlayers()) {
-														p.sendMessage(player.getDisplayName() + "님이 [" + rank+1 + "강화]에 실패했습니다.");
-													}
-												}
-											} else {
-												player.sendMessage("골드의 개수가 부족합니다.");
-											}
-										} else {
-											player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
-										}
-									} else if(rank > 5) {
-										if(inv.getItem(1).getAmount() >= 2) {
-											if(inv.getItem(2).getAmount() >= 20) {
-												if(rnd.nextInt(10) < 5) {
-													ItemMeta var2Im = var2.getItemMeta();
-													var2Im.setLocalizedName(Integer.toString(rank + 1));
-													var2Im.setUnbreakable(true);
-													var2.setItemMeta(var2Im);
-													inv.setItem(0, var2);
-													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
-													for(Player p : Bukkit.getOnlinePlayers()) {
-														p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
-													}
-												} else {
-													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
-													for(Player p : Bukkit.getOnlinePlayers()) {
-														p.sendMessage(player.getDisplayName() + "님이 [" + rank+1 + "강화]에 실패했습니다.");
-													}
-												}
-											} else {
-												player.sendMessage("골드의 개수가 부족합니다.");
-											}
-										} else {
-											player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
-										}
-									} else if(rank > 0) {
+
+								if(inv.getItem(0).getAmount() == 1) {
+									if(inv.getItem(0).getItemMeta() == null) {
 										if(inv.getItem(1).getAmount() >= 1) {
 											if(inv.getItem(2).getAmount() >= 10) {
+												inv.getItem(1).setAmount(inv.getItem(1).getAmount()-1);
+												inv.getItem(2).setAmount(inv.getItem(2).getAmount()-10);
 												if(rnd.nextInt(10) < 7) {
+													ItemStack var2 = inv.getItem(0);
 													ItemMeta var2Im = var2.getItemMeta();
-													var2Im.setLocalizedName(Integer.toString(rank + 1));
+													var2Im.setDisplayName(ChatColor.GOLD + "[+1] 강화된 " + player.getDisplayName() + ChatColor.GOLD + "의 아이템");
+													var2Im.setLocalizedName("1");
 													var2Im.setUnbreakable(true);
 													var2.setItemMeta(var2Im);
 													inv.setItem(0, var2);
@@ -984,7 +927,7 @@ public class Main extends JavaPlugin implements Listener{
 												} else {
 													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
 													for(Player p : Bukkit.getOnlinePlayers()) {
-														p.sendMessage(player.getDisplayName() + "님이 [" + rank+1 + "강화]에 실패했습니다.");
+														p.sendMessage(player.getDisplayName() + "님이 [1강화]에 실패했습니다.");
 													}
 												}
 											} else {
@@ -993,8 +936,156 @@ public class Main extends JavaPlugin implements Listener{
 										} else {
 											player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
 										}
+									} else if(inv.getItem(0).getItemMeta().getLocalizedName() == null) {
+										if(inv.getItem(1).getAmount() >= 1) {
+											if(inv.getItem(2).getAmount() >= 10) {
+												inv.getItem(1).setAmount(inv.getItem(1).getAmount()-1);
+												inv.getItem(2).setAmount(inv.getItem(2).getAmount()-10);
+												if(rnd.nextInt(10) < 7) {
+													ItemStack var2 = inv.getItem(0);
+													ItemMeta var2Im = var2.getItemMeta();
+													var2Im.setDisplayName(ChatColor.GOLD + "[+1] 강화된 " + player.getDisplayName() + ChatColor.GOLD + "의 아이템");
+													var2Im.setLocalizedName("1");
+													var2Im.setUnbreakable(true);
+													var2.setItemMeta(var2Im);
+													inv.setItem(0, var2);
+													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
+													for(Player p : Bukkit.getOnlinePlayers()) {
+														p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
+													}
+												} else {
+													player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+													for(Player p : Bukkit.getOnlinePlayers()) {
+														p.sendMessage(player.getDisplayName() + "님이 [1강화]에 실패했습니다.");
+													}
+												}
+											} else {
+												player.sendMessage("골드의 개수가 부족합니다.");
+											}
+										} else {
+											player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
+										}
+									} else {
+										ItemStack var2 = inv.getItem(0);
+										int rank = Integer.parseInt(var2.getItemMeta().getLocalizedName());
+										
+										if(rank >= 12) {
+											player.sendMessage("더 이상 강화할 수 없습니다.");
+										} else if(rank == 11) {
+											if(inv.getItem(1).getAmount() >= 5) {
+												if(inv.getItem(2).getAmount() >= 60) {
+													inv.getItem(1).setAmount(inv.getItem(1).getAmount()-5);
+													inv.getItem(2).setAmount(inv.getItem(2).getAmount()-60);
+													if(rnd.nextInt(10) < 2) {
+														ItemMeta var2Im = var2.getItemMeta();
+														var2Im.setDisplayName(ChatColor.GOLD + "[+" + Integer.toString(rank + 1) + "] 강화된 " + player.getDisplayName() + ChatColor.GOLD + "의 아이템");
+														var2Im.setLocalizedName(Integer.toString(rank + 1));
+														var2Im.setUnbreakable(true);
+														var2.setItemMeta(var2Im);
+														inv.setItem(0, var2);
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
+														}
+													} else {
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+														}
+													}
+												} else {
+													player.sendMessage("골드의 개수가 부족합니다.");
+												}
+											} else {
+												player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
+											}
+										} else if(rank == 10) {
+											if(inv.getItem(1).getAmount() >= 4) {
+												if(inv.getItem(2).getAmount() >= 40) {
+													inv.getItem(1).setAmount(inv.getItem(1).getAmount()-4);
+													inv.getItem(2).setAmount(inv.getItem(2).getAmount()-40);
+													if(rnd.nextInt(10) < 2) {
+														ItemMeta var2Im = var2.getItemMeta();
+														var2Im.setDisplayName(ChatColor.GOLD + "[+" + Integer.toString(rank + 1) + "] 강화된 " + player.getDisplayName() + ChatColor.GOLD + "의 아이템");
+														var2Im.setLocalizedName(Integer.toString(rank + 1));
+														var2Im.setUnbreakable(true);
+														var2.setItemMeta(var2Im);
+														inv.setItem(0, var2);
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
+														}
+													} else {
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+														}
+													}
+												} else {
+													player.sendMessage("골드의 개수가 부족합니다.");
+												}
+											} else {
+												player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
+											}
+										} else if(rank > 5) {
+											if(inv.getItem(1).getAmount() >= 2) {
+												if(inv.getItem(2).getAmount() >= 20) {
+													inv.getItem(1).setAmount(inv.getItem(1).getAmount()-2);
+													inv.getItem(2).setAmount(inv.getItem(2).getAmount()-20);
+													if(rnd.nextInt(10) < 5) {
+														ItemMeta var2Im = var2.getItemMeta();
+														var2Im.setDisplayName(ChatColor.GOLD + "[+" + Integer.toString(rank + 1) + "] 강화된 " + player.getDisplayName() + ChatColor.GOLD + "의 아이템");
+														var2Im.setLocalizedName(Integer.toString(rank + 1));
+														var2Im.setUnbreakable(true);
+														var2.setItemMeta(var2Im);
+														inv.setItem(0, var2);
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
+														}
+													} else {
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+														}
+													}
+												} else {
+													player.sendMessage("골드의 개수가 부족합니다.");
+												}
+											} else {
+												player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
+											}
+										} else if(rank > 0) {
+											if(inv.getItem(1).getAmount() >= 1) {
+												if(inv.getItem(2).getAmount() >= 10) {
+													inv.getItem(1).setAmount(inv.getItem(1).getAmount()-1);
+													inv.getItem(2).setAmount(inv.getItem(2).getAmount()-10);
+													if(rnd.nextInt(10) < 7) {
+														ItemMeta var2Im = var2.getItemMeta();
+														var2Im.setDisplayName(ChatColor.GOLD + "[+" + Integer.toString(rank + 1) + "] 강화된 " + player.getDisplayName() + ChatColor.GOLD + "의 아이템");
+														var2Im.setLocalizedName(Integer.toString(rank + 1));
+														var2Im.setUnbreakable(true);
+														var2.setItemMeta(var2Im);
+														inv.setItem(0, var2);
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.3f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [" + var2.getItemMeta().getLocalizedName() + "강화]에 성공했습니다.");
+														}
+													} else {
+														player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+														for(Player p : Bukkit.getOnlinePlayers()) {
+															p.sendMessage(player.getDisplayName() + "님이 [" + Integer.toString(rank + 1) + "강화]에 실패했습니다.");
+														}
+													}
+												} else {
+													player.sendMessage("골드의 개수가 부족합니다.");
+												}
+											} else {
+												player.sendMessage("강화 크리스탈의 개수가 부족합니다.");
+											}
+										}
+										
 									}
-									
 								}
 								
 							} else {
