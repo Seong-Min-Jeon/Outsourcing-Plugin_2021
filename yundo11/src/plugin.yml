@@ -1,0 +1,29 @@
+name: YumehamaPlugin
+main: testPack.Main
+version: 1.0
+commands:
+  giveToken:
+   description: give token
+   usage: /giveToken
+  door:
+   description: set door
+   usage: /door
+  직업:
+   description: 직업증표선택
+   usage: /직업
+  명성추가:
+   description: 명성추가
+   usage: /명성추가
+  명성:
+   description: 명성확인
+   usage: /명성
+  명성랭킹:
+   description: 명성랭킹
+   usage: /명성랭킹
+  레이드:
+   description: 레이드 시작 커맨드
+   usage: /레이드
+  강화:
+   description: 강화
+   usage: /강화
+api-version: 1.12
