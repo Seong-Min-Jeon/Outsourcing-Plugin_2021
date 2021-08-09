@@ -23,6 +23,8 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.SpectralArrow;
 import org.bukkit.material.MaterialData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -1406,6 +1408,289 @@ public class ParticleEffect {
 				time++;
 			}
 		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+	}
+	
+	// 독무
+	public void newEffect7() {
+		Location normal = player.getLocation();
+		World world = player.getWorld(); 
+		
+		world.playSound(player.getLocation(), Sound.ENTITY_SPLASH_POTION_BREAK, 3.0f, 1.0f);
+		
+		for(Entity ent : player.getNearbyEntities(5, 5, 5)) {
+			if(ent instanceof Player) {
+				((LivingEntity) ent).addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 0, true, false));
+			}
+		}
+		
+		new BukkitRunnable() {
+			int time = 0;
+			int size = 0;
+			Location e1;
+			
+			@Override
+			public void run() {
+				
+				if(time % 1 == 0) {
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						if(size % 2 == 0) {
+							e1 = normal.clone().add(Math.cos(var)*size, 0.3, Math.sin(var)*size);
+						} else {
+							e1 = normal.clone().add(Math.cos(var)*size, 0, Math.sin(var)*size);
+						}
+						world.spawnParticle(Particle.SLIME, e1, 0);
+						
+						var += Math.PI / 16;
+					}
+					
+					if(size == 4) {
+						size = -1;
+					}
+					size++;
+				}
+				
+				if(time >= 20) {
+					this.cancel();
+				}
+				
+				if(time % 4 == 0) {
+					double var = 0;
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = normal.clone().add(Math.cos(var)*5, 0, Math.sin(var)*5);
+						world.spawnParticle(Particle.SLIME, e1, 0);
+						
+						var += Math.PI / 16;
+					}
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
+	}
+	
+	// 심연의 암살
+	public void newEffect8() {
+		World world = player.getWorld(); 
+		
+		new BukkitRunnable() {
+			int time = 0;
+			
+		    Location e1;
+
+			@Override
+			public void run() {
+				
+				Location loc = player.getLocation();
+				
+				if(time == 0) {
+					double rot = Math.toRadians(loc.getYaw());
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.5-(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}	
+					
+					var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.3-(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}
+					
+					world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 2.0f);
+					
+					List<Entity> entitylist = player.getNearbyEntities(3, 3, 3);				
+					for (Entity nearEntity : entitylist) {
+						if (nearEntity instanceof LivingEntity) {
+							LivingEntity ent = (LivingEntity) nearEntity;
+							ent.damage(7);
+							ent.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false));
+						}
+					}
+					
+				}
+				
+				if(time == 5) {
+					double rot = Math.toRadians(loc.getYaw());
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.2+(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}	
+					
+					var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.0+(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}
+					
+					world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 2.0f);
+					
+					List<Entity> entitylist = player.getNearbyEntities(3, 3, 3);				
+					for (Entity nearEntity : entitylist) {
+						if (nearEntity instanceof LivingEntity) {
+							LivingEntity ent = (LivingEntity) nearEntity;
+							ent.damage(7);
+							ent.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false));
+						}
+					}
+					
+				}
+				
+				if(time == 10) {
+					double rot = Math.toRadians(loc.getYaw());
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.5-(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}	
+					
+					var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.3-(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}
+					
+					world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 2.0f);
+					
+					List<Entity> entitylist = player.getNearbyEntities(3, 3, 3);				
+					for (Entity nearEntity : entitylist) {
+						if (nearEntity instanceof LivingEntity) {
+							LivingEntity ent = (LivingEntity) nearEntity;
+							ent.damage(7);
+							ent.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false));
+						}
+					}
+					
+				}
+				
+				if(time == 15) {
+					double rot = Math.toRadians(loc.getYaw());
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.2+(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}	
+					
+					var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.0+(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}
+					
+					world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 2.0f);
+					
+					List<Entity> entitylist = player.getNearbyEntities(3, 3, 3);				
+					for (Entity nearEntity : entitylist) {
+						if (nearEntity instanceof LivingEntity) {
+							LivingEntity ent = (LivingEntity) nearEntity;
+							ent.damage(7);
+							ent.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false));
+						}
+					}
+					
+				}
+				
+				if(time == 20) {
+					double rot = Math.toRadians(loc.getYaw());
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.5-(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}	
+					
+					var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.3-(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}
+					
+					world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 2.0f);
+					
+					List<Entity> entitylist = player.getNearbyEntities(3, 3, 3);				
+					for (Entity nearEntity : entitylist) {
+						if (nearEntity instanceof LivingEntity) {
+							LivingEntity ent = (LivingEntity) nearEntity;
+							ent.damage(7);
+							ent.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false));
+						}
+					}
+					
+				}
+				
+				if(time == 25) {
+					double rot = Math.toRadians(loc.getYaw());
+					double var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.2+(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}	
+					
+					var = 0;
+					
+					for(int i = 0 ; i < 32 ; i++) {
+						e1 = loc.clone().add(Math.cos(var+rot)*1.5, 1.0+(i*0.05), Math.sin(var+rot)*1.5);
+						player.getWorld().spawnParticle(Particle.REDSTONE, e1, 0,0.01,0.01,0.01,1);
+						
+						var += Math.PI / 32;
+					}
+					
+					world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 2.0f);
+					
+					List<Entity> entitylist = player.getNearbyEntities(3, 3, 3);				
+					for (Entity nearEntity : entitylist) {
+						if (nearEntity instanceof LivingEntity) {
+							LivingEntity ent = (LivingEntity) nearEntity;
+							ent.damage(7);
+							ent.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false));
+						}
+					}
+					
+				}
+
+				if(time >= 30) {
+					this.cancel();
+				}
+				
+				time++;
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
 	}
 	
 	public void newEffect100() {

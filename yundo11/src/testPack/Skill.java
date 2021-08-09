@@ -54,10 +54,14 @@ public class Skill {
 	Random rnd = new Random();
 	
 	public void effect(Player player, String key) {
-		if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
+		if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("10")) {
+			skill0(player, key);
+		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
 			skill1(player, key);
 		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("12")) {
 			skill2(player, key);
+		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("27")) {
+			skill2_1(player, key);
 		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("14")) {
 			skill3(player, key);
 		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("15")) {
@@ -74,6 +78,52 @@ public class Skill {
 			skill9(player, key);
 		} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("100")) {
 			skill10(player, key);
+		}
+	}
+	
+	// 도적
+	public void skill0(Player player, String key) {
+		if(key.equals("RRR")) {
+			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
+			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+		} else if(key.equals("RRL")) {
+			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
+			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+		} else if(key.equals("RLL")) {
+			int cool = 200;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				
+				new BukkitRunnable() {
+					
+					int time = 0;
+					
+					@Override
+					public void run() {
+						time++;
+						
+						if(time == 1) {
+							for(Player p : Bukkit.getOnlinePlayers()) {
+								p.hidePlayer(player);
+							}
+						}
+						
+						if(time == 120) {
+							for(Player p : Bukkit.getOnlinePlayers()) {
+								p.showPlayer(player);
+							}
+							this.cancel();
+						}
+						
+					}
+				}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+				player.sendMessage(ChatColor.GREEN + "[스킬]은신이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if(key.equals("RLR")) {
+			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
+			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
 		}
 	}
 	
@@ -96,8 +146,37 @@ public class Skill {
 			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
 			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
 		} else if(key.equals("RLL")) {
-			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
-			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			int cool = 200;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				
+				new BukkitRunnable() {
+					
+					int time = 0;
+					
+					@Override
+					public void run() {
+						time++;
+						
+						if(time == 1) {
+							for(Player p : Bukkit.getOnlinePlayers()) {
+								p.hidePlayer(player);
+							}
+						}
+						
+						if(time == 160) {
+							for(Player p : Bukkit.getOnlinePlayers()) {
+								p.showPlayer(player);
+							}
+							this.cancel();
+						}
+						
+					}
+				}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+				player.sendMessage(ChatColor.GREEN + "[스킬]은신이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
 		} else if(key.equals("RLR")) {
 			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
 			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
@@ -145,11 +224,134 @@ public class Skill {
 				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
 			}
 		} else if (key.equals("RLL")) {
-			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
-			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			int cool = 200;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				
+				new BukkitRunnable() {
+					
+					int time = 0;
+					
+					@Override
+					public void run() {
+						time++;
+						
+						if(time == 1) {
+							for(Player p : Bukkit.getOnlinePlayers()) {
+								p.hidePlayer(player);
+							}
+						}
+						
+						if(time == 200) {
+							for(Player p : Bukkit.getOnlinePlayers()) {
+								p.showPlayer(player);
+							}
+							this.cancel();
+						}
+						
+					}
+				}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+				player.sendMessage(ChatColor.GREEN + "[스킬]은신이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
 		} else if (key.equals("RLR")) {
-			player.sendMessage(ChatColor.RED + "해당 커맨드로 사용할 수 있는 스킬이 없습니다.");
-			player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			int cool = 200;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect7();
+				player.sendMessage(ChatColor.GREEN + "[스킬]독무가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		}
+	}
+	
+	// 다크로드
+	public void skill2_1(Player player, String key) {
+		if (key.equals("RRR")) {
+			int cool = 30;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect1();
+				player.sendMessage(ChatColor.GREEN + "[스킬]질풍참이 발동됩니다.");
+
+				Vector vec = player.getEyeLocation().getDirection().multiply(2.0f);
+				player.setVelocity(vec);
+				player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 0.3f, 0.5f);
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RRL")) {
+			int cool = 100;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				
+				new BukkitRunnable() {
+					
+					int time = 0;
+					@Override
+					public void run() {
+						time++;
+						
+						if(time > 0) {
+							Vector vec = player.getEyeLocation().getDirection().multiply(0.3f);
+							player.setVelocity(vec);
+						}
+						
+						if(time >= 25) {
+							this.cancel();
+						}
+						
+					}
+				}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+				
+				new ParticleEffect(player).newEffect8();
+				player.sendMessage(ChatColor.GREEN + "[스킬]심연의 암살이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RLL")) {
+			int cool = 200;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				
+				new BukkitRunnable() {
+					
+					int time = 0;
+					
+					@Override
+					public void run() {
+						time++;
+						
+						if(time == 1) {
+							for(Player p : Bukkit.getOnlinePlayers()) {
+								p.hidePlayer(player);
+							}
+						}
+						
+						if(time == 200) {
+							for(Player p : Bukkit.getOnlinePlayers()) {
+								p.showPlayer(player);
+							}
+							this.cancel();
+						}
+						
+					}
+				}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+				player.sendMessage(ChatColor.GREEN + "[스킬]은신이 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
+		} else if (key.equals("RLR")) {
+			int cool = 200;
+			if (new CoolTime().coolCheck(player, cool, key)) {
+				new ParticleEffect(player).newEffect7();
+				player.sendMessage(ChatColor.GREEN + "[스킬]독무가 발동됩니다.");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, key));
+				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+			}
 		}
 	}
 	

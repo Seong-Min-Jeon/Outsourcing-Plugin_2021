@@ -7,5 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/home/Downloads/spigot-1.12.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/home/Documents/서버 관련/1.16_server/NametagEdit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

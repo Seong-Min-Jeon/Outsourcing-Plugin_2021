@@ -99,6 +99,8 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 
+import com.nametagedit.plugin.NametagEdit;
+
 public class Main extends JavaPlugin implements Listener{
 	
 	HashMap<Location, String> door = new HashMap<>();
@@ -126,8 +128,9 @@ public class Main extends JavaPlugin implements Listener{
 			@Override
 			public void run() {
 				
+				new CoolTime().countTime();
+				
 				if(time % 20 == 0) {
-					new CoolTime().countTime();
 					try {
 						loadData(Bukkit.getWorld("world"));
 					} catch(Exception e) {
@@ -235,7 +238,155 @@ public class Main extends JavaPlugin implements Listener{
 		} catch(Exception e) {
 			
 		}
-		player.setDisplayName(player.getName());
+		
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			p.showPlayer(player);
+		}
+		
+//		String str = "§7";
+//		
+//		try {
+//			if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("1")) {
+//				str = "§a";
+//			} else if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("2")) {
+//				str = "§b";
+//			} else if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("3")) {
+//				str = "§5";
+//			}
+//		} catch(Exception e) {
+//			
+//		}
+//
+//		try {
+//			if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("1")) {
+//				NickAPI.nick(player, str + "[농부I]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("2")) {
+//				NickAPI.nick(player, str + "[농부II]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("3")) {
+//				NickAPI.nick(player, str + "[대농]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("4")) {
+//				NickAPI.nick(player, str + "[광부I]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("5")) {
+//				NickAPI.nick(player, str + "[광부II]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("6")) {
+//				NickAPI.nick(player, str + "[연금술사]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("7")) {
+//				NickAPI.nick(player, str + "[어부I]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("8")) {
+//				NickAPI.nick(player, str + "[어부II]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("9")) {
+//				NickAPI.nick(player, str + "[태공]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("10")) {
+//				NickAPI.nick(player, str + "[도적]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
+//				NickAPI.nick(player, str + "[대도적]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("12")) {
+//				NickAPI.nick(player, str + "[도제]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("13")) {
+//				NickAPI.nick(player, str + "[모험가]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("14")) {
+//				NickAPI.nick(player, str + "[C헌터]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("15")) {
+//				NickAPI.nick(player, str + "[B헌터]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("16")) {
+//				NickAPI.nick(player, str + "[A헌터]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
+//				NickAPI.nick(player, str + "[S헌터]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("18")) {
+//				NickAPI.nick(player, str + "[상인I]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("19")) {
+//				NickAPI.nick(player, str + "[상인II]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("20")) {
+//				NickAPI.nick(player, str + "[거상]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("21")) {
+//				NickAPI.nick(player, str + "[기사]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("22")) {
+//				NickAPI.nick(player, str + "[기사장]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("23")) {
+//				NickAPI.nick(player, str + "[기사단장]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("27")) {
+//				NickAPI.nick(player, str + "[다크로드]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("28")) {
+//				NickAPI.nick(player, str + "[용기사]" + ChatColor.WHITE + player.getName());
+//			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("100")) {
+//				NickAPI.nick(player, str + "[제황]" + ChatColor.WHITE + player.getName());
+//			}
+//		} catch(Exception e) {
+//			NickAPI.nick(player, str + "[무직]" + ChatColor.WHITE + player.getName());
+//		}
+		
+		String str = "§7";
+		
+		try {
+			if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("1")) {
+				str = "§a";
+			} else if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("2")) {
+				str = "§b";
+			} else if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("3")) {
+				str = "§5";
+			}
+		} catch(Exception e) {
+			
+		}
+
+		try {
+			if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("1")) {
+				NametagEdit.getApi().setPrefix(player, str + "[농부I] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("2")) {
+				NametagEdit.getApi().setPrefix(player, str + "[농부II] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("3")) {
+				NametagEdit.getApi().setPrefix(player, str + "[대농] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("4")) {
+				NametagEdit.getApi().setPrefix(player, str + "[광부I] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("5")) {
+				NametagEdit.getApi().setPrefix(player, str + "[광부II] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("6")) {
+				NametagEdit.getApi().setPrefix(player, str + "[연금술사] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("7")) {
+				NametagEdit.getApi().setPrefix(player, str + "[어부I] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("8")) {
+				NametagEdit.getApi().setPrefix(player, str + "[어부II] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("9")) {
+				NametagEdit.getApi().setPrefix(player, str + "[태공] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("10")) {
+				NametagEdit.getApi().setPrefix(player, str + "[도적] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
+				NametagEdit.getApi().setPrefix(player, str + "[대도적] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("12")) {
+				NametagEdit.getApi().setPrefix(player, str + "[도제] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("13")) {
+				NametagEdit.getApi().setPrefix(player, str + "[모험가] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("14")) {
+				NametagEdit.getApi().setPrefix(player, str + "[C헌터] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("15")) {
+				NametagEdit.getApi().setPrefix(player, str + "[B헌터] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("16")) {
+				NametagEdit.getApi().setPrefix(player, str + "[A헌터] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
+				NametagEdit.getApi().setPrefix(player, str + "[S헌터] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("18")) {
+				NametagEdit.getApi().setPrefix(player, str + "[상인I] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("19")) {
+				NametagEdit.getApi().setPrefix(player, str + "[상인II] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("20")) {
+				NametagEdit.getApi().setPrefix(player, str + "[거상] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("21")) {
+				NametagEdit.getApi().setPrefix(player, str + "[기사] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("22")) {
+				NametagEdit.getApi().setPrefix(player, str + "[기사장] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("23")) {
+				NametagEdit.getApi().setPrefix(player, str + "[기사단장] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("27")) {
+				NametagEdit.getApi().setPrefix(player, str + "[다크로드] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("28")) {
+				NametagEdit.getApi().setPrefix(player, str + "[용기사] " + ChatColor.WHITE);
+			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("100")) {
+				NametagEdit.getApi().setPrefix(player, str + "[제황] " + ChatColor.WHITE);
+			}
+		} catch(Exception e) {
+			NametagEdit.getApi().setPrefix(player, str + "[무직] " + ChatColor.WHITE);
+		}
+		
 	}
 	
 	@EventHandler
@@ -622,7 +773,15 @@ public class Main extends JavaPlugin implements Listener{
 				} else if (event.getAction() == Action.RIGHT_CLICK_AIR) {
 					
 					if (player.getInventory().contains(Material.NETHER_STAR)) {
-						if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
+						if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("10")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
 							MouseClickForSkill mc = new MouseClickForSkill();
 							int time = mc.getTime(player);
 							if (time == 0) {
@@ -687,6 +846,22 @@ public class Main extends JavaPlugin implements Listener{
 								mc.click(player, "R", time);
 							}
 						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("23")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("27")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "R");
+							} else {
+								mc.click(player, "R", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("28")) {
 							MouseClickForSkill mc = new MouseClickForSkill();
 							int time = mc.getTime(player);
 							if (time == 0) {
@@ -707,7 +882,15 @@ public class Main extends JavaPlugin implements Listener{
 					}
 				} else if(event.getAction() == Action.LEFT_CLICK_AIR) {
 					if (player.getInventory().contains(Material.NETHER_STAR)) {
-						if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
+						if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("10")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
 							MouseClickForSkill mc = new MouseClickForSkill();
 							int time = mc.getTime(player);
 							if (time == 0) {
@@ -772,6 +955,22 @@ public class Main extends JavaPlugin implements Listener{
 								mc.click(player, "L", time);
 							}
 						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("23")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("27")) {
+							MouseClickForSkill mc = new MouseClickForSkill();
+							int time = mc.getTime(player);
+							if (time == 0) {
+								mc.click(player, "L");
+							} else {
+								mc.click(player, "L", time);
+							}
+						} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("28")) {
 							MouseClickForSkill mc = new MouseClickForSkill();
 							int time = mc.getTime(player);
 							if (time == 0) {
@@ -1678,7 +1877,7 @@ public class Main extends JavaPlugin implements Listener{
 		
 		try {
 			if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("1")) {
-				str = "§2[1성 귀족]";
+				str = "§a[1성 귀족]";
 			} else if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("2")) {
 				str = "§b[2성 귀족]";
 			} else if(player.getInventory().getItem(34).getItemMeta().getLocalizedName().equals("3")) {
@@ -1691,112 +1890,112 @@ public class Main extends JavaPlugin implements Listener{
 		try {
 			if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("1")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[농부I]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[농부I]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("2")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[농부II]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[농부II]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("3")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[대농]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[대농]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("4")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[광부I]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[광부I]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("5")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[광부II]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[광부II]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("6")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[연금술사]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[연금술사]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("7")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[어부I]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[어부I]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("8")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[어부II]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[어부II]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("9")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[태공]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[태공]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("10")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[도적]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[도적]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("11")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[대도적]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[대도적]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("12")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[도제]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[도제]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("13")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[모험가]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[모험가]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("14")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[C헌터]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[C헌터]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("15")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[B헌터]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[B헌터]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("16")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[A헌터]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[A헌터]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("17")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[S헌터]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[S헌터]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("18")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[상인I]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[상인I]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("19")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[상인II]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[상인II]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("20")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[거상]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[거상]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("21")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[기사]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[기사]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("22")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[기사장]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[기사장]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("23")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[기사단장]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[기사단장]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("27")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[다크로드]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[다크로드]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("28")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[용기사]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[용기사]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			} else if(player.getInventory().getItem(35).getItemMeta().getLocalizedName().equals("100")) {
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.sendMessage(str + "[제황]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+					p.sendMessage(str + "[제황]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 				}
 			}
 		} catch(Exception e) {
 			for(Player p : Bukkit.getOnlinePlayers()) {
-				p.sendMessage(str + "[무직]" + ChatColor.WHITE + player.getDisplayName()+ ": " + event.getMessage());
+				p.sendMessage(str + "[무직]" + ChatColor.WHITE + player.getName()+ ": " + event.getMessage());
 			}
 		}
 		
