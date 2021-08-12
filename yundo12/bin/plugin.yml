@@ -1,0 +1,8 @@
+name: YumehamaPlugin
+main: testPack.Main
+version: 1.0
+commands:
+  속성:
+   description: 속성 고르기
+   usage: /속성
+api-version: 1.12
