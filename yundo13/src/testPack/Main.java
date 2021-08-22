@@ -20,6 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
@@ -55,6 +56,8 @@ public class Main extends JavaPlugin implements Listener{
 	Player red = null;
 	boolean stunR = false;
 	boolean stunB = false;
+	boolean stunLockR = false;
+	boolean stunLockB = false;
 
 	@Override
 	public void onEnable() {
@@ -123,6 +126,56 @@ public class Main extends JavaPlugin implements Listener{
 	@EventHandler
 	public void die(PlayerDeathEvent event) {
 		event.setDeathMessage(null);
+		
+		if(event.getEntity() == red) {
+			try {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+							ChatSerializer.a("{\"text\":\"§b" + blue.getDisplayName() + " 승리!\"}"));
+					Object handle = all.getClass().getMethod("getHandle").invoke(all);
+			        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+				}
+				
+				red.teleport(startLoc);
+				blue.teleport(startLoc);
+				aryR.clear();
+				aryB.clear();
+				blue = null;
+				red = null;
+				stunR = false;
+				stunB = false;
+				stunLockR = false;
+				stunLockB = false;
+				
+			} catch(Exception e) {
+				
+			}
+		} else if(event.getEntity() == blue) {
+			try {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+							ChatSerializer.a("{\"text\":\"§c" + red.getDisplayName() + " 승리!\"}"));
+					Object handle = all.getClass().getMethod("getHandle").invoke(all);
+			        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+				}
+				
+				red.teleport(startLoc);
+				blue.teleport(startLoc);
+				aryR.clear();
+				aryB.clear();
+				blue = null;
+				red = null;
+				stunR = false;
+				stunB = false;
+				stunLockR = false;
+				stunLockB = false;
+				
+			} catch(Exception e) {
+				
+			}
+		}
 	}
 	
 	@EventHandler
@@ -133,6 +186,89 @@ public class Main extends JavaPlugin implements Listener{
 				if(event.getEntity() instanceof Player) {
 					Player entity = (Player) event.getEntity();
 					event.setCancelled(true);
+				}
+			}
+		} catch(Exception e) {
+			
+		}
+	}
+	
+	@EventHandler
+	public void damageEvent2(EntityDamageEvent event) {
+		try {
+			if(event.getEntity() instanceof Player) {
+				Player player = (Player) event.getEntity();
+				if(player == red) {
+					if(player.isSneaking() && !stunB && !stunLockR) {
+						sendPacket(player, ChatColor.GOLD + "가드 성공!");
+						sendPacket(blue, ChatColor.DARK_RED + "상대의 가드!");
+						player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_BREAK_BLOCK, 1.0f, 1.0f);
+						
+						new BukkitRunnable() {
+							int time = 0;
+
+							@Override
+							public void run() {
+								time++;
+								
+								if(time < 20) {
+									stunB = true;
+								}
+								
+								if(time == 20) {
+									stunB = false;
+								}
+								
+								if(time < 60) {
+									stunLockR = true;
+								}
+								
+								if(time >= 60) {
+									stunB = false;
+									stunLockR = false;
+									
+									this.cancel();
+								}
+								
+							}
+						}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+					}
+				} else if(player == blue) {
+					if(player.isSneaking() && !stunR && !stunLockB) {
+						sendPacket(player, ChatColor.GOLD + "가드 성공!");
+						sendPacket(red, ChatColor.DARK_RED + "상대의 가드!");
+						player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_BREAK_BLOCK, 1.0f, 1.0f);
+						
+						new BukkitRunnable() {
+							int time = 0;
+
+							@Override
+							public void run() {
+								time++;
+								
+								if(time < 20) {
+									stunR = true;
+								}
+								
+								if(time == 20) {
+									stunR = false;
+								}
+								
+								if(time < 60) {
+									stunLockB = true;
+								}
+								
+								if(time >= 60) {
+									stunR = false;
+									stunLockB = false;
+									
+									this.cancel();
+								}
+								
+							}
+						}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+						
+					}
 				}
 			}
 		} catch(Exception e) {
@@ -367,7 +503,7 @@ public class Main extends JavaPlugin implements Listener{
 				try {
 					if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 						if(isFighting(player)) {
-							if(isStun(player)) {
+							if(!isStun(player)) {
 								for(Player all : Bukkit.getOnlinePlayers()) {
 									Object handle = all.getClass().getMethod("getHandle").invoke(all);
 							        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
@@ -407,7 +543,7 @@ public class Main extends JavaPlugin implements Listener{
 		try {
 			if (event.getAnimationType() == PlayerAnimationType.ARM_SWING) {
 				if(isFighting(player)) {
-					if(isStun(player)) {
+					if(!isStun(player)) {
 						for(Player all : Bukkit.getOnlinePlayers()) {
 							Object handle = all.getClass().getMethod("getHandle").invoke(all);
 					        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
@@ -441,7 +577,7 @@ public class Main extends JavaPlugin implements Listener{
 		event.setCancelled(true);
 		Player player = event.getPlayer();
 		
-		if(isFighting(player) && isStun(player)) {
+		if(isFighting(player) && !isStun(player)) {
 			int cool = 1;
 			if (new CoolTime().coolCheck(player, cool, "F")) {
 				new Weave().effect(player);
