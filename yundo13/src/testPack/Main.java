@@ -58,6 +58,8 @@ public class Main extends JavaPlugin implements Listener{
 	boolean stunB = false;
 	boolean stunLockR = false;
 	boolean stunLockB = false;
+	boolean atkLockR = false;
+	boolean atkLockB = false;
 
 	@Override
 	public void onEnable() {
@@ -328,6 +330,7 @@ public class Main extends JavaPlugin implements Listener{
 								
 								if(aryR.size() == 0 || aryB.size() == 0) {
 									player.sendMessage(ChatColor.RED + "출발 포인트가 없습니다. 출발 포인트는 빨간 양털/파란 양털로 만들어주세요.");
+									event.setCancelled(true);
 									return;
 								}
 								
@@ -422,7 +425,6 @@ public class Main extends JavaPlugin implements Listener{
 												}
 												red = null;
 												blue = null;
-												return;
 											} else {
 												red.teleport(aryR.get(0));
 												blue.teleport(aryB.get(0));
@@ -500,8 +502,52 @@ public class Main extends JavaPlugin implements Listener{
 					
 				}
 				
+				if(player == red) {
+					event.setCancelled(true);
+					if(atkLockR) {
+						return;
+					}
+				} else if(player == blue) {
+					event.setCancelled(true);
+					if(atkLockB) {
+						return;
+					}
+				}
+				
 				try {
 					if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+						if(isFighting(player)) {
+							if(!isStun(player)) {
+								
+								int cool = 2;
+								if (new CoolTime().coolCheck(player, cool, "R")) {
+									for(Player all : Bukkit.getOnlinePlayers()) {
+										Object handle = all.getClass().getMethod("getHandle").invoke(all);
+								        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+								        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), 3));
+									}
+									
+									player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 10.0f, 2.0f);
+									
+									List<Entity> entitylist = player.getNearbyEntities(2, 2, 2);				
+									for (Entity nearEntity : entitylist) {
+										if (nearEntity instanceof Player) {
+											Player ent = (Player) nearEntity;
+											ent.damage(3);
+										}
+									}
+									
+									sendPacket(player, ChatColor.RED + "스트레이트!");
+								} else {
+									player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, "R"));
+									player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+								}
+								
+								event.setCancelled(true);
+							}
+							event.setCancelled(true);
+						}
+					} else if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 						if(isFighting(player)) {
 							if(!isStun(player)) {
 								for(Player all : Bukkit.getOnlinePlayers()) {
@@ -510,23 +556,66 @@ public class Main extends JavaPlugin implements Listener{
 							        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), 0));
 								}
 								
-								player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 10.0f, 2.0f);
+								player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 10.0f, 1.5f);
 								
 								List<Entity> entitylist = player.getNearbyEntities(2, 2, 2);				
 								for (Entity nearEntity : entitylist) {
 									if (nearEntity instanceof Player) {
 										Player ent = (Player) nearEntity;
-										ent.damage(3);
+										ent.damage(1);
 									}
 								}
 								
-								sendPacket(player, ChatColor.RED + "스트레이트!");
+								sendPacket(player, ChatColor.YELLOW + "잽!");
 								
 								event.setCancelled(true);
 							}
 							event.setCancelled(true);
 						}
 					}
+					
+					if(player == red) {
+						if(!atkLockR) {
+							
+							atkLockR = true;
+							new BukkitRunnable() {
+								int time = 0;
+
+								@Override
+								public void run() {
+									time++;
+
+									if (time == 20) {
+										atkLockR = false;
+										this.cancel();
+									}
+									
+								}
+							}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+							
+						}
+					} else if(player == blue) {
+						if(!atkLockB) {
+							
+							atkLockB = true;
+							new BukkitRunnable() {
+								int time = 0;
+
+								@Override
+								public void run() {
+									time++;
+
+									if (time >= 5) {
+										atkLockB = false;
+										this.cancel();
+									}
+									
+								}
+							}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+							
+						}
+					}
+					
 				} catch(Exception e1) {
 					
 				}
@@ -539,37 +628,37 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void animationEvent(PlayerAnimationEvent event) {
-		Player player = event.getPlayer();
-		try {
-			if (event.getAnimationType() == PlayerAnimationType.ARM_SWING) {
-				if(isFighting(player)) {
-					if(!isStun(player)) {
-						for(Player all : Bukkit.getOnlinePlayers()) {
-							Object handle = all.getClass().getMethod("getHandle").invoke(all);
-					        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
-					        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), 3));
-						}
-						
-						player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 10.0f, 1.5f);
-						
-						List<Entity> entitylist = player.getNearbyEntities(2, 2, 2);				
-						for (Entity nearEntity : entitylist) {
-							if (nearEntity instanceof Player) {
-								Player ent = (Player) nearEntity;
-								ent.damage(1);
-							}
-						}
-						
-						sendPacket(player, ChatColor.YELLOW + "잽!");
-						
-						event.setCancelled(true);
-					}
-					event.setCancelled(true);
-				}
-			}
-		} catch(Exception e1) {
-			
-		}
+//		Player player = event.getPlayer();
+//		try {
+//			if (event.getAnimationType() == PlayerAnimationType.ARM_SWING) {
+//				if(isFighting(player)) {
+//					if(!isStun(player)) {
+//						for(Player all : Bukkit.getOnlinePlayers()) {
+//							Object handle = all.getClass().getMethod("getHandle").invoke(all);
+//					        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+//					        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), 3));
+//						}
+//						
+//						player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 10.0f, 1.5f);
+//						
+//						List<Entity> entitylist = player.getNearbyEntities(2, 2, 2);				
+//						for (Entity nearEntity : entitylist) {
+//							if (nearEntity instanceof Player) {
+//								Player ent = (Player) nearEntity;
+//								ent.damage(1);
+//							}
+//						}
+//						
+//						sendPacket(player, ChatColor.YELLOW + "잽!");
+//						
+//						event.setCancelled(true);
+//					}
+//					event.setCancelled(true);
+//				}
+//			}
+//		} catch(Exception e1) {
+//			
+//		}
 	}
 	
 	@EventHandler
@@ -583,8 +672,8 @@ public class Main extends JavaPlugin implements Listener{
 				new Weave().effect(player);
 				player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 10.0f, 0.4f);
 			} else {
-				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, "F"));
-				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
+//				player.sendMessage(ChatColor.WHITE + "쿨타임: " + new CoolTime().returnCool(player, cool, "F"));
+//				player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2f, 2.0f);
 			}
 		}
 		

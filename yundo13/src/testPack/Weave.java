@@ -58,53 +58,50 @@ public class Weave {
 	
 	public void move(Player player) {
 		
-		if (player.getFoodLevel() > 6) {
-			player.setFoodLevel(player.getFoodLevel() - 1);
-			player.setNoDamageTicks(10);
+		player.setNoDamageTicks(10);
 
-			taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(Main.class), new Runnable() {
+		taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(Main.class), new Runnable() {
 
-				int time = 0;
-				ThreadWeave td = new ThreadWeave(player.getUniqueId());
+			int time = 0;
+			ThreadWeave td = new ThreadWeave(player.getUniqueId());
 
-				Location loc1 = null;
-				Location loc2 = null;
+			Location loc1 = null;
+			Location loc2 = null;
 
-				@Override
-				public void run() {
-					if (!td.hasID()) {
-						td.setID(taskID);
-					}
-
-					if (time == 0) {
-						loc1 = player.getLocation();
-					}
-
-					if (time >= 1) {
-						loc2 = player.getLocation();
-
-						double x = loc2.getX() - loc1.getX();
-						double z = loc2.getZ() - loc1.getZ();
-						x *= 4;
-						z *= 4;
-						if (x == 0 & z == 0) {
-							player.setVelocity(player.getLocation().getDirection().multiply(new Vector(-1, 0, -1)).add(new Vector(0, 0.1, 0)));
-						} else {
-							player.setVelocity(new Vector(x, 0.1, z));
-						}
-
-						td.endTask();
-						td.removeID();
-						return;
-					}
-
-					time++;
+			@Override
+			public void run() {
+				if (!td.hasID()) {
+					td.setID(taskID);
 				}
 
-			}, 0, 1);
+				if (time == 0) {
+					loc1 = player.getLocation();
+				}
 
-			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_STEP, 1.5f, 1.0f);
-		}
+				if (time >= 1) {
+					loc2 = player.getLocation();
+
+					double x = loc2.getX() - loc1.getX();
+					double z = loc2.getZ() - loc1.getZ();
+					x *= 4;
+					z *= 4;
+					if (x == 0 & z == 0) {
+						player.setVelocity(player.getLocation().getDirection().multiply(new Vector(-1, 0, -1)).add(new Vector(0, 0.1, 0)));
+					} else {
+						player.setVelocity(new Vector(x, 0.1, z));
+					}
+
+					td.endTask();
+					td.removeID();
+					return;
+				}
+
+				time++;
+			}
+
+		}, 0, 1);
+
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_STEP, 1.5f, 1.0f);
 
 	}
 	
