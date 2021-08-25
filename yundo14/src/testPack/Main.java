@@ -189,57 +189,29 @@ public class Main extends JavaPlugin implements Listener{
 						// 결승점
 						if(ground.getType() == Material.CONCRETE) {
 							if(ground.getData() == 15) {
-								if(repeat.containsKey(all)) {
-									if(repeatSave.containsKey(all)) {
-										if(repeat.get(all) - repeatSave.get(all) > 200 || repeatSave.get(all) > repeat.get(all)) {
-											repeat.put(all, repeat.get(all)+10000000);
-											repeatSave.put(all, repeat.get(all));
-//											all.setWalkSpeed(all.getWalkSpeed() - 0.07F);
-											for(Player all2 : Bukkit.getOnlinePlayers()) {
-												int tmp = repeat.get(all)/10000000;
-												if(tmp < 3) {
-													all2.sendMessage(ChatColor.WHITE + "[" + all.getDisplayName() + "] " + tmp + "바퀴 통과!");
-												}
-											}
-										}
-									} else {
-										repeat.put(all, repeat.get(all)+10000000);
-										repeatSave.put(all, repeat.get(all));
-//										all.setWalkSpeed(all.getWalkSpeed() - 0.07F);
-										for(Player all2 : Bukkit.getOnlinePlayers()) {
-											int tmp = repeat.get(all)/10000000;
-											if(tmp < 3) {
-												all2.sendMessage(ChatColor.WHITE + "[" + all.getDisplayName() + "] " + tmp + "바퀴 통과!");
-											}
-										}
+								if(!rank.contains(all)) {
+									
+									rank.add(all);
+									all.getWorld().playSound(all.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3.0f, 2.0f);
+									for(Player all2 : Bukkit.getOnlinePlayers()) {
+										all2.sendMessage(ChatColor.BOLD + "" + ChatColor.GOLD + all.getDisplayName() + " ("  + record/20 + "." + (record%20)/2 + "초)");
 									}
-								}
-								
-								if(repeat.get(all) > 30000000) {
-									if(!rank.contains(all)) {
-										
-										rank.add(all);
-										all.getWorld().playSound(all.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3.0f, 2.0f);
-										for(Player all2 : Bukkit.getOnlinePlayers()) {
-											all2.sendMessage(ChatColor.BOLD + "" + ChatColor.GOLD + all.getDisplayName() + " ("  + record/20 + "." + (record%20)/2 + "초)");
-										}
-										
-										try {
-											if(rank.size() == 1) {
-												Location loc = all.getLocation();
-												
-												goldFirework(loc.clone().add(0,0,3));
-												goldFirework(loc.clone().add(0,0,-3));
-												redFirework(loc.clone().add(0,0,5));
-												redFirework(loc.clone().add(0,0,-5));
-											}
-										} catch(Exception e) {
+									
+									try {
+										if(rank.size() == 1) {
+											Location loc = all.getLocation();
 											
+											goldFirework(loc.clone().add(0,0,3));
+											goldFirework(loc.clone().add(0,0,-3));
+											redFirework(loc.clone().add(0,0,5));
+											redFirework(loc.clone().add(0,0,-5));
 										}
+									} catch(Exception e) {
+										
 									}
 								}
 							}
-							if(ground.getData() == 15 && !finish && repeat.get(all) > 30000000) {
+							if(ground.getData() == 15 && !finish) {
 
 								finish = true;
 								
@@ -356,7 +328,7 @@ public class Main extends JavaPlugin implements Listener{
 		player.teleport(player.getWorld().getSpawnLocation());
 		player.setWalkSpeed(0.3f);
 		
-//		player.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "윤도유니버스 유튜브" + ChatColor.WHITE + "" + ChatColor.BOLD + " / " + ChatColor.DARK_RED + "" + ChatColor.BOLD + "유메하마 플러그인" );
+		player.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "윤도유니버스 유튜브" + ChatColor.WHITE + "" + ChatColor.BOLD + " / " + ChatColor.DARK_RED + "" + ChatColor.BOLD + "유메하마 플러그인" );
 	}
 	
 	@EventHandler
