@@ -73,6 +73,7 @@ import org.bukkit.util.Vector;
 // -642 90 -257  257 50 642
 // 총(엔티티 어택, 평타랑 같은 개념)
 // 수류탄(블럭 폭발)
+// -404 80 -277
 
 public class Main extends JavaPlugin implements Listener{
 	
@@ -164,7 +165,7 @@ public class Main extends JavaPlugin implements Listener{
 								
 								if(cnt == 200) {
 									ArmorStand as = (ArmorStand) world.spawnEntity(new Location(world, 0, 128, 0), EntityType.ARMOR_STAND);
-									for(Entity ent : as.getNearbyEntities(128, 128, 128)) {
+									for(Entity ent : as.getNearbyEntities(700, 128, 700)) {
 										if(ent instanceof TNTPrimed) {
 											ent.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, ent.getLocation(), 0);
 											ent.getWorld().playSound(ent.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 5.0f, 1.0f);
@@ -219,7 +220,7 @@ public class Main extends JavaPlugin implements Listener{
 								
 								if(cnt == 200) {
 									ArmorStand as = (ArmorStand) world.spawnEntity(new Location(world, 0, 128, 0), EntityType.ARMOR_STAND);
-									for(Entity ent : as.getNearbyEntities(128, 128, 128)) {
+									for(Entity ent : as.getNearbyEntities(700, 128, 700)) {
 										if(ent instanceof TNTPrimed) {
 											ent.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, ent.getLocation(), 0);
 											ent.getWorld().playSound(ent.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 5.0f, 1.0f);
@@ -275,7 +276,7 @@ public class Main extends JavaPlugin implements Listener{
 								
 								if(cnt == 200) {
 									ArmorStand as = (ArmorStand) world.spawnEntity(new Location(world, 0, 128, 0), EntityType.ARMOR_STAND);
-									for(Entity ent : as.getNearbyEntities(128, 128, 128)) {
+									for(Entity ent : as.getNearbyEntities(700, 128, 700)) {
 										if(ent instanceof TNTPrimed) {
 											ent.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, ent.getLocation(), 0);
 											ent.getWorld().playSound(ent.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 5.0f, 1.0f);
@@ -405,6 +406,7 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void dropEvent(PlayerDropItemEvent event) {
+		System.out.println(event.getItemDrop().getItemStack().getType());
 		if(event.getItemDrop().getItemStack().getType() == Material.BARRIER) {
 			event.setCancelled(true);
 		}
@@ -415,31 +417,35 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void clickEvent(InventoryClickEvent event) {
-		if(event.getCurrentItem().getType() == Material.BARRIER) {
-			event.setCancelled(true);
-		}
-		if(event.getCurrentItem().getType() == Material.NETHER_STAR) {
-			try {
-				if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "탱커")) {
-					new Cmd1().jobMap.put((Player) event.getWhoClicked(), 1);
-					((Player) event.getWhoClicked()).sendMessage(ChatColor.GREEN + "탱커가 선택되었습니다.");
-				} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "딜러")) {
-					new Cmd1().jobMap.put((Player) event.getWhoClicked(), 2);
-					((Player) event.getWhoClicked()).sendMessage(ChatColor.GREEN + "딜러가 선택되었습니다.");
-				} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "힐러")) {
-					new Cmd1().jobMap.put((Player) event.getWhoClicked(), 3);
-					((Player) event.getWhoClicked()).sendMessage(ChatColor.GREEN + "힐러가 선택되었습니다.");
-				}
-			} catch(Exception e) {
-				
+		try {
+			if(event.getCurrentItem().getType() == Material.BARRIER) {
+				event.setCancelled(true);
 			}
-			event.setCancelled(true);
-		}
-		if(event.getCursor().getType() == Material.BARRIER) {
-			event.setCancelled(true);
-		}
-		if(event.getCursor().getType() == Material.NETHER_STAR) {
-			event.setCancelled(true);
+			if(event.getCurrentItem().getType() == Material.NETHER_STAR) {
+				try {
+					if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "탱커")) {
+						new Cmd1().jobMap.put((Player) event.getWhoClicked(), 1);
+						((Player) event.getWhoClicked()).sendMessage(ChatColor.GREEN + "탱커가 선택되었습니다.");
+					} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "딜러")) {
+						new Cmd1().jobMap.put((Player) event.getWhoClicked(), 2);
+						((Player) event.getWhoClicked()).sendMessage(ChatColor.GREEN + "딜러가 선택되었습니다.");
+					} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "힐러")) {
+						new Cmd1().jobMap.put((Player) event.getWhoClicked(), 3);
+						((Player) event.getWhoClicked()).sendMessage(ChatColor.GREEN + "힐러가 선택되었습니다.");
+					}
+				} catch(Exception e) {
+					
+				}
+				event.setCancelled(true);
+			}
+			if(event.getCursor().getType() == Material.BARRIER) {
+				event.setCancelled(true);
+			}
+			if(event.getCursor().getType() == Material.NETHER_STAR) {
+				event.setCancelled(true);
+			}
+		} catch(Exception e) {
+			
 		}
 	}
 	
@@ -495,6 +501,119 @@ public class Main extends JavaPlugin implements Listener{
 						
 						btnLoc = event.getClickedBlock().getLocation().add(0,1,0);
 						start = true;
+						
+						World world = Bukkit.getWorld("world");
+						Location loc = null;
+						// -642 90 -257  257 50 642
+						for(int i = -642 ; i <= 257 ; i++) {
+							for(int j = 50 ; j <= 90 ; j++) {
+								for(int k = -257 ; k <= 642 ; k++) {
+									loc = new Location(world,i,j,k);
+									if(loc.getBlock().getType() == Material.CONCRETE) {
+										if(loc.getBlock().getData() == 14) {
+											Location chestLoc = loc.clone().add(0,1,0);
+											chestLoc.getBlock().setType(Material.AIR);
+										}
+									} else if(loc.getBlock().getType() == Material.CHEST) {
+										Location chestLoc = loc.clone();
+										Block block = chestLoc.getBlock();
+										Chest chest = (Chest) block.getState();
+										Inventory inv = chest.getInventory();
+										if(rnd.nextInt(10) < 6) {
+											int r = rnd.nextInt(9);
+											if(r == 0) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEMP5"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEMP5AMMO"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE9X19"), 60));
+												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
+												inv.setItem(4, new ItemStack(Material.BAKED_POTATO, 3));
+											} else if(r == 1) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEP88"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEP88AMMO"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE9X19"), 60));
+												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
+												inv.setItem(4, new ItemStack(Material.BAKED_POTATO, 4));
+											} else if(r == 2) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEAK74U"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEAK74UAMMO"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE7_62X39"), 60));
+												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
+												inv.setItem(4, new ItemStack(Material.BREAD, 3));
+											} else if(r == 3) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
+												inv.setItem(1, new ItemStack(Material.BREAD, 2));
+												inv.setItem(2, new ItemStack(Material.BAKED_POTATO, 2));
+												inv.setItem(3, new ItemStack(Material.LEATHER_HELMET, 1));
+												inv.setItem(4, new ItemStack(Material.LEATHER_CHESTPLATE, 1));
+											} else if(r == 4) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEDOCTER_SIGHT"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEPISTOL_SUPPRESSOR"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPETACTICAL_FLASHLIGHT"), 1));
+												inv.setItem(3, new ItemStack(Material.LEATHER_CHESTPLATE, 1));
+												inv.setItem(4, new ItemStack(Material.BREAD, 2));
+											} else if(r == 5) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEAK47_SUPPRESSOR"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEDOCTER_SIGHT_MINI"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEERGO_FOREGRIP"), 1));
+												inv.setItem(3, new ItemStack(Material.LEATHER_HELMET, 1));
+											} else if(r == 6) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPESHOTGUN_SUPPRESSOR"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEACOG_SCOPE"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEAK74U_FLASHLIGHT"), 1));
+												inv.setItem(3, new ItemStack(Material.LEATHER_HELMET, 1));
+											} else if(r == 7) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEAR_SUPPRESSOR"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPELONG_SCOPE"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEACOG_SCOPE"), 1));
+												inv.setItem(3, new ItemStack(Material.LEATHER_CHESTPLATE, 1));
+												inv.setItem(4, new ItemStack(Material.BREAD, 3));
+											} else if(r == 8) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPESR_SUPPRESSOR"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEOBZOR_SIGHT"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEDOCTER_SIGHT"), 1));
+												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
+												inv.setItem(4, new ItemStack(Material.BAKED_POTATO, 3));
+											}
+										} else {
+											int r = rnd.nextInt(9);
+											if(r == 0) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHK416"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHK416AMMO"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE5_56X45"), 120));
+											} else if(r == 1) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEM4A1"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEM4A1AMMO"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE5_56X45"), 120));
+											} else if(r == 2) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEAK47"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEAK47AMMO"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE7_62X39"), 120));
+											} else if(r == 3) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPESPAS12"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE12GAUGE"), 60));
+											} else if(r == 4) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEUZI"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEUZIAMMO"), 1));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE9X19"), 150));
+											} else if(r == 5) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPETAURUS"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE44MAGNUM"), 30));
+											} else if(r == 6) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEMILITARY_CAP_BLACK"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPESMOKE_GRENADE"), 1));
+											} else if(r == 7) {
+												inv.setItem(0, new ItemStack(Material.GOLDEN_APPLE, 2));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPESTUN_GRENADE"), 1));
+											} else if(r == 8) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEFRAG_GRENADE"), 1));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEUNIFORM_FEET"), 1));
+											}
+										}
+										
+									}
+								}
+							}
+						}
 						
 						new BukkitRunnable() {
 							int time = 0;
