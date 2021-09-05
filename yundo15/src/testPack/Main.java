@@ -336,17 +336,21 @@ public class Main extends JavaPlugin implements Listener{
 					// 앞으로 점프
 					for(Player all : Bukkit.getOnlinePlayers()) {
 						Block ground = all.getLocation().add(0,-1,0).getBlock();
-						if(ground.getType() == Material.CONCRETE) {
-							if(ground.getData() == 1) {
-								try {
-									if(map.get(all) != ground) {
-										map.remove(all);
-										map.put(all, ground);
-										all.getWorld().playSound(all.getLocation(), Sound.BLOCK_NOTE_BASEDRUM, 2.0f, 1.89f);
-										all.setVelocity(all.getLocation().getDirection().multiply(3.0f).add(new Vector(0,0.6,0)));
+						Location loc = ground.getLocation();
+						if (loc.getX() <= 257 && loc.getY() <= 90 && loc.getZ() <= 642 
+								&& loc.getX() >= -642 && loc.getY() >= 50 && loc.getZ() >= -257) {
+							if(ground.getType() == Material.CONCRETE) {
+								if(ground.getData() == 1) {
+									try {
+										if(map.get(all) != ground) {
+											map.remove(all);
+											map.put(all, ground);
+											all.getWorld().playSound(all.getLocation(), Sound.BLOCK_NOTE_BASEDRUM, 2.0f, 1.89f);
+											all.setVelocity(all.getLocation().getDirection().multiply(3.0f).add(new Vector(0,0.6,0)));
+										}
+									} catch(Exception e) {
+										
 									}
-								} catch(Exception e) {
-									
 								}
 							}
 						}
@@ -811,6 +815,63 @@ public class Main extends JavaPlugin implements Listener{
 			}
 		}
 		
+	}
+	
+	@EventHandler
+	public void chatEvent(AsyncPlayerChatEvent event) {
+		Player player = event.getPlayer();
+		if(start) {
+			if(pBlack.contains(player)) {
+				for(Player p : Bukkit.getOnlinePlayers()) {
+					if(pBlack.contains(p)) {
+						p.sendMessage("<" + player.getDisplayName() + "> " + event.getMessage());
+					}
+				}
+			} else if(pBlue.contains(player)) {
+				for(Player p : Bukkit.getOnlinePlayers()) {
+					if(pBlue.contains(p)) {
+						p.sendMessage("<" + player.getDisplayName() + "> " + event.getMessage());
+					}
+				}
+			} else if(pYellow.contains(player)) {
+				for(Player p : Bukkit.getOnlinePlayers()) {
+					if(pYellow.contains(p)) {
+						p.sendMessage("<" + player.getDisplayName() + "> " + event.getMessage());
+					}
+				}
+			} else if(pOrange.contains(player)) {
+				for(Player p : Bukkit.getOnlinePlayers()) {
+					if(pOrange.contains(p)) {
+						p.sendMessage("<" + player.getDisplayName() + "> " + event.getMessage());
+					}
+				}
+			} else if(pGreen.contains(player)) {
+				for(Player p : Bukkit.getOnlinePlayers()) {
+					if(pGreen.contains(p)) {
+						p.sendMessage("<" + player.getDisplayName() + "> " + event.getMessage());
+					}
+				}
+			} else if(pPurple.contains(player)) {
+				for(Player p : Bukkit.getOnlinePlayers()) {
+					if(pPurple.contains(p)) {
+						p.sendMessage("<" + player.getDisplayName() + "> " + event.getMessage());
+					}
+				}
+			} else if(pWhite.contains(player)) {
+				for(Player p : Bukkit.getOnlinePlayers()) {
+					if(pWhite.contains(p)) {
+						p.sendMessage("<" + player.getDisplayName() + "> " + event.getMessage());
+					}
+				}
+			} else if(pPink.contains(player)) {
+				for(Player p : Bukkit.getOnlinePlayers()) {
+					if(pPink.contains(p)) {
+						p.sendMessage("<" + player.getDisplayName() + "> " + event.getMessage());
+					}
+				}
+			}
+			event.setCancelled(true);
+		}
 	}
 	
 	@EventHandler
