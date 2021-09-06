@@ -28,8 +28,11 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -39,6 +42,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -46,6 +50,8 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -94,6 +100,8 @@ public class Main extends JavaPlugin implements Listener{
 	ArrayList<Player> pPurple = new ArrayList<>();
 	ArrayList<Player> pWhite = new ArrayList<>();
 	ArrayList<Player> pPink = new ArrayList<>();
+	
+	ArrayList<Player> sick = new ArrayList<>();
 	
 	ArrayList<String> banList = new ArrayList<>();
 	HashMap<Player, Block> map = new HashMap<>();
@@ -144,7 +152,7 @@ public class Main extends JavaPlugin implements Listener{
 							@Override
 							public void run() {
 								if(cnt == 0) {
-									for(int i = 0 ; i < 100 ; i++) {
+									for(int i = 0 ; i < 500 ; i++) {
 										int x = rnd.nextInt(810) - 650;
 										int z = rnd.nextInt(810) - 260;
 										Location loc = new Location(world, x, 255, z);
@@ -179,7 +187,7 @@ public class Main extends JavaPlugin implements Listener{
 										}
 									}
 									for(Player all : Bukkit.getOnlinePlayers()) {
-										all.playSound(all.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.6f, 1.0f);
+										all.playSound(all.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 									}
 									as.remove();
 									this.cancel();
@@ -199,7 +207,7 @@ public class Main extends JavaPlugin implements Listener{
 							@Override
 							public void run() {
 								if(cnt == 0) {
-									for(int i = 0 ; i < 100 ; i++) {
+									for(int i = 0 ; i < 500 ; i++) {
 										int x = rnd.nextInt(810) - 650;
 										int z = rnd.nextInt(810) - 260;
 										Location loc = new Location(world, x, 255, z);
@@ -234,7 +242,7 @@ public class Main extends JavaPlugin implements Listener{
 										}
 									}
 									for(Player all : Bukkit.getOnlinePlayers()) {
-										all.getWorld().playSound(all.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.6f, 1.0f);
+										all.getWorld().playSound(all.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 									}
 									as.remove();
 									this.cancel();
@@ -255,7 +263,7 @@ public class Main extends JavaPlugin implements Listener{
 							@Override
 							public void run() {
 								if(cnt == 0) {
-									for(int i = 0 ; i < 100 ; i++) {
+									for(int i = 0 ; i < 500 ; i++) {
 										int x = rnd.nextInt(810) - 650;
 										int z = rnd.nextInt(810) - 260;
 										Location loc = new Location(world, x, 255, z);
@@ -290,7 +298,7 @@ public class Main extends JavaPlugin implements Listener{
 										}
 									}
 									for(Player all : Bukkit.getOnlinePlayers()) {
-										all.getWorld().playSound(all.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.6f, 1.0f);
+										all.getWorld().playSound(all.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 									}
 									as.remove();
 									this.cancel();
@@ -321,12 +329,16 @@ public class Main extends JavaPlugin implements Listener{
 											Block block = chestLoc.getBlock();
 											Chest chest = (Chest) block.getState();
 											Inventory inv = chest.getInventory();
-											inv.setItem(0, new ItemStack(Material.WOOD_SWORD));
-											inv.setItem(1, new ItemStack(Material.LEATHER_HELMET));
-											inv.setItem(2, new ItemStack(Material.LEATHER_CHESTPLATE));
-											inv.setItem(3, new ItemStack(Material.LEATHER_LEGGINGS));
-											inv.setItem(4, new ItemStack(Material.LEATHER_BOOTS));
-											inv.setItem(5, new ItemStack(Material.COOKED_CHICKEN));
+											if(rnd.nextInt(2) == 0) {
+												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE12SLUGGAUGE"), 10));
+												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEAK74UFASTMAG"), 1));
+											} else {
+												inv.setItem(0, new ItemStack(Material.BOW, 1));
+												inv.setItem(1, new ItemStack(Material.SPECTRAL_ARROW, 10));
+												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEL115A3"), 1));
+												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEL115A3AMMO"), 1));
+											}
+											
 										}
 									}
 								}
@@ -397,6 +409,7 @@ public class Main extends JavaPlugin implements Listener{
 			
 			if(start) {
 				banList.add(player.getDisplayName());
+				removePlayer(player);
 			}
 		} catch(Exception e) {
 			
@@ -472,7 +485,104 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void damageEvent2(EntityDamageEvent event) {
-//		System.out.println(event.getCause());
+		try {
+			if(event.getEntity() instanceof Player) {
+				Player player = (Player) event.getEntity();
+				if(!sick.contains(player)) {
+					if(player.getHealth() <= event.getDamage()) {
+						event.setCancelled(true);
+						player.sendMessage(ChatColor.RED + "빈사상태가 되어 도움을 받지 못하면 10초 뒤 사망합니다.");
+						player.setHealth(1);
+						player.setNoDamageTicks(200);
+						player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 0, true, false));
+						player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 200, 2, true, false));
+						sick.add(player);
+						
+						new BukkitRunnable() {
+							int time = 0;
+
+							@Override
+							public void run() {
+								time++;
+								
+								if(!sick.contains(player)) {
+									this.cancel();
+								}
+
+								if (time >= 200) {
+									if(sick.contains(player)) {
+										sick.remove(player);
+										player.setHealth(0);
+									}
+									this.cancel();
+								}
+								
+							}
+						}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+					}
+				}
+			}
+		} catch(Exception e) {
+			
+		}
+	}
+	
+	@EventHandler
+	public void healEvent(PlayerInteractEntityEvent event) {
+		if(event.getPlayer() instanceof Player) {
+			if(event.getRightClicked() instanceof Player) {
+				if(pBlack.contains(event.getPlayer()) && pBlack.contains(event.getRightClicked())) {
+					if(sick.contains(event.getRightClicked())) {
+						sick.remove(event.getRightClicked());
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.CONFUSION);
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.SLOW);
+					}
+				} else if(pBlue.contains(event.getPlayer()) && pBlue.contains(event.getRightClicked())) {
+					if(sick.contains(event.getRightClicked())) {
+						sick.remove(event.getRightClicked());
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.CONFUSION);
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.SLOW);
+					}
+				} else if(pGreen.contains(event.getPlayer()) && pGreen.contains(event.getRightClicked())) {
+					if(sick.contains(event.getRightClicked())) {
+						sick.remove(event.getRightClicked());
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.CONFUSION);
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.SLOW);
+					}
+				} else if(pOrange.contains(event.getPlayer()) && pOrange.contains(event.getRightClicked())) {
+					if(sick.contains(event.getRightClicked())) {
+						sick.remove(event.getRightClicked());
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.CONFUSION);
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.SLOW);
+					}
+				} else if(pPink.contains(event.getPlayer()) && pPink.contains(event.getRightClicked())) {
+					if(sick.contains(event.getRightClicked())) {
+						sick.remove(event.getRightClicked());
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.CONFUSION);
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.SLOW);
+					}
+				} else if(pPurple.contains(event.getPlayer()) && pPurple.contains(event.getRightClicked())) {
+					if(sick.contains(event.getRightClicked())) {
+						sick.remove(event.getRightClicked());
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.CONFUSION);
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.SLOW);
+					}
+				} else if(pWhite.contains(event.getPlayer()) && pWhite.contains(event.getRightClicked())) {
+					if(sick.contains(event.getRightClicked())) {
+						sick.remove(event.getRightClicked());
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.CONFUSION);
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.SLOW);
+					}
+				} else if(pYellow.contains(event.getPlayer()) && pYellow.contains(event.getRightClicked())) {
+					if(sick.contains(event.getRightClicked())) {
+						sick.remove(event.getRightClicked());
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.CONFUSION);
+						((Player) event.getRightClicked()).removePotionEffect(PotionEffectType.SLOW);
+					}
+				}
+				
+			}
+		}
 	}
 	
 	@EventHandler
@@ -512,13 +622,20 @@ public class Main extends JavaPlugin implements Listener{
 									if(loc.getBlock().getType() == Material.CONCRETE) {
 										if(loc.getBlock().getData() == 14) {
 											Location chestLoc = loc.clone().add(0,1,0);
-											chestLoc.getBlock().setType(Material.AIR);
+											if(chestLoc.getBlock().getType() == Material.CHEST) {
+												Block block = chestLoc.getBlock();
+												Chest chest = (Chest) block.getState();
+												Inventory inv = chest.getInventory();
+												inv.clear();
+												chestLoc.getBlock().setType(Material.AIR);
+											}
 										}
 									} else if(loc.getBlock().getType() == Material.CHEST) {
 										Location chestLoc = loc.clone();
 										Block block = chestLoc.getBlock();
 										Chest chest = (Chest) block.getState();
 										Inventory inv = chest.getInventory();
+										inv.clear();
 										if(rnd.nextInt(10) < 6) {
 											int r = rnd.nextInt(9);
 											if(r == 0) {
@@ -994,6 +1111,24 @@ public class Main extends JavaPlugin implements Listener{
 	}
 	
 	@EventHandler
+	public void ExplosionCancel(EntityExplodeEvent event) {
+		Entity entity = event.getEntity();
+		
+		if(entity instanceof Creeper) {
+			for(PotionEffect effect : ((LivingEntity) entity).getActivePotionEffects ()){
+				((LivingEntity) entity).removePotionEffect(effect.getType());
+		    }
+			event.setCancelled(true);
+		}
+		if(entity instanceof Fireball) {
+			event.setCancelled(true);
+		}
+		if(event.getEntityType() == EntityType.PRIMED_TNT || event.getEntityType() == EntityType.ENDER_CRYSTAL || event.getEntityType() == EntityType.MINECART_TNT) {
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
 	public void blockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		if(!player.isOp()) {
@@ -1001,6 +1136,12 @@ public class Main extends JavaPlugin implements Listener{
 				event.setCancelled(true);
 			}
 		}
+	}
+	
+	@EventHandler
+	public void onPlayerOffEvent(PlayerQuitEvent event) {
+		Player player = event.getPlayer();
+		removePlayer(player);
 	}
 	
 	@EventHandler
@@ -1094,6 +1235,26 @@ public class Main extends JavaPlugin implements Listener{
 	        e.printStackTrace();
 	    }
 	    return null;
+	}
+	
+	public void removePlayer(Player player) {
+		if(pBlack.contains(player)) {
+			pBlack.remove(player);
+		} else if(pBlue.contains(player)) {
+			pBlue.remove(player);
+		} else if(pGreen.contains(player)) {
+			pGreen.remove(player);
+		} else if(pOrange.contains(player)) {
+			pOrange.remove(player);
+		} else if(pPink.contains(player)) {
+			pPink.remove(player);
+		} else if(pPurple.contains(player)) {
+			pPurple.remove(player);
+		} else if(pWhite.contains(player)) {
+			pWhite.remove(player);
+		} else if(pYellow.contains(player)) {
+			pYellow.remove(player);
+		}
 	}
 	
 }
