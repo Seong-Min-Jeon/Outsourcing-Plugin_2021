@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Cmd1 implements CommandExecutor {
 	
 	static HashMap<Player, Integer> jobMap = new HashMap<>();
+	static HashMap<Player, Integer> map = new HashMap<>(); 
 	
 	public void open(Player player) {
 		Inventory inv = Bukkit.createInventory(player, 9, "Job Table");
@@ -83,7 +84,17 @@ public class Cmd1 implements CommandExecutor {
 			Player player = (Player) sender;
 			
 			try {
-				open(player);
+				if(!map.containsKey(player)) {
+					open(player);
+				} else {
+					if(map.get(player) == 1) {
+						player.sendMessage(ChatColor.AQUA + "당신의 직업은 탱커입니다.");
+					} else if(map.get(player) == 2) {
+						player.sendMessage(ChatColor.AQUA + "당신의 직업은 딜러입니다.");
+					} else if(map.get(player) == 3) {
+						player.sendMessage(ChatColor.AQUA + "당신의 직업은 힐러입니다.");
+					}
+				}
 			} catch(Exception e) {
 				
 			}

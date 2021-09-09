@@ -1,6 +1,7 @@
 package testPack;
 
 import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_12_R1.PacketPlayOutAnimation;
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo;
 import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
 import net.minecraft.server.v1_12_R1.PacketPlayOutTitle.EnumTitleAction;
@@ -27,6 +28,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
@@ -126,8 +128,64 @@ public class Main extends JavaPlugin implements Listener{
 
 				if (time % 20 == 0) {
 					new CoolTime().countTime();
+					
+					int black = 0;
+					int blue = 0;
+					int green = 0;
+					int purple = 0;
+					int pink = 0;
+					int orange = 0;
+					int white = 0;
+					int yellow = 0;
+					
+					for(Player p : Bukkit.getOnlinePlayers()) {
+						if(pBlack.contains(p)) {
+							black++;
+						} else if(pBlue.contains(p)) {
+							blue++;
+						} else if(pGreen.contains(p)) {
+							green++;
+						} else if(pPurple.contains(p)) {
+							purple++;
+						} else if(pPink.contains(p)) {
+							pink++;
+						} else if(pOrange.contains(p)) {
+							orange++;
+						} else if(pWhite.contains(p)) {
+							white++;
+						} else if(pYellow.contains(p)) {
+							yellow++;
+						}
+					}
+					
+					if(start) {
+						if(black != 0 && blue == 0 && green == 0 && purple == 0 && pink == 0 && orange == 0 && white == 0 && yellow == 0) {
+							start = false;
+							win("black");
+						} else if(black == 0 && blue != 0 && green == 0 && purple == 0 && pink == 0 && orange == 0 && white == 0 && yellow == 0) {
+							start = false;
+							win("blue");
+						} else if(black == 0 && blue == 0 && green != 0 && purple == 0 && pink == 0 && orange == 0 && white == 0 && yellow == 0) {
+							start = false;
+							win("green");
+						} else if(black == 0 && blue == 0 && green == 0 && purple != 0 && pink == 0 && orange == 0 && white == 0 && yellow == 0) {
+							start = false;
+							win("purple");
+						} else if(black == 0 && blue == 0 && green == 0 && purple == 0 && pink != 0 && orange == 0 && white == 0 && yellow == 0) {
+							start = false;
+							win("pink");
+						} else if(black == 0 && blue == 0 && green == 0 && purple == 0 && pink == 0 && orange != 0 && white == 0 && yellow == 0) {
+							start = false;
+							win("orange");
+						} else if(black == 0 && blue == 0 && green == 0 && purple == 0 && pink == 0 && orange == 0 && white != 0 && yellow == 0) {
+							start = false;
+							win("white");
+						} else if(black == 0 && blue == 0 && green == 0 && purple == 0 && pink == 0 && orange == 0 && white == 0 && yellow != 0) {
+							start = false;
+							win("yellow");
+						}
+					}
 				}
-				
 			}
 		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
 		
@@ -438,12 +496,15 @@ public class Main extends JavaPlugin implements Listener{
 				try {
 					if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "탱커")) {
 						new Cmd1().jobMap.put((Player) event.getWhoClicked(), 1);
+						new Cmd1().map.put((Player) event.getWhoClicked(), 1);
 						((Player) event.getWhoClicked()).sendMessage(ChatColor.GREEN + "탱커가 선택되었습니다.");
 					} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "딜러")) {
 						new Cmd1().jobMap.put((Player) event.getWhoClicked(), 2);
+						new Cmd1().map.put((Player) event.getWhoClicked(), 2);
 						((Player) event.getWhoClicked()).sendMessage(ChatColor.GREEN + "딜러가 선택되었습니다.");
 					} else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GOLD + "힐러")) {
 						new Cmd1().jobMap.put((Player) event.getWhoClicked(), 3);
+						new Cmd1().map.put((Player) event.getWhoClicked(), 3);
 						((Player) event.getWhoClicked()).sendMessage(ChatColor.GREEN + "힐러가 선택되었습니다.");
 					}
 				} catch(Exception e) {
@@ -490,6 +551,7 @@ public class Main extends JavaPlugin implements Listener{
 				Player player = (Player) event.getEntity();
 				if(!sick.contains(player)) {
 					if(player.getHealth() <= event.getDamage()) {
+						event.setDamage(0);
 						event.setCancelled(true);
 						player.sendMessage(ChatColor.RED + "빈사상태가 되어 도움을 받지 못하면 10초 뒤 사망합니다.");
 						player.setHealth(1);
@@ -507,6 +569,19 @@ public class Main extends JavaPlugin implements Listener{
 								
 								if(!sick.contains(player)) {
 									this.cancel();
+								} else {
+									if(time % 20 == 0) {
+										try {
+											for(Player all : Bukkit.getOnlinePlayers()) {
+												Object handle = all.getClass().getMethod("getHandle").invoke(all);
+										        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+										        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), 1));
+										        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), 5));
+											}
+										} catch(Exception e) {
+											
+										}
+									}
 								}
 
 								if (time >= 200) {
@@ -519,7 +594,13 @@ public class Main extends JavaPlugin implements Listener{
 								
 							}
 						}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+						
+						return;
 					}
+				} else {
+					event.setDamage(0);
+					event.setCancelled(true);
+					return;
 				}
 			}
 		} catch(Exception e) {
@@ -1255,6 +1336,157 @@ public class Main extends JavaPlugin implements Listener{
 		} else if(pYellow.contains(player)) {
 			pYellow.remove(player);
 		}
+	}
+	
+	public void win(String team) {
+		if(team.equals("black")) {
+			try {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+							ChatSerializer.a("{\"text\":\"§6블랙팀 승리!\"}"));
+					Object handle = all.getClass().getMethod("getHandle").invoke(all);
+			        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+				}
+			} catch(Exception e) {
+				
+			}
+		} else if(team.equals("blue")) {
+			try {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+							ChatSerializer.a("{\"text\":\"§6블루팀 승리!\"}"));
+					Object handle = all.getClass().getMethod("getHandle").invoke(all);
+			        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+				}
+			} catch(Exception e) {
+				
+			}
+		} else if(team.equals("green")) {
+			try {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+							ChatSerializer.a("{\"text\":\"§6그린팀 승리!\"}"));
+					Object handle = all.getClass().getMethod("getHandle").invoke(all);
+			        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+				}
+			} catch(Exception e) {
+				
+			}
+		} else if(team.equals("purple")) {
+			try {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+							ChatSerializer.a("{\"text\":\"§6퍼플팀 승리!\"}"));
+					Object handle = all.getClass().getMethod("getHandle").invoke(all);
+			        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+				}
+			} catch(Exception e) {
+				
+			}
+		} else if(team.equals("pink")) {
+			try {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+							ChatSerializer.a("{\"text\":\"§6핑크팀 승리!\"}"));
+					Object handle = all.getClass().getMethod("getHandle").invoke(all);
+			        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+				}
+			} catch(Exception e) {
+				
+			}
+		} else if(team.equals("orange")) {
+			try {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+							ChatSerializer.a("{\"text\":\"§6오랜지팀 승리!\"}"));
+					Object handle = all.getClass().getMethod("getHandle").invoke(all);
+			        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+				}
+			} catch(Exception e) {
+				
+			}
+		} else if(team.equals("white")) {
+			try {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+							ChatSerializer.a("{\"text\":\"§6화이트팀 승리!\"}"));
+					Object handle = all.getClass().getMethod("getHandle").invoke(all);
+			        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+				}
+			} catch(Exception e) {
+				
+			}
+		} else if(team.equals("yellow")) {
+			try {
+				for(Player all : Bukkit.getOnlinePlayers()) {
+					PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, 
+							ChatSerializer.a("{\"text\":\"§6옐로팀 승리!\"}"));
+					Object handle = all.getClass().getMethod("getHandle").invoke(all);
+			        Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			        playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, title);
+				}
+			} catch(Exception e) {
+				
+			}
+		}
+		
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			firework(p.getLocation());
+		}
+		
+		new BukkitRunnable() {
+			int time = 0;
+
+			@Override
+			public void run() {
+				time++;
+
+				if (time >= 100) {
+					for(Player p : Bukkit.getOnlinePlayers()) {
+						p.teleport(btnLoc);
+					}
+					new Cmd1().jobMap.clear();
+					new Cmd1().map.clear();
+					
+					for(int i = 0 ; i < 200 ; i++) {
+						new CoolTime().countTime();
+					}
+					aryBlack.clear();
+					aryBlue.clear();
+					aryGreen.clear();
+					aryOrange.clear();
+					aryPink.clear();
+					aryPurple.clear();
+					aryWhite.clear();
+					aryYellow.clear();
+					
+					pBlack.clear();
+					pBlue.clear();
+					pGreen.clear();
+					pOrange.clear();
+					pPink.clear();
+					pPurple.clear();
+					pWhite.clear();
+					pYellow.clear();
+					
+					sick.clear();
+					
+					banList.clear();
+					map.clear();
+					start = false;
+					timer = 0;
+					this.cancel();
+				}
+			}
+		}.runTaskTimer(Main.getPlugin(Main.class), 0, 1);
+		
 	}
 	
 }
