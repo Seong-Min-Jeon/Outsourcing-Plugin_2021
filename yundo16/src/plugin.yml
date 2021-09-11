@@ -1,0 +1,8 @@
+name: YumehamaGameModePlugin
+main: gmPack.Main
+version: 1.0
+commands:
+  gm:
+   description: gm
+   usage: /gm
+api-version: 1.12

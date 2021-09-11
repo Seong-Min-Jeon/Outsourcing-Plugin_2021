@@ -442,9 +442,11 @@ public class Main extends JavaPlugin implements Listener{
 		Player player = event.getPlayer(); 
 		player.setGameMode(GameMode.ADVENTURE);
 		
-		if(banList.contains(player.getDisplayName()) || start) {
-			event.setJoinMessage(null);
-			player.kickPlayer(ChatColor.RED + "이번 게임에는 참여할 수 없습니다.");
+		if(!player.isOp()) {
+			if(banList.contains(player.getDisplayName()) || start) {
+				event.setJoinMessage(null);
+				player.kickPlayer(ChatColor.RED + "이번 게임에는 참여할 수 없습니다.");
+			}
 		}
 		
 		player.getInventory().clear();
@@ -463,6 +465,21 @@ public class Main extends JavaPlugin implements Listener{
 	public void die(PlayerDeathEvent event) {
 		try {
 			Player player = (Player) event.getEntity();
+			
+			try {
+				Location loc = player.getLocation();
+				Inventory inv = player.getInventory();
+				for(ItemStack item : inv.getContents()) {
+					try {
+						loc.getWorld().dropItem(loc, item);
+					} catch(Exception e) {
+						
+					}
+				}
+			} catch(Exception e) {
+				
+			}
+			
 			player.kickPlayer(ChatColor.RED + "You Died");
 			
 			if(start) {
@@ -723,26 +740,26 @@ public class Main extends JavaPlugin implements Listener{
 												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEMP5"), 1));
 												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEMP5AMMO"), 1));
 												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE9X19"), 60));
-												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
-												inv.setItem(4, new ItemStack(Material.BAKED_POTATO, 3));
+//												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
+												inv.setItem(3, new ItemStack(Material.BAKED_POTATO, 3));
 											} else if(r == 1) {
 												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEP88"), 1));
 												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEP88AMMO"), 1));
 												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE9X19"), 60));
-												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
-												inv.setItem(4, new ItemStack(Material.BAKED_POTATO, 4));
+//												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
+												inv.setItem(3, new ItemStack(Material.BAKED_POTATO, 4));
 											} else if(r == 2) {
 												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEAK74U"), 1));
 												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEAK74UAMMO"), 1));
 												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPE7_62X39"), 60));
-												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
-												inv.setItem(4, new ItemStack(Material.BREAD, 3));
+//												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
+												inv.setItem(3, new ItemStack(Material.BREAD, 3));
 											} else if(r == 3) {
-												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
-												inv.setItem(1, new ItemStack(Material.BREAD, 2));
-												inv.setItem(2, new ItemStack(Material.BAKED_POTATO, 2));
-												inv.setItem(3, new ItemStack(Material.LEATHER_HELMET, 1));
-												inv.setItem(4, new ItemStack(Material.LEATHER_CHESTPLATE, 1));
+//												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
+												inv.setItem(0, new ItemStack(Material.BREAD, 2));
+												inv.setItem(1, new ItemStack(Material.BAKED_POTATO, 2));
+												inv.setItem(2, new ItemStack(Material.LEATHER_HELMET, 1));
+												inv.setItem(3, new ItemStack(Material.LEATHER_CHESTPLATE, 1));
 											} else if(r == 4) {
 												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEDOCTER_SIGHT"), 1));
 												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEPISTOL_SUPPRESSOR"), 1));
@@ -769,8 +786,8 @@ public class Main extends JavaPlugin implements Listener{
 												inv.setItem(0, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPESR_SUPPRESSOR"), 1));
 												inv.setItem(1, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEOBZOR_SIGHT"), 1));
 												inv.setItem(2, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEDOCTER_SIGHT"), 1));
-												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
-												inv.setItem(4, new ItemStack(Material.BAKED_POTATO, 3));
+//												inv.setItem(3, new ItemStack(Material.getMaterial("MODULARWARFARE_PROTOTYPEHIKINGPACK"), 1));
+												inv.setItem(3, new ItemStack(Material.BAKED_POTATO, 3));
 											}
 										} else {
 											int r = rnd.nextInt(9);
@@ -1451,6 +1468,7 @@ public class Main extends JavaPlugin implements Listener{
 				if (time >= 100) {
 					for(Player p : Bukkit.getOnlinePlayers()) {
 						p.teleport(btnLoc);
+						p.getInventory().clear();
 					}
 					new Cmd1().jobMap.clear();
 					new Cmd1().map.clear();
